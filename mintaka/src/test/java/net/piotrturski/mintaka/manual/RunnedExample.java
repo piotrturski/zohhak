@@ -28,8 +28,10 @@ public class RunnedExample {
 	
 	@Test @Ignore public void ignored() {} 
 
-	@TestWith("1")
-	public void methodWithParam(int param){
-		assertThat(param).isEqualTo(1);
-	}
+	@TestWith({"1", "2",})
+	public void methodWithParam(int param){}
+	
+	@Ignore
+	@TestWith({"2", "1"})
+	public void parametrizedIgnored(int i) {} 
 }

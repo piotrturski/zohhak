@@ -18,8 +18,13 @@ public class ParametrizedFrameworkMethod extends FrameworkMethod {
 	public Object invokeExplosively(Object target, Object... params) throws Throwable {
 		TestWith runWithAnnotation = getAnnotation(TestWith.class);
 		String parametersLine = runWithAnnotation.value()[index];
-		int param = Integer.parseInt(parametersLine);
-		return super.invokeExplosively(target, new Object[]{param});
+		Object[] parameters = new Object[]{Integer.parseInt(parametersLine)};
+		return super.invokeExplosively(target, parameters);
 	}
 
+	public String getDescriptionName() {
+		TestWith runWithAnnotation = getAnnotation(TestWith.class);
+		String parametersLine = runWithAnnotation.value()[index];
+		return getName()+" ["+parametersLine+"]";
+	}
 }

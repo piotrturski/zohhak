@@ -15,8 +15,8 @@ public class ManualTestRun {
 	public void runJunit() {
 		Result runResult = JUnitCore.runClasses(RunnedExample.class);
 		assertThat(runResult.getFailureCount()).isEqualTo(1);
-		assertThat(runResult.getIgnoreCount()).isEqualTo(1);
-		assertThat(runResult.getRunCount()).isEqualTo(3);
+		assertThat(runResult.getIgnoreCount()).isEqualTo(3);
+		assertThat(runResult.getRunCount()).isEqualTo(4);
 	}
 	
 }
