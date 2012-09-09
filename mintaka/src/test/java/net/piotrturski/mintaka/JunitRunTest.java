@@ -13,7 +13,7 @@ public class JunitRunTest {
 	public void runJunit() {
 		Result runResult = JUnitCore.runClasses(RunnedExample.class);
 		assertThat(runResult.getFailures()).isEmpty();
-		assertThat(runResult.getRunCount()).isEqualTo(2);
+		assertThat(runResult.getRunCount()).isEqualTo(3);
 	}
 	
 }
