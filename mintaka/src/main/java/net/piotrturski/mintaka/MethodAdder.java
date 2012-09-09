@@ -12,8 +12,11 @@ public class MethodAdder {
 		List<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
 		List<FrameworkMethod> parametrizedMethods = testClass.getAnnotatedMethods(TestWith.class);
 		for (FrameworkMethod parametrizedMethod : parametrizedMethods) {
-			ParametrizedFrameworkMethod parametrizedFrameworkMethod = new ParametrizedFrameworkMethod(parametrizedMethod.getMethod(), 0);
-			result.add(parametrizedFrameworkMethod);
+			TestWith testWithAnnotation = parametrizedMethod.getAnnotation(TestWith.class);
+			for (int i = 0; i < testWithAnnotation.value().length; i++) {
+				ParametrizedFrameworkMethod parametrizedFrameworkMethod = new ParametrizedFrameworkMethod(parametrizedMethod.getMethod(), i);
+				result.add(parametrizedFrameworkMethod);
+			}
 		}
 		return result;
 	}

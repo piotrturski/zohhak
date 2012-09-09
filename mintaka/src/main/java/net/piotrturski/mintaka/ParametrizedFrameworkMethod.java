@@ -2,6 +2,7 @@ package net.piotrturski.mintaka;
 
 import java.lang.reflect.Method;
 
+import org.junit.runner.RunWith;
 import org.junit.runners.model.FrameworkMethod;
 
 public class ParametrizedFrameworkMethod extends FrameworkMethod {
@@ -13,13 +14,12 @@ public class ParametrizedFrameworkMethod extends FrameworkMethod {
 		this.index = index;
 	}
 	
-	public int getIndex() {
-		return index;
-	}
-	
 	@Override
 	public Object invokeExplosively(Object target, Object... params) throws Throwable {
-		return super.invokeExplosively(target, new Object[]{1});
+		TestWith runWithAnnotation = getAnnotation(TestWith.class);
+		String parametersLine = runWithAnnotation.value()[index];
+		int param = Integer.parseInt(parametersLine);
+		return super.invokeExplosively(target, new Object[]{param});
 	}
 
 }
