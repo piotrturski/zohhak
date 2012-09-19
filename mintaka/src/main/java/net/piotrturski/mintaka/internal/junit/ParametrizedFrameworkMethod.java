@@ -1,7 +1,6 @@
 package net.piotrturski.mintaka.internal.junit;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 
 import net.piotrturski.mintaka.TestWith;
 import net.piotrturski.mintaka.internal.CoercingService;
@@ -24,7 +23,6 @@ public class ParametrizedFrameworkMethod extends FrameworkMethod {
 	}
 
 	private Object[] prepareParameters() {
-		Object[] parameters = null;
 		TestWith testWithAnnotation = getAnnotation(TestWith.class);
 		String parametersLine = testWithAnnotation.value()[index];
 		return new CoercingService().prepare(parametersLine, this.getMethod().getGenericParameterTypes(), null);

@@ -28,7 +28,7 @@ public class BasicAnnotationsUsage {
 		fail();
 	}
 	
-	@TestWith({"1", "2",})
+	@TestWith({"1", "2"})
 	public void methodWithParam(int param){}
 
 	@Test @Ignore public void ignored() {} 
