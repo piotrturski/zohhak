@@ -31,6 +31,12 @@ public class CoercingService {
 			if (targetType.isAssignableFrom(Integer.class)) return Integer.parseInt(stringToParse);
 			if (targetType.isAssignableFrom(Long.class)) return Long.parseLong(stringToParse);
 			
+			if (targetType.isEnum()) {
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				Enum createdEnum = Enum.valueOf((Class)targetType, stringToParse);
+				return createdEnum;
+			}
+			
 		}
 		throw new IllegalArgumentException("cannot interpret string "+stringToParse+" as a type "+type);
 	}

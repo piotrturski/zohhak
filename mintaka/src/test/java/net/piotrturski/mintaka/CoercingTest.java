@@ -2,6 +2,8 @@ package net.piotrturski.mintaka;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import net.piotrturski.mintaka.helper.SampleEnum;
+
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
@@ -47,5 +49,10 @@ public class CoercingTest {
 	@TestWith("0xFF")
 	public void coerceHex(int param) {
 		assertThat(param).isEqualTo(255);		
+	}
+	
+	@TestWith("ANOTHER_VALUE")
+	public void coerceEnum(SampleEnum param) {
+		assertThat(param).isEqualTo(SampleEnum.ANOTHER_VALUE);		
 	}
 }
