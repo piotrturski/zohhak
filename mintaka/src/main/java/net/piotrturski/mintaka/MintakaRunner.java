@@ -2,6 +2,7 @@ package net.piotrturski.mintaka;
 
 import java.util.List;
 
+
 import org.junit.runner.Description;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
@@ -15,18 +16,12 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 	
 	@Override
 	protected List<FrameworkMethod> computeTestMethods() {
-		List<FrameworkMethod> annotatedMethods = new MethodAdder().addParametrizedMethods(getTestClass());
-		annotatedMethods.addAll(super.computeTestMethods());
-		return annotatedMethods;
+		return new RunnerDelegator().computeTestMethods(getTestClass(), super.computeTestMethods());
 	}
 
 	@Override
 	protected Description describeChild(FrameworkMethod method) {
-		TestWith testWithAnnotation = method.getAnnotation(TestWith.class);
-		if (testWithAnnotation == null) {
-			return super.describeChild(method);
-		}
-		return Description.createTestDescription(getTestClass().getClass(), ((ParametrizedFrameworkMethod) method).getDescriptionName(), method.getAnnotations());
+		return new RunnerDelegator().describeChild(getTestClass(), super.describeChild(method), method);
 	}
 	
 }

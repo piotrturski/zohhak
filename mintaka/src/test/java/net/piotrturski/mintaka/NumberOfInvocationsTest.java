@@ -9,7 +9,7 @@ import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 
 @RunWith(MintakaRunner.class)
-public class MultipleInvocationTest {
+public class NumberOfInvocationsTest {
 
 	static List<Integer> passedParams = new ArrayList<Integer>(2);
 	

@@ -10,5 +10,7 @@ import java.lang.annotation.Target;
 public @interface TestWith {
 
 	String[] value();
+
+	boolean split() default true;
 	
 }
