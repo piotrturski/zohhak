@@ -22,7 +22,7 @@ public class RunnerDelegator {
 		if (testWithAnnotation == null) {
 			return descriptionFromSuperclass;
 		}
-		return Description.createTestDescription(testClass.getClass(), ((ParametrizedFrameworkMethod) method).getDescriptionName(), method.getAnnotations());
+		return Description.createTestDescription(testClass.getJavaClass(), ((ParametrizedFrameworkMethod) method).getDescriptionName(), method.getAnnotations());
 	}
 	
 	private List<FrameworkMethod> addParametrizedMethods(TestClass testClass) {
