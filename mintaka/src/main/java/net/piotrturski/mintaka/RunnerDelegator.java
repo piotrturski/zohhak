@@ -11,10 +11,20 @@ import org.junit.runners.model.TestClass;
 
 public class RunnerDelegator {
 
+	/**
+	 * returns N methods for each parameterized method 
+	 * @param testClass
+	 * @param testMethodsFromSuperclass
+	 * @return
+	 */
 	public List<FrameworkMethod> computeTestMethods(TestClass testClass, List<FrameworkMethod> testMethodsFromSuperclass) {
+		ArrayList<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
+//		List<FrameworkMethod> annotatedMethods = testClass.getAnnotatedMethods(TestWith.class);
 		List<FrameworkMethod> annotatedMethods = addParametrizedMethods(testClass);
-		annotatedMethods.addAll(testMethodsFromSuperclass);
-		return annotatedMethods;
+		//annotatedMethods.addAll(addParametrizedMethods(testClass));
+		result.addAll(annotatedMethods);
+		result.addAll(testMethodsFromSuperclass);
+		return result;
 	}
 	
 	public Description describeChild(TestClass testClass, Description descriptionFromSuperclass, FrameworkMethod method) {
@@ -22,7 +32,22 @@ public class RunnerDelegator {
 		if (testWithAnnotation == null) {
 			return descriptionFromSuperclass;
 		}
-		return Description.createTestDescription(testClass.getJavaClass(), ((ParametrizedFrameworkMethod) method).getDescriptionName(), method.getAnnotations());
+		Description description = Description.createSuiteDescription(method.getName());
+		//Description description = Description.createTestDescription(Integer.class, "methodWithParam");
+		//Description childDescription = Description.createTestDescription(testClass.getJavaClass(), "methodWithParam[1]");
+		//description.addChild(childDescription);
+		addChildrenDescription(description, method, testClass.getJavaClass());
+		return description;
+		//descriptionFromSuperclass.addChild(description);
+		//return Description.createTestDescription(testClass.getJavaClass(), ((ParametrizedFrameworkMethod) method).getDescriptionName(), method.getAnnotations());
+	}
+	
+	private void addChildrenDescription(Description parent, FrameworkMethod method, Class<?> testClass) {
+		String[] values = method.getAnnotation(TestWith.class).value();
+		for (int i = 0; i < values.length; i++) {
+			Description childDescription = Description.createTestDescription(testClass, method.getName()+" ["+values[i]+"]");
+			parent.addChild(childDescription);
+		}
 	}
 	
 	private List<FrameworkMethod> addParametrizedMethods(TestClass testClass) {
