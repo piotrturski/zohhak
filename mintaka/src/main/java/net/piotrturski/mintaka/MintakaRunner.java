@@ -88,7 +88,7 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 	}
 
 	private Description describeParametrizedWithChildren(FrameworkMethod method) {
-		Description parent = Description.createTestDescription(testClass, method.getName());
+		Description parent = Description.createSuiteDescription(method.getName());
 		String[] parameters = method.getAnnotation(TestWith.class).value();
 		for (String parametersLine : parameters) {
 			Description childDescription = prepareDescription(testClass, method.getName(), parametersLine);
@@ -132,7 +132,7 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 	}
 	
 	private Description prepareDescription(Class<?> testClass, String methodName, String parametersLine) {
-		return Description.createTestDescription(testClass, methodName + "T [" + parametersLine + "] T (" + methodName + ")");
+		return Description.createTestDescription(testClass, methodName + " [" + parametersLine + "](" + methodName + ")");
 	}
 
 	private void addChildrenDescription(Description parent, FrameworkMethod method, Class<?> testClass) {
