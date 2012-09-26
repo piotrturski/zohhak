@@ -1,14 +1,15 @@
 package net.piotrturski.mintaka;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
-import javassist.expr.Instanceof;
 
 import net.piotrturski.mintaka.internal.junit.ParametrizedFrameworkMethod;
 
 import org.junit.Ignore;
 import org.junit.runner.Description;
+import org.junit.runner.manipulation.Filter;
+import org.junit.runner.manipulation.NoTestsRemainException;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
@@ -19,6 +20,7 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 
 	private Description description;
 	private Class<?> testClass;
+	private ArrayList<FrameworkMethod> fFilteredChildren;
 
 	public MintakaRunner(Class<?> klass) throws InitializationError {
 		super(klass);
@@ -31,17 +33,15 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 	@Override
 	protected List<FrameworkMethod> computeTestMethods() {
 		ArrayList<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
-		// List<FrameworkMethod> annotatedMethods = testClass.getAnnotatedMethods(TestWith.class);
-		List<FrameworkMethod> annotatedMethods = getParametrizedLeafMethods(getTestClass());
-		// annotatedMethods.addAll(addParametrizedMethods(testClass));
+		List<FrameworkMethod> annotatedMethods = getParametrizedLeafMethods();
 		result.addAll(annotatedMethods);
 		result.addAll(super.computeTestMethods());
 		return result;
 	}
 
-	private List<FrameworkMethod> getParametrizedLeafMethods(TestClass testClass) {
+	private List<FrameworkMethod> getParametrizedLeafMethods() {
 		List<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
-		List<FrameworkMethod> parametrizedMethods = testClass.getAnnotatedMethods(TestWith.class);
+		List<FrameworkMethod> parametrizedMethods = getTestClass().getAnnotatedMethods(TestWith.class);
 		for (FrameworkMethod parametrizedMethod : parametrizedMethods) {
 			TestWith testWithAnnotation = parametrizedMethod.getAnnotation(TestWith.class);
 			for (int i = 0; i < testWithAnnotation.value().length; i++) {
@@ -58,16 +58,29 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 		if (method.getAnnotation(Ignore.class) != null) {
 			notifier.fireTestIgnored(description);
 		} else {
-			if (method instanceof ParametrizedFrameworkMethod) {
-				super.runChild(method, notifier);
-				
-				
-			} else {
-			
-				super.runChild(method, notifier);
-			}
+			super.runChild(method, notifier);
 		}
+	}
+	
+	@Override
+	public void filter(final Filter filter) throws NoTestsRemainException {
+		Filter filter2 = new Filter() {
+			
+			@Override
+			public boolean shouldRun(Description description) {
+				if (filter.shouldRun(description)) {
+					return true;
+				}
+				return filter.shouldRun(cutParamInfo(description));
+			}
+			
+			@Override
+			public String describe() {
+				return null;
+			}
+		};
 		
+		super.filter(filter2);
 	}
 	
 	@Override
@@ -79,6 +92,11 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 		return description;
 	}
 
+	private Description cutParamInfo(Description description) {
+		String changed = description.getDisplayName().replaceAll(" \\[.*\\]", "");
+		return Description.createSuiteDescription(changed);
+	}
+	
 	private Description describeMethod(FrameworkMethod method) {
 		if (method.getAnnotation(TestWith.class) != null) {
 			return describeParametrizedWithChildren(method);
@@ -89,7 +107,7 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 
 	private Description describeParametrizedWithChildren(FrameworkMethod method) {
 //		Description parent = Description.createTestDescription(testClass, method.getName());
-		Description parent = Description.createSuiteDescription(method.getName());
+		Description parent = describeParentParametrizedMethod(method);
 		String[] parameters = method.getAnnotation(TestWith.class).value();
 		for (String parametersLine : parameters) {
 			Description childDescription = prepareDescription(testClass, method.getName(), parametersLine);
@@ -104,17 +122,8 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 		if (testWithAnnotation == null) {
 			return super.describeChild(method);
 		}
-		
-		//Description description = Description.createSuiteDescription(method.getName());
-		// Description description = Description.createTestDescription(Integer.class, "methodWithParam");
-		// Description childDescription = Description.createTestDescription(testClass.getJavaClass(), "methodWithParam[1]");
-		// description.addChild(childDescription);
-		//addChildrenDescription(description, method, getTestClass().getJavaClass());
 		Description description = describeSingleInvocationOfParametrizedMethod(method);
 		return description;
-		// descriptionFromSuperclass.addChild(description);
-		// return Description.createTestDescription(testClass.getJavaClass(), ((ParametrizedFrameworkMethod) method).getDescriptionName(),
-		// method.getAnnotations());
 	}
 	
 
@@ -127,6 +136,11 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 		return result;
 	}
 
+	private Description describeParentParametrizedMethod(FrameworkMethod method) {
+		//return Description.createSuiteDescription(method.getName()+ "("+testClass.getCanonicalName()+")");
+		return Description.createSuiteDescription(method.getName());
+	}
+	
 	private Description describeSingleInvocationOfParametrizedMethod(FrameworkMethod method) {
 		ParametrizedFrameworkMethod parametrizedMethod = (ParametrizedFrameworkMethod) method;
 		return prepareDescription(testClass, method.getName(), parametrizedMethod.getParametersLine());
