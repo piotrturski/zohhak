@@ -30,8 +30,6 @@ public class EclipseIntegration {
 	public void methodRequestFromSource() {
 		Result result = executeRequest(BasicAnnotationsUsage.class, "methodWithParam");
 		
-		System.out.println(result.getFailures());
-		
 		assertThat(result.getFailures()).isEmpty();
 		assertThat(result.getRunCount()).isEqualTo(2);
 	}

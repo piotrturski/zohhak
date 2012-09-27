@@ -52,15 +52,7 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 		return result;
 	}
 
-	@Override
-	protected void runChild(final FrameworkMethod method, RunNotifier notifier) {
-		Description description= describeChild(method);
-		if (method.getAnnotation(Ignore.class) != null) {
-			notifier.fireTestIgnored(description);
-		} else {
-			super.runChild(method, notifier);
-		}
-	}
+	
 	
 	@Override
 	public void filter(final Filter filter) throws NoTestsRemainException {
