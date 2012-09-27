@@ -1,26 +1,21 @@
 package net.piotrturski.mintaka;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.piotrturski.mintaka.internal.junit.ParametrizedFrameworkMethod;
 
-import org.junit.Ignore;
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
 import org.junit.runner.manipulation.NoTestsRemainException;
-import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
-import org.junit.runners.model.TestClass;
 
 public class MintakaRunner extends BlockJUnit4ClassRunner {
 
 	private Description description;
 	private Class<?> testClass;
-	private ArrayList<FrameworkMethod> fFilteredChildren;
 
 	public MintakaRunner(Class<?> klass) throws InitializationError {
 		super(klass);
@@ -51,28 +46,11 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 		}
 		return result;
 	}
-
-	
 	
 	@Override
-	public void filter(final Filter filter) throws NoTestsRemainException {
-		Filter filter2 = new Filter() {
-			
-			@Override
-			public boolean shouldRun(Description description) {
-				if (filter.shouldRun(description)) {
-					return true;
-				}
-				return filter.shouldRun(cutParamInfo(description));
-			}
-			
-			@Override
-			public String describe() {
-				return null;
-			}
-		};
-		
-		super.filter(filter2);
+	public void filter(Filter filter) throws NoTestsRemainException {
+		OrParentFilter orParentFilter = OrParentFilter.decorate(filter);
+		super.filter(orParentFilter);
 	}
 	
 	@Override
@@ -84,11 +62,6 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 		return description;
 	}
 
-	private Description cutParamInfo(Description description) {
-		String changed = description.getDisplayName().replaceAll(" \\[.*\\]", "");
-		return Description.createSuiteDescription(changed);
-	}
-	
 	private Description describeMethod(FrameworkMethod method) {
 		if (method.getAnnotation(TestWith.class) != null) {
 			return describeParametrizedWithChildren(method);
@@ -117,7 +90,6 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 		Description description = describeSingleInvocationOfParametrizedMethod(method);
 		return description;
 	}
-	
 
 	private List<FrameworkMethod> getClassChildrenToDescribe() {
 		List<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
@@ -141,14 +113,5 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 	private Description prepareDescription(Class<?> testClass, String methodName, String parametersLine) {
 		return Description.createTestDescription(testClass, methodName + " [" + parametersLine + "]");
 	}
-
-	private void addChildrenDescription(Description parent, FrameworkMethod method, Class<?> testClass) {
-		String[] values = method.getAnnotation(TestWith.class).value();
-		for (int i = 0; i < values.length; i++) {
-			Description childDescription = describeSingleInvocationOfParametrizedMethod(method);
-			parent.addChild(childDescription);
-		}
-	}
-
 
 }
