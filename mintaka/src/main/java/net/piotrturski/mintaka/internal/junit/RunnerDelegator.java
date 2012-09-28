@@ -1,10 +1,9 @@
-package net.piotrturski.mintaka.internal;
+package net.piotrturski.mintaka.internal.junit;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.piotrturski.mintaka.TestWith;
-import net.piotrturski.mintaka.internal.junit.ParametrizedFrameworkMethod;
 
 import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
@@ -18,14 +17,14 @@ public class RunnerDelegator {
 		for (FrameworkMethod parametrizedMethod : parametrizedMethods) {
 			TestWith testWithAnnotation = parametrizedMethod.getAnnotation(TestWith.class);
 			for (int i = 0; i < testWithAnnotation.value().length; i++) {
-				ParametrizedFrameworkMethod parametrizedFrameworkMethod = new ParametrizedFrameworkMethod(parametrizedMethod.getMethod(), i);
+				ParametrizedFrameworkMethod parametrizedFrameworkMethod = new ParametrizedFrameworkMethod(parametrizedMethod.getMethod(), i, null);
 				result.add(parametrizedFrameworkMethod);
 			}
 		}
 		return result;
 	}
 
-	static public List<FrameworkMethod> computeAllTestMethods(TestClass testClass2, List<FrameworkMethod> list) {
+	public static List<FrameworkMethod> computeAllTestMethods(TestClass testClass2, List<FrameworkMethod> list) {
 		ArrayList<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
 		List<FrameworkMethod> annotatedMethods = getParametrizedLeafMethods(testClass2);
 		result.addAll(annotatedMethods);
@@ -33,16 +32,16 @@ public class RunnerDelegator {
 		return result;
 	}
 
-	static public boolean isParameterized(FrameworkMethod method) {
+	public static boolean isParameterized(FrameworkMethod method) {
 		return method.getAnnotation(TestWith.class) != null;
 	}
 
-	static public Description describeSingleInvocationOfParametrizedMethod(FrameworkMethod method, TestClass testClass) {
+	public static Description describeSingleInvocationOfParametrizedMethod(FrameworkMethod method, TestClass testClass) {
 		ParametrizedFrameworkMethod parametrizedMethod = (ParametrizedFrameworkMethod) method;
 		return RunnerDelegator.prepareDescription(testClass.getJavaClass(), method.getName(), parametrizedMethod.getParametersLine());
 	}
 
-	static public Description describeParametrizedMethodWithChildren(FrameworkMethod method, TestClass testClass) {
+	public static Description describeParametrizedMethodWithChildren(FrameworkMethod method, TestClass testClass) {
 		// Description parent = Description.createTestDescription(testClass, method.getName());
 		Description parent = RunnerDelegator.describeParentParametrizedMethod(method);
 		String[] parameters = method.getAnnotation(TestWith.class).value();
@@ -53,7 +52,7 @@ public class RunnerDelegator {
 		return parent;
 	}
 
-	static public List<FrameworkMethod> getClassChildrenToDescribe(TestClass testClass, List<FrameworkMethod> standardTestMethods) {
+	public static List<FrameworkMethod> getClassChildrenToDescribe(TestClass testClass, List<FrameworkMethod> standardTestMethods) {
 		List<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
 		result.addAll(standardTestMethods);
 		List<FrameworkMethod> annotatedMethods = testClass.getAnnotatedMethods(TestWith.class);
@@ -67,6 +66,7 @@ public class RunnerDelegator {
 	}
 
 	static Description prepareDescription(Class<?> testClass, String methodName, String parametersLine) {
+		//TODO test what if parameter contains '('
 		return Description.createTestDescription(testClass, methodName + " [" + parametersLine + "]");
 	}
 

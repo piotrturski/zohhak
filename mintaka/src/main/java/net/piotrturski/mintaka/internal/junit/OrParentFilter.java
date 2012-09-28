@@ -1,4 +1,4 @@
-package net.piotrturski.mintaka.internal;
+package net.piotrturski.mintaka.internal.junit;
 
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;

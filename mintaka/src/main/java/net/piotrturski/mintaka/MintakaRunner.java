@@ -1,10 +1,10 @@
 package net.piotrturski.mintaka;
 
-import static net.piotrturski.mintaka.internal.RunnerDelegator.*;
+import static net.piotrturski.mintaka.internal.junit.RunnerDelegator.*;
 
 import java.util.List;
 
-import net.piotrturski.mintaka.internal.OrParentFilter;
+import net.piotrturski.mintaka.internal.junit.OrParentFilter;
 
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
