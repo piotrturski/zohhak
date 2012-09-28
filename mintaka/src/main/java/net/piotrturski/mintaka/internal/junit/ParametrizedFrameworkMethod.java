@@ -10,12 +10,10 @@ import org.junit.runners.model.FrameworkMethod;
 public class ParametrizedFrameworkMethod extends FrameworkMethod {
 
 	private final int index;
-	private final Class<?> clazz;
 
-	public ParametrizedFrameworkMethod(Method method, int index, Class<?> clazz) {
+	public ParametrizedFrameworkMethod(Method method, int index) {
 		super(method);
 		this.index = index;
-		this.clazz = clazz;
 	}
 	
 	@Override
@@ -29,10 +27,6 @@ public class ParametrizedFrameworkMethod extends FrameworkMethod {
 		return new CoercingService().prepare(parametersLine, this.getMethod().getGenericParameterTypes(), null);
 	}
 
-	public String getDescriptionName() {
-		String parametersLine = getParametersLine();
-		return super.getName()+" ["+parametersLine+"] (" + super.getName() + ")("+ clazz + ")";
-	}
 
 	public String getParametersLine() {
 		TestWith runWithAnnotation = getAnnotation(TestWith.class);
