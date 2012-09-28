@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.piotrturski.mintaka.TestWith;
+import net.piotrturski.mintaka.internal.Executor;
+import net.piotrturski.mintaka.internal.IoCContainer;
+import net.piotrturski.mintaka.internal.SingleTestMethod;
 
 import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
@@ -11,20 +14,28 @@ import org.junit.runners.model.TestClass;
 
 public class RunnerDelegator {
 
-	static List<FrameworkMethod> getParametrizedLeafMethods(TestClass testClass) {
+	IoCContainer ioCContainer = new IoCContainer();
+	Executor executor = ioCContainer.getExecutor();
+	
+	protected List<FrameworkMethod> getParametrizedLeafMethods(TestClass testClass) {
 		List<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
 		List<FrameworkMethod> parametrizedMethods = testClass.getAnnotatedMethods(TestWith.class);
 		for (FrameworkMethod parametrizedMethod : parametrizedMethods) {
-			TestWith testWithAnnotation = parametrizedMethod.getAnnotation(TestWith.class);
-			for (int i = 0; i < testWithAnnotation.value().length; i++) {
-				ParametrizedFrameworkMethod parametrizedFrameworkMethod = new ParametrizedFrameworkMethod(parametrizedMethod.getMethod(), i, null);
-				result.add(parametrizedFrameworkMethod);
-			}
+			addInvocationsOfSingleParameterizedMethod(result, parametrizedMethod);
 		}
 		return result;
 	}
 
-	public static List<FrameworkMethod> computeAllTestMethods(TestClass testClass2, List<FrameworkMethod> list) {
+	private void addInvocationsOfSingleParameterizedMethod(List<FrameworkMethod> result, FrameworkMethod parametrizedMethod) {
+		TestWith testWithAnnotation = parametrizedMethod.getAnnotation(TestWith.class);
+		for (int i = 0; i < testWithAnnotation.value().length; i++) {
+			SingleTestMethod singleTestMethod = new SingleTestMethod(parametrizedMethod.getMethod(), i, executor);
+			ParametrizedFrameworkMethod parametrizedFrameworkMethod = new ParametrizedFrameworkMethod(singleTestMethod);
+			result.add(parametrizedFrameworkMethod);
+		}
+	}
+
+	public List<FrameworkMethod> computeAllTestMethods(TestClass testClass2, List<FrameworkMethod> list) {
 		ArrayList<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
 		List<FrameworkMethod> annotatedMethods = getParametrizedLeafMethods(testClass2);
 		result.addAll(annotatedMethods);

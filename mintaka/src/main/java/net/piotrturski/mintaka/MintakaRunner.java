@@ -5,6 +5,7 @@ import static net.piotrturski.mintaka.internal.junit.RunnerDelegator.*;
 import java.util.List;
 
 import net.piotrturski.mintaka.internal.junit.OrParentFilter;
+import net.piotrturski.mintaka.internal.junit.RunnerDelegator;
 
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
@@ -15,6 +16,8 @@ import org.junit.runners.model.InitializationError;
 
 public class MintakaRunner extends BlockJUnit4ClassRunner {
 
+	protected List<FrameworkMethod> cachedMethods;
+	
 	public MintakaRunner(Class<?> klass) throws InitializationError {
 		super(klass);
 	}
@@ -24,7 +27,10 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 	 */
 	@Override
 	protected List<FrameworkMethod> computeTestMethods() {
-		return computeAllTestMethods(getTestClass(), super.computeTestMethods());
+		if (cachedMethods == null) {
+			cachedMethods = new RunnerDelegator().computeAllTestMethods(getTestClass(), super.computeTestMethods());
+		}
+		return cachedMethods;
 	}
 
 	@Override

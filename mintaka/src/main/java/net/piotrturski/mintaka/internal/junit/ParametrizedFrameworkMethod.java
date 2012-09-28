@@ -1,35 +1,28 @@
 package net.piotrturski.mintaka.internal.junit;
 
-import java.lang.reflect.Method;
-
-import net.piotrturski.mintaka.Configuration;
-import net.piotrturski.mintaka.TestWith;
-import net.piotrturski.mintaka.internal.CoercingService;
-import net.piotrturski.mintaka.internal.Executor;
+import net.piotrturski.mintaka.internal.SingleTestMethod;
 
 import org.junit.runners.model.FrameworkMethod;
 
 public class ParametrizedFrameworkMethod extends FrameworkMethod {
 
-	private final int index;
-	private Executor executor = Executor.getExecutorSingleton();
+	private final SingleTestMethod singleTestMethod;
 
-	public ParametrizedFrameworkMethod(Method method, int index, Configuration configuration) {
-		super(method);
-		this.index = index;
+	public ParametrizedFrameworkMethod(SingleTestMethod singleTestMethod) {
+		super(singleTestMethod.realMethod);
+		this.singleTestMethod = singleTestMethod;
 	}
-	
+
 	@Override
 	public Object invokeExplosively(Object target, Object... params) throws Throwable {
-		Object[] parameters = executor.calculateParameters(getMethod(), getParametersLine());
+//		Object[] parameters = executor.calculateParameters(getMethod(), getParametersLine());
+		Object[] parameters = singleTestMethod.calculateParameters();
 		//Object[] parameters = prepareParameters();
 		return super.invokeExplosively(target, parameters);
 	}
 
 	public String getParametersLine() {
-		TestWith runWithAnnotation = getAnnotation(TestWith.class);
-		String parametersLine = runWithAnnotation.value()[index];
-		return parametersLine;
+		return singleTestMethod.parametersLine;
 	}
 	
 }
