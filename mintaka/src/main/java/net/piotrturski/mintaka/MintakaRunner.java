@@ -4,6 +4,8 @@ import static net.piotrturski.mintaka.internal.RunnerDelegator.*;
 
 import java.util.List;
 
+import net.piotrturski.mintaka.internal.OrParentFilter;
+
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
 import org.junit.runner.manipulation.NoTestsRemainException;

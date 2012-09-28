@@ -1,12 +1,12 @@
-package net.piotrturski.mintaka;
+package net.piotrturski.mintaka.internal;
 
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
 
-class OrParentFilter extends Filter {
+public class OrParentFilter extends Filter {
 	private final Filter filter;
 
-	static OrParentFilter decorate(Filter filter) {
+	static public OrParentFilter decorate(Filter filter) {
 		return new OrParentFilter(filter);
 	}
 	
