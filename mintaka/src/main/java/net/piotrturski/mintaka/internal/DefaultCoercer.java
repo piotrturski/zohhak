@@ -13,4 +13,33 @@ public class DefaultCoercer {
 	public long toLong(String input) {
 		return Long.parseLong(input);
 	}
+	
+	public char toChar(String input) {
+		return input.charAt(0);
+	}
+	
+	public byte toByte(String input) {
+		return Byte.parseByte(input);
+	}
+	
+	public short toShort(String input) {
+		return Short.parseShort(input);
+	}
+	
+	public float toFloat(String input) {
+		return Float.parseFloat(input);
+	}
+	
+	public double toDouble(String input) {
+		return Double.parseDouble(input);
+	}
+	
+	public boolean toBoolean(String input) {
+		Boolean parsed = Boolean.valueOf(input);
+		
+		if (parsed.toString().equalsIgnoreCase(input)) {
+			return parsed;
+		}
+		throw new IllegalArgumentException(input);
+	}
 }

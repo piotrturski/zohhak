@@ -3,15 +3,17 @@ package net.piotrturski.mintaka.internal;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.tapestry5.plastic.PlasticUtils;
 
 public class CoercingService {
 
-	private LinkedHashMap<Class<?>, Method> coercions = new LinkedHashMap<Class<?>, Method>(); 
+	private Map<Class<?>, Method> coercions = new LinkedHashMap<Class<?>, Method>(); 
 	
-	public CoercingService() {
+	private void initCoercions() {
+		coercions.clear();
 		Class<?> clazz = DefaultCoercer.class;
 		Method[] methods = clazz.getMethods();
 		for (Method method : methods) {
@@ -43,7 +45,7 @@ public class CoercingService {
 	}
 	
 	Object coerceParameter(Type type, String stringToParse) {
-		if ("null".equalsIgnoreCase(stringToParse)) return null;
+		if ("null".equalsIgnoreCase(stringToParse)) {return null;}
 		if (type instanceof Class) {
 			Class<?> targetType = PlasticUtils.toWrapperType((Class<?>) type);
 			
@@ -68,16 +70,21 @@ public class CoercingService {
 //			if (targetType.isAssignableFrom(Long.class)) return Long.parseLong(stringToParse);
 			
 			if (targetType.isEnum()) {
-				@SuppressWarnings({ "rawtypes", "unchecked" })
-				Enum createdEnum = Enum.valueOf((Class)targetType, stringToParse);
-				return createdEnum;
+				return instantiateEnum(stringToParse, targetType);
 			}
 			
 		}
 		throw new IllegalArgumentException("cannot interpret string "+stringToParse+" as a type "+type);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Object instantiateEnum(String stringToParse, Class<?> targetType) {
+		return Enum.<Enum>valueOf((Class)targetType, stringToParse);
+	}
+
 	public Object[] coerceParameters(SingleTestMethod method) {
+		Class<?>[] configurations = method.annotation.configuration();
+		initCoercions();
 		return coerceParameters(method.realMethod.getGenericParameterTypes(), method.splitedParameters);
 	}
 	
