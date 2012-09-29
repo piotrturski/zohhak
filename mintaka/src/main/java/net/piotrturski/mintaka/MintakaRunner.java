@@ -41,8 +41,9 @@ public class MintakaRunner extends BlockJUnit4ClassRunner {
 	@Override
 	public Description getDescription() {
 		Description description = Description.createSuiteDescription(getTestClass().getName(), getRunnerAnnotations());
-		for (FrameworkMethod child : getClassChildrenToDescribe(getTestClass(), super.computeTestMethods()))
+		for (FrameworkMethod child : getClassChildrenToDescribe(getTestClass(), super.computeTestMethods())) {
 			description.addChild(describeMethod(child));
+		}
 		return description;
 	}
 

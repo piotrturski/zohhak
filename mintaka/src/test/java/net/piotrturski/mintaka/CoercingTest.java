@@ -35,6 +35,11 @@ public class CoercingTest {
 		assertThat(param).isEqualTo(7);		
 	}
 	
+	@TestWith("7")
+	public void coerceLongPrimitive(long param) {
+		assertThat(param).isEqualTo(7L);
+	}
+	
 	@TestWith("6")
 	public void coerceObject(Object param) {
 		assertThat(param).isInstanceOf(String.class).isEqualTo("6");
