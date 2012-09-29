@@ -8,6 +8,7 @@ import java.util.Set;
 import net.piotrturski.mintaka.MintakaRunner;
 import net.piotrturski.mintaka.ProgrammaticRunTest;
 import net.piotrturski.mintaka.TestWith;
+import net.piotrturski.mintaka.helper.SampleType;
 import net.piotrturski.mintaka.ide.EclipseIntegration;
 
 import org.junit.Before;
@@ -44,6 +45,8 @@ public class BasicAnnotationsUsage {
 	@Ignore @TestWith({"2", "1"})
 	public void parametrizedIgnored(int i) {}
 	
+	//@TestWith("a")
+	public void wrongCoercion(SampleType sampleType) {}
 	
 	
 	/**

@@ -15,6 +15,6 @@ public @interface TestWith {
 
 	boolean split() default true;
 	
-	Class<?>[] configuration() default DefaultCoercer.class;
+	Class<?>[] coercer() default DefaultCoercer.class;
 	
 }

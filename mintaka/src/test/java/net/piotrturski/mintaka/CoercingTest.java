@@ -2,11 +2,10 @@ package net.piotrturski.mintaka;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.offset;
-
+import net.piotrturski.mintaka.helper.CoercerWithSampleType;
 import net.piotrturski.mintaka.helper.SampleEnum;
+import net.piotrturski.mintaka.helper.SampleType;
 
-import org.fest.assertions.api.Assertions;
-import org.fest.assertions.data.Offset;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
@@ -79,5 +78,10 @@ public class CoercingTest {
 		assertThat(d).isEqualTo(2.3, offset(0.0001));
 		assertThat(l).isEqualTo(7);
 		assertThat(bool).isTrue();
+	}
+	
+	@TestWith(value="a", coercer=CoercerWithSampleType.class)
+	public void changedCoercerTest(SampleType sampleType) {
+		assertThat(sampleType.value).isEqualTo("a");
 	}
 }

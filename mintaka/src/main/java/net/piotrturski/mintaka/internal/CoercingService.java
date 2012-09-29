@@ -11,14 +11,21 @@ import org.apache.tapestry5.plastic.PlasticUtils;
 public class CoercingService {
 
 	private Map<Class<?>, Method> coercions = new LinkedHashMap<Class<?>, Method>(); 
+	private Object coercerInstance;
 	
-	private void initCoercions() {
+	private void initCoercions(SingleTestMethod singleTestMethod) {
 		coercions.clear();
-		Class<?> clazz = DefaultCoercer.class;
+		Class<?>[] coercers = singleTestMethod.annotation.coercer();
+		Class<?> clazz = coercers[0];
 		Method[] methods = clazz.getMethods();
 		for (Method method : methods) {
 			addIfCoercingMethod(method);
 		}
+		try {
+			coercerInstance = clazz.newInstance();
+		} catch (Exception e) {
+			throw new IllegalArgumentException("cannot instantiate coercer", e);
+		} 
 	}
 	
 	private void addIfCoercingMethod(Method method) {
@@ -59,7 +66,7 @@ public class CoercingService {
 			
 			if (coercionMethod != null) {
 				try {
-					return coercionMethod.invoke(new DefaultCoercer(), stringToParse);
+					return coercionMethod.invoke(coercerInstance, stringToParse);
 				} catch (Exception e) {
 					throw new IllegalArgumentException(e);
 				}
@@ -74,7 +81,7 @@ public class CoercingService {
 			}
 			
 		}
-		throw new IllegalArgumentException("cannot interpret string "+stringToParse+" as a type "+type);
+		throw new IllegalArgumentException("cannot interpret string "+stringToParse+" as a "+type);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -83,8 +90,7 @@ public class CoercingService {
 	}
 
 	public Object[] coerceParameters(SingleTestMethod method) {
-		Class<?>[] configurations = method.annotation.configuration();
-		initCoercions();
+		initCoercions(method);
 		return coerceParameters(method.realMethod.getGenericParameterTypes(), method.splitedParameters);
 	}
 	
