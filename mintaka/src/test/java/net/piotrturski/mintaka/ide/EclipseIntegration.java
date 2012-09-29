@@ -35,6 +35,14 @@ public class EclipseIntegration {
 	}
 
 	@Test
+	public void methodRerunFromTestResultWindow() {
+		Result result = executeRequest(BasicAnnotationsUsage.class, "methodWithParam [2]");
+		
+		assertThat(result.getFailures()).isEmpty();
+		assertThat(result.getRunCount()).isEqualTo(1);
+	}
+	
+	@Test
 	public void checkDescription() throws InitializationError {
 		Runner runner = new MintakaRunner(BasicAnnotationsUsage.class);
 		Description description = runner.getDescription();
