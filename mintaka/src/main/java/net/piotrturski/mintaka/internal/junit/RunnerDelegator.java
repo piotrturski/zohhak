@@ -27,8 +27,8 @@ public class RunnerDelegator {
 	}
 
 	private void addInvocationsOfSingleParameterizedMethod(List<FrameworkMethod> result, FrameworkMethod parametrizedMethod) {
-		TestWith testWithAnnotation = parametrizedMethod.getAnnotation(TestWith.class);
-		for (int i = 0; i < testWithAnnotation.value().length; i++) {
+		TestWith annotation = parametrizedMethod.getAnnotation(TestWith.class);
+		for (int i = 0; i < annotation.value().length; i++) {
 			SingleTestMethod singleTestMethod = new SingleTestMethod(parametrizedMethod.getMethod(), i, executor);
 			ParametrizedFrameworkMethod parametrizedFrameworkMethod = new ParametrizedFrameworkMethod(singleTestMethod);
 			result.add(parametrizedFrameworkMethod);
@@ -44,7 +44,7 @@ public class RunnerDelegator {
 	}
 
 	public static boolean isParameterized(FrameworkMethod method) {
-		return method.getAnnotation(TestWith.class) != null;
+		return method.getMethod().isAnnotationPresent(TestWith.class);
 	}
 
 	public static Description describeSingleInvocationOfParametrizedMethod(FrameworkMethod method, TestClass testClass) {
