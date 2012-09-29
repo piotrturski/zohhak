@@ -10,7 +10,7 @@ public class SingleTestMethod {
 	Configuration configuration;
 	private final int lineIndex;
 	public final String parametersLine;
-	private String[] splitedParameters;
+	String[] splitedParameters;
 	public final Method realMethod;
 	private final Executor executor;
 	

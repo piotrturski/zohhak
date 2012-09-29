@@ -2,18 +2,11 @@ package net.piotrturski.mintaka.internal;
 
 import java.lang.reflect.Type;
 
-import net.piotrturski.mintaka.Configuration;
-
 import org.apache.tapestry5.plastic.PlasticUtils;
 
 public class CoercingService {
 
-	public Object[] prepare(String parametersLine, Type[] genericParameterTypes, Configuration configuration) {
-		String[] parametersToParse = split(parametersLine, genericParameterTypes.length, configuration);
-		return parseParameters(genericParameterTypes, parametersToParse);
-	}
-
-	private Object[] parseParameters(Type[] genericParameterTypes, String[] parametersToParse) {
+	private Object[] coerceParameters(Type[] genericParameterTypes, String[] parametersToParse) {
 		int numberOfParams = parametersToParse.length;
 		Object[] parameters = new Object[numberOfParams];
 		for (int i = 0; i < numberOfParams; i++) {
@@ -40,13 +33,9 @@ public class CoercingService {
 		}
 		throw new IllegalArgumentException("cannot interpret string "+stringToParse+" as a type "+type);
 	}
-	
-	protected String[] split(String input, int expectedArgumentsNumber, Configuration configuration) {
-		String[] splited = input.split("[,|]");
-		for (int i = 0; i < splited.length; i++) {
-			splited[i] = splited[i].trim();
-		}
-		return splited;
-	}
 
+	public Object[] coerceParameters(SingleTestMethod method) {
+		return coerceParameters(method.realMethod.getGenericParameterTypes(), method.splitedParameters);
+	}
+	
 }

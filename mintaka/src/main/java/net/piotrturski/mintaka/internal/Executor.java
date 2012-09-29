@@ -6,24 +6,18 @@ import net.piotrturski.mintaka.Configuration;
 
 public final class Executor {
 
-	Parser parser = new Parser();
-	ConfigurationResolver configurationResolver = new ConfigurationResolver();
+	Parser parser;
+	ConfigurationResolver configurationResolver;
+	CoercingService coercingService;
 	
-	public Configuration calculateConfiguration(Method method, int index) {
-		return null;
-	}
-
 	public Object[] calculateParameters(SingleTestMethod singleTestMethod, String parametersLine) {
 		Configuration configuration = configurationResolver.calculateConfiguration();
+		singleTestMethod.configuration = configuration;
 		
-		
-		//parser.split(input, expectedArgumentsNumber, configuration);
-		//new SingleTestMethod(method, index)
-		//String parametersLine = getParametersLine();
-		//parser.split();
-		return new CoercingService().prepare(parametersLine, singleTestMethod.realMethod.getGenericParameterTypes(), null);
+		String[] splitedParameters = parser.split(singleTestMethod);
+		singleTestMethod.splitedParameters = splitedParameters;
+		return coercingService.coerceParameters(singleTestMethod);
+//		return coercingService.coerceParameters(singleTestMethod.realMethod.getGenericParameterTypes(), splitedParameters);
 	}
-	
-	
 	
 }
