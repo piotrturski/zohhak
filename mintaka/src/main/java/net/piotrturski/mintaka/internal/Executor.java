@@ -1,7 +1,5 @@
 package net.piotrturski.mintaka.internal;
 
-import java.lang.reflect.Method;
-
 import net.piotrturski.mintaka.Configuration;
 
 public final class Executor {
