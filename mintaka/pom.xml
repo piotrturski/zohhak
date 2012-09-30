@@ -5,6 +5,12 @@
 	<artifactId>mintaka</artifactId>
 	<name>Mintaka</name>
 	<version>0.0.1-SNAPSHOT</version>
+
+	<scm>
+		<connection>scm:git:file:///home/jojo/git/mintaka</connection>
+		<developerConnection>scm:git:file:///home/jojo/git/mintaka</developerConnection>
+	</scm>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -14,6 +20,13 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+
+					<compilerArgument>-Xlint:all</compilerArgument>
+
+					<compilerArguments>
+						<Werror />
+					</compilerArguments>
+
 				</configuration>
 			</plugin>
 			<plugin>
@@ -26,6 +39,24 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+					<execution>
+						<id>analyze</id>
+						<goals>
+							<goal>analyze-only</goal>
+						</goals>
+						<configuration>
+							<failOnWarning>true</failOnWarning>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
