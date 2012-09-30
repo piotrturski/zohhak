@@ -6,11 +6,11 @@ import org.junit.runner.manipulation.Filter;
 public class OrParentFilter extends Filter {
 	private final Filter filter;
 
-	static public OrParentFilter decorate(Filter filter) {
+	public static OrParentFilter decorate(Filter filter) {
 		return new OrParentFilter(filter);
 	}
 	
-	private OrParentFilter(Filter filter) {
+	protected OrParentFilter(Filter filter) {
 		this.filter = filter;
 	}
 

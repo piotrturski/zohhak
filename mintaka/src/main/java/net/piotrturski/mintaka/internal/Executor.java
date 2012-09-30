@@ -15,7 +15,6 @@ public final class Executor {
 		String[] splitedParameters = parser.split(singleTestMethod);
 		singleTestMethod.splitedParameters = splitedParameters;
 		return coercingService.coerceParameters(singleTestMethod);
-//		return coercingService.coerceParameters(singleTestMethod.realMethod.getGenericParameterTypes(), splitedParameters);
 	}
 	
 }
