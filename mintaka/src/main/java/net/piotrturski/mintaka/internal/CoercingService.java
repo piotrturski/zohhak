@@ -10,9 +10,9 @@ import org.apache.tapestry5.plastic.PlasticUtils;
 
 public class CoercingService {
 
-	private Map<Class<?>, Method> coercions = new LinkedHashMap<Class<?>, Method>(); 
+	private Map<Class<?>, Method> coercions = new LinkedHashMap<Class<?>, Method>();
 	private Object coercerInstance;
-	
+
 	private void initCoercions(SingleTestMethod singleTestMethod) {
 		coercions.clear();
 		Class<?>[] coercers = singleTestMethod.annotation.coercer();
@@ -25,9 +25,9 @@ public class CoercingService {
 			coercerInstance = clazz.newInstance();
 		} catch (Exception e) {
 			throw new IllegalArgumentException("cannot instantiate coercer", e);
-		} 
+		}
 	}
-	
+
 	private void addIfCoercingMethod(Method method) {
 		if (method.getParameterTypes().length != 1) {
 			return;
@@ -41,7 +41,7 @@ public class CoercingService {
 		}
 		coercions.put(PlasticUtils.toWrapperType(method.getReturnType()), method);
 	}
-	
+
 	private Object[] coerceParameters(Type[] genericParameterTypes, String[] parametersToParse) {
 		int numberOfParams = parametersToParse.length;
 		Object[] parameters = new Object[numberOfParams];
@@ -50,43 +50,40 @@ public class CoercingService {
 		}
 		return parameters;
 	}
-	
+
 	Object coerceParameter(Type type, String stringToParse) {
-		if ("null".equalsIgnoreCase(stringToParse)) {return null;}
-		if (type instanceof Class) {
-			Class<?> targetType = PlasticUtils.toWrapperType((Class<?>) type);
-			
-			Method coercionMethod = null;
-			for (Entry<Class<?>, Method> entry : coercions.entrySet()) {
-				if (targetType.isAssignableFrom(entry.getKey())) {
-					coercionMethod = entry.getValue();
-					break;
-				}
+		try {
+			if ("null".equalsIgnoreCase(stringToParse)) {
+				return null;
 			}
-			
-			if (coercionMethod != null) {
-				try {
+			if (type instanceof Class) {
+				Class<?> targetType = PlasticUtils.toWrapperType((Class<?>) type);
+
+				Method coercionMethod = null;
+				for (Entry<Class<?>, Method> entry : coercions.entrySet()) {
+					if (targetType.isAssignableFrom(entry.getKey())) {
+						coercionMethod = entry.getValue();
+						break;
+					}
+				}
+
+				if (coercionMethod != null) {
 					return coercionMethod.invoke(coercerInstance, stringToParse);
-				} catch (Exception e) {
-					throw new IllegalArgumentException(e);
+				}
+
+				if (targetType.isEnum()) {
+					return instantiateEnum(stringToParse, targetType);
 				}
 			}
-			
-//			if (targetType.isAssignableFrom(String.class)) return stringToParse;
-//			if (targetType.isAssignableFrom(Integer.class)) return Integer.parseInt(stringToParse);
-//			if (targetType.isAssignableFrom(Long.class)) return Long.parseLong(stringToParse);
-			
-			if (targetType.isEnum()) {
-				return instantiateEnum(stringToParse, targetType);
-			}
-			
+		} catch (Exception e) {
+			throw new IllegalArgumentException(createCoercionExceptionMessage(stringToParse, type), e);
 		}
-		throw new IllegalArgumentException("cannot interpret string "+stringToParse+" as a "+type);
+		throw new IllegalArgumentException(createCoercionExceptionMessage(stringToParse, type));
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" }) //unable to instantiate Enum from Class<?> without warnings
 	private Object instantiateEnum(String stringToParse, Class<?> targetType) {
-		return Enum.<Enum>valueOf((Class)targetType, stringToParse);
+		return Enum.valueOf((Class) targetType, stringToParse);
 	}
 
 	public Object[] coerceParameters(SingleTestMethod method) {
@@ -94,4 +91,8 @@ public class CoercingService {
 		return coerceParameters(method.realMethod.getGenericParameterTypes(), method.splitedParameters);
 	}
 	
+	private String createCoercionExceptionMessage(String stringToParse, Type targetType) {
+		return String.format("cannot interpret string %s as a %s", stringToParse, targetType);
+	}
+
 }

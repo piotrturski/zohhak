@@ -20,12 +20,9 @@ public class CoercingServiceTest {
 	}
 	
 	private Type getNonClassType() throws Exception {
-		return getClass().getDeclaredMethod("methodWithParameter", Object.class).getGenericParameterTypes()[0];
+		return getClass().getDeclaredMethod("methodWithNonClassTypeParameter", Object.class).getGenericParameterTypes()[0];
 	}
 	
-	@SuppressWarnings("unused")
-	private <T> void methodWithParameter(T parameter) {
-		
-	}
+	<T> void methodWithNonClassTypeParameter(T parameter) {}
 	
 }

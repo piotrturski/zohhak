@@ -88,7 +88,7 @@ public class EclipseIntegration {
 		return result;
 	}
 	
-	private Request createRequest(final Class<?> clazz, String methodName) {
+	static public Request createRequest(final Class<?> clazz, String methodName) {
 		Description method= Description.createTestDescription(clazz, methodName);
 		return Request.classWithoutSuiteMethod(clazz).filterWith(method);
 	}
