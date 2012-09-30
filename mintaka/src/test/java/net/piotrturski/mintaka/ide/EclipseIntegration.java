@@ -67,11 +67,16 @@ public class EclipseIntegration {
 		assertThat(result.getRunCount()).isEqualTo(2);
 	}
 	
+	public static Result executeClass(Class<?> clazz) {
+		Request request = Request.classes(clazz);
+		return executeRequest(request);
+	}
+	
 	private Result executeRequest(final Class<?> clazz, String methodName) {
 		return executeRequest(createRequest(clazz, methodName));
 	}
 	
-	private Result executeRequest(Request request) {
+	private static Result executeRequest(Request request) {
 		RunNotifier notifier = new RunNotifier();
 
 		Result result= new Result();
