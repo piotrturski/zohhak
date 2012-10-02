@@ -8,7 +8,8 @@
 
 	<scm>
 		<connection>scm:git:file:///home/jojo/git/mintaka</connection>
-		<developerConnection>scm:git:file:///home/jojo/git/mintaka</developerConnection>
+		<developerConnection>scm:git:file:///home/jojo/git/mintaka
+		</developerConnection>
 	</scm>
 
 	<build>
@@ -57,17 +58,107 @@
 				</executions>
 			</plugin>
 
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependency-jars-to-tattletale-source-directory</id>
+						<phase>pre-site</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${tattletale-source-directory}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- ... gather up the last jars -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.2</version>
+				<executions>
+					<execution>
+						<id>copy-project-jar-and-java-rt-jar-to-tattletale-source-directory</id>
+						<phase>pre-site</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${tattletale-source-directory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}</directory>
+									<filtering>false</filtering>
+									<includes>
+										<include>${project.build.finalName}.jar</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${java.home}/lib</directory>
+									<filtering>false</filtering>
+									<includes>
+										<include>rt.jar</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Run the Tattletale Report -->
+			<plugin>
+				<groupId>org.jboss.tattletale</groupId>
+				<artifactId>tattletale-maven</artifactId>
+				<version>1.2.0.Beta2</version>
+				<!-- <version>1.1.2.Final</version> -->
+				<executions>
+					<execution>
+						<id>run-tattletale-report</id>
+						<phase>site</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<source>${tattletale-source-directory}</source>
+							<destination>${tattletale-destination-directory}</destination>
+							<profiles>
+								<profile>java6</profile>
+							</profiles>
+							<!-- <reports> -->
+							<!-- <report>circulardependency</report> -->
+							<!-- <report>sign</report> -->
+							<!-- <report>eliminatejars</report> -->
+							<!-- <report>invalidversion</report> -->
+							<!-- <report>multiplejars</report> -->
+							<!-- <report>multiplejarspackage</report> -->
+							<!-- <report>multiplelocations</report> -->
+							<!-- <report>unusedjar</report> -->
+							<!-- <report>noversion</report> -->
+							<!-- </reports> -->
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<tattletale-source-directory>${project.build.directory}/tattletale-source</tattletale-source-directory>
+		<tattletale-destination-directory>${project.build.directory}/site/tattletale</tattletale-destination-directory>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<artifactId>junit-dep</artifactId>
 			<version>4.10</version>
 			<scope>compile</scope>
 		</dependency>
@@ -86,7 +177,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
+			<artifactId>mockito-core</artifactId>
 			<version>1.9.5-rc1</version>
 			<scope>test</scope>
 		</dependency>
