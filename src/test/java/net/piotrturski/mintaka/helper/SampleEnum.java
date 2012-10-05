@@ -3,7 +3,7 @@ package net.piotrturski.mintaka.helper;
 public enum SampleEnum {
 
 	VALUE_1,
-	ANOTHER_VALUE("with param"),
+	ONE_OF_ENUM_VALUES("with param"),
 	LAST_VALUE;
 	
 	SampleEnum() {}

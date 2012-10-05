@@ -3,20 +3,28 @@ package net.piotrturski.mintaka.internal;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.tapestry5.plastic.PlasticUtils;
 
 public class CoercingService {
 
 	private Map<Class<?>, Method> coercions = new LinkedHashMap<Class<?>, Method>();
 	private Object coercerInstance;
+	private final static Class<?>[] coercionSignature = new Class<?>[] { String.class };
+
+	public Object[] coerceParameters(SingleTestMethod method) {
+		initCoercions(method);
+		return coerceParameters(method.realMethod.getGenericParameterTypes(), method.splitedParameters);
+	}
 
 	private void initCoercions(SingleTestMethod singleTestMethod) {
 		coercions.clear();
-		Class<?>[] coercers = singleTestMethod.annotation.coercer();
-		Class<?> clazz = coercers[0];
+		List<Class<?>> coercers = singleTestMethod.configuration.getCoercers();// annotation.coercer();
+		Class<?> clazz = coercers.get(coercers.size()-1);
 		Method[] methods = clazz.getMethods();
 		for (Method method : methods) {
 			addIfCoercingMethod(method);
@@ -29,17 +37,14 @@ public class CoercingService {
 	}
 
 	private void addIfCoercingMethod(Method method) {
-		if (method.getParameterTypes().length != 1) {
-			return;
+		if (isValidCoercionMethod(method)) {
+			coercions.put(PlasticUtils.toWrapperType(method.getReturnType()), method);
 		}
-		Class<?> clazz = method.getParameterTypes()[0];
-		if (clazz != String.class) {
-			return;
-		}
-		if (method.getReturnType() == Void.class) {
-			return;
-		}
-		coercions.put(PlasticUtils.toWrapperType(method.getReturnType()), method);
+	}
+
+	boolean isValidCoercionMethod(Method method) {
+		Class<?>[] parameters = method.getParameterTypes();
+		return ArrayUtils.isEquals(parameters, coercionSignature) && method.getReturnType() != Void.class;
 	}
 
 	private Object[] coerceParameters(Type[] genericParameterTypes, String[] parametersToParse) {
@@ -81,16 +86,12 @@ public class CoercingService {
 		throw new IllegalArgumentException(createCoercionExceptionMessage(stringToParse, type));
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" }) //unable to instantiate Enum from Class<?> without warnings
+	// unable to instantiate Enum from Class<?> without warnings
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private Object instantiateEnum(String stringToParse, Class<?> targetType) {
 		return Enum.valueOf((Class) targetType, stringToParse);
 	}
 
-	public Object[] coerceParameters(SingleTestMethod method) {
-		initCoercions(method);
-		return coerceParameters(method.realMethod.getGenericParameterTypes(), method.splitedParameters);
-	}
-	
 	private String createCoercionExceptionMessage(String stringToParse, Type targetType) {
 		return String.format("cannot interpret string %s as a %s", stringToParse, targetType);
 	}

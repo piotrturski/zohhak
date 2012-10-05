@@ -58,9 +58,9 @@ public class CoercingTest {
 		assertThat(param).isEqualTo(255);		
 	}
 	
-	@TestWith("ANOTHER_VALUE")
+	@TestWith("ONE_OF_ENUM_VALUES")
 	public void coerceEnum(SampleEnum param) {
-		assertThat(param).isEqualTo(SampleEnum.ANOTHER_VALUE);		
+		assertThat(param).isEqualTo(SampleEnum.ONE_OF_ENUM_VALUES);		
 	}
 	
 	@TestWith("c, 10, -13, 15, 1.5, 2.3, 7, true")
@@ -80,8 +80,4 @@ public class CoercingTest {
 		assertThat(bool).isTrue();
 	}
 	
-	@TestWith(value="a", coercer=CoercerWithSampleType.class)
-	public void changedCoercerTest(SampleType sampleType) {
-		assertThat(sampleType.value).isEqualTo("a");
-	}
 }

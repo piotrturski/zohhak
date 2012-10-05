@@ -9,7 +9,7 @@ public final class Executor {
 	CoercingService coercingService;
 	
 	public Object[] calculateParameters(SingleTestMethod singleTestMethod, String parametersLine) {
-		Configuration configuration = configurationResolver.calculateConfiguration();
+		Configuration configuration = configurationResolver.calculateConfiguration(singleTestMethod);
 		singleTestMethod.configuration = configuration;
 		
 		String[] splitedParameters = parser.split(singleTestMethod);
