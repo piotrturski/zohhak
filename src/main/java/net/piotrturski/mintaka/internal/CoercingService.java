@@ -1,7 +1,6 @@
 package net.piotrturski.mintaka.internal;
 
 import java.lang.reflect.Method;
-import org.junit.runner.Runner;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.List;

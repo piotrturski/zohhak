@@ -2,9 +2,7 @@ package net.piotrturski.mintaka;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.offset;
-import net.piotrturski.mintaka.helper.CoercerWithSampleType;
 import net.piotrturski.mintaka.helper.SampleEnum;
-import net.piotrturski.mintaka.helper.SampleType;
 
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
