@@ -15,6 +15,7 @@ import net.piotrturski.mintaka.helper.CoercionCandidates;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runner.Runner;
 
 @RunWith(MintakaRunner.class)
 public class CoercingServiceTest {
