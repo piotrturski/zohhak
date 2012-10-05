@@ -1,6 +1,7 @@
 package net.piotrturski.mintaka.internal;
 
 import java.lang.reflect.Method;
+import org.junit.runner.Runner;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ public class CoercingService {
 
 	private Map<Class<?>, Method> coercions = new LinkedHashMap<Class<?>, Method>();
 	private Object coercerInstance;
-	private final static Class<?>[] coercionSignature = new Class<?>[] { String.class };
+	private static final Class<?>[] COERCION_PARAMETERS = new Class<?>[] { String.class };
 
 	public Object[] coerceParameters(SingleTestMethod method) {
 		initCoercions(method);
@@ -44,7 +45,7 @@ public class CoercingService {
 
 	boolean isValidCoercionMethod(Method method) {
 		Class<?>[] parameters = method.getParameterTypes();
-		return ArrayUtils.isEquals(parameters, coercionSignature) && method.getReturnType() != Void.class;
+		return ArrayUtils.isEquals(parameters, COERCION_PARAMETERS) && method.getReturnType() != Void.class;
 	}
 
 	private Object[] coerceParameters(Type[] genericParameterTypes, String[] parametersToParse) {
