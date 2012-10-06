@@ -48,7 +48,7 @@ public class CoercingService {
 
 	boolean isValidCoercionMethod(Method method) {
 		Class<?>[] parameters = method.getParameterTypes();
-		return ArrayUtils.isEquals(parameters, COERCION_PARAMETERS) && method.getReturnType() != Void.class;
+		return ArrayUtils.isEquals(parameters, COERCION_PARAMETERS) && method.getReturnType() != Void.TYPE;
 	}
 
 	private Object[] coerceParameters(Type[] genericParameterTypes, String[] parametersToParse) {
