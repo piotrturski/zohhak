@@ -9,6 +9,15 @@ import net.piotrturski.mintaka.internal.SingleTestMethod;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.tapestry5.plastic.PlasticUtils;
 
+/* start with string. add everything that starts from string. 
+ * while true (not converted)
+ * 		check if we have matching tuple (if we reached tartgetType). generics?!
+ * 			if yes - try to use it without exception and result
+ * 		add everything that starts from the end of existing tuples and remove all tuples from that iteration (shortest)
+ * end of while
+ * throw coercion failed
+ */
+
 public class CoercingService {
 
 	public Cache cache;

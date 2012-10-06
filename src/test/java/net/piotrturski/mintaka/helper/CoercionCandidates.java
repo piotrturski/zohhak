@@ -2,7 +2,7 @@ package net.piotrturski.mintaka.helper;
 
 public class CoercionCandidates {
 
-	public void voidReturn() {}
+	public void voidReturn(String param) {}
 	
 	public boolean noParams() {return true;}
 	
