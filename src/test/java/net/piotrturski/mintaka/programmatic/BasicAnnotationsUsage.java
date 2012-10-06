@@ -5,10 +5,10 @@ import static org.junit.Assert.fail;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.piotrturski.mintaka.MintakaRunner;
 import net.piotrturski.mintaka.ProgrammaticRunTest;
 import net.piotrturski.mintaka.TestWith;
 import net.piotrturski.mintaka.ide.EclipseIntegration;
+import net.piotrturski.mintaka.runners.MintakaRunner;
 
 import org.junit.Before;
 import org.junit.Ignore;

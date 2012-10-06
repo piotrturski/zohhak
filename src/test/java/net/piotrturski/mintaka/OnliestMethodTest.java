@@ -1,5 +1,7 @@
 package net.piotrturski.mintaka;
 
+import net.piotrturski.mintaka.runners.MintakaRunner;
+
 import org.junit.runner.RunWith;
 
 @RunWith(MintakaRunner.class)

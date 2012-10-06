@@ -1,4 +1,4 @@
-package net.piotrturski.mintaka.internal.coercing;
+package net.piotrturski.mintaka;
 
 public class DefaultCoercer {
 

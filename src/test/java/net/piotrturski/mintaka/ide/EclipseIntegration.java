@@ -1,9 +1,9 @@
 package net.piotrturski.mintaka.ide;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import net.piotrturski.mintaka.MintakaRunner;
 import net.piotrturski.mintaka.programmatic.BasicAnnotationsUsage;
 import net.piotrturski.mintaka.programmatic.StandardTest;
+import net.piotrturski.mintaka.runners.MintakaRunner;
 
 import org.junit.Test;
 import org.junit.runner.Description;

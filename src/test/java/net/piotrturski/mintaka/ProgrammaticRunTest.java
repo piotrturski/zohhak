@@ -4,6 +4,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import net.piotrturski.mintaka.helper.SampleType;
 import net.piotrturski.mintaka.programmatic.BadParameterProcessing;
 import net.piotrturski.mintaka.programmatic.BasicAnnotationsUsage;
+import net.piotrturski.mintaka.runners.MintakaRunner;
 
 import org.junit.Test;
 import org.junit.runner.Description;

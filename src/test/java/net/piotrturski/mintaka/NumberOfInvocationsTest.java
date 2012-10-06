@@ -5,6 +5,8 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.piotrturski.mintaka.runners.MintakaRunner;
+
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 

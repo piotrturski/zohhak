@@ -1,4 +1,4 @@
-package net.piotrturski.mintaka;
+package net.piotrturski.mintaka.runners;
 
 import static net.piotrturski.mintaka.internal.junit.RunnerDelegator.*;
 
