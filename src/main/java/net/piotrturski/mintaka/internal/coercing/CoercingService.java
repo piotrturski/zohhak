@@ -1,19 +1,17 @@
-package net.piotrturski.mintaka.internal;
+package net.piotrturski.mintaka.internal.coercing;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+
+import net.piotrturski.mintaka.internal.SingleTestMethod;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.tapestry5.plastic.PlasticUtils;
 
 public class CoercingService {
 
-	private Map<Class<?>, Method> coercions = new LinkedHashMap<Class<?>, Method>();
-	private Object coercerInstance;
+	public Cache cache;
 	private static final Class<?>[] COERCION_PARAMETERS = new Class<?>[] { String.class };
 
 	public Object[] coerceParameters(SingleTestMethod method) {
@@ -22,23 +20,20 @@ public class CoercingService {
 	}
 
 	private void initCoercions(SingleTestMethod singleTestMethod) {
-		coercions.clear();
-		List<Class<?>> coercers = singleTestMethod.configuration.getCoercers();// annotation.coercer();
-		Class<?> clazz = coercers.get(coercers.size()-1);
-		Method[] methods = clazz.getMethods();
-		for (Method method : methods) {
-			addIfCoercingMethod(method);
-		}
-		try {
-			coercerInstance = clazz.newInstance();
-		} catch (Exception e) {
-			throw new IllegalArgumentException("cannot instantiate coercer", e);
+		cache.clearMethodData();
+		List<Class<?>> coercers = singleTestMethod.configuration.getCoercers();
+		for (Class<?> clazz : coercers) {
+			Method[] methods = clazz.getMethods();
+			for (Method method : methods) {
+				addIfCoercingMethod(method);
+			}
 		}
 	}
 
 	private void addIfCoercingMethod(Method method) {
 		if (isValidCoercionMethod(method)) {
-			coercions.put(PlasticUtils.toWrapperType(method.getReturnType()), method);
+			Coercion coercion = new Coercion(method);
+			cache.addCoercion(coercion);
 		}
 	}
 
@@ -64,16 +59,17 @@ public class CoercingService {
 			if (type instanceof Class) {
 				Class<?> targetType = PlasticUtils.toWrapperType((Class<?>) type);
 
-				Method coercionMethod = null;
-				for (Entry<Class<?>, Method> entry : coercions.entrySet()) {
-					if (targetType.isAssignableFrom(entry.getKey())) {
-						coercionMethod = entry.getValue();
+				Coercion foundCoercion = null;
+				for (Coercion coercion : cache.getCoercions()) {
+					if (targetType.isAssignableFrom(coercion.getTargetType())) {
+						foundCoercion = coercion;
 						break;
 					}
 				}
 
-				if (coercionMethod != null) {
-					return coercionMethod.invoke(coercerInstance, stringToParse);
+				if (foundCoercion != null) {
+					Object coercerInstance = cache.getCoercerInstance(foundCoercion);
+					return foundCoercion.coercionMethod.invoke(coercerInstance, stringToParse);
 				}
 
 				if (targetType.isEnum()) {

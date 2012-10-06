@@ -7,9 +7,9 @@ import net.piotrturski.mintaka.TestWith;
 
 public class SingleTestMethod {
 
-	Configuration configuration;
+	public Configuration configuration;
 	public final String parametersLine;
-	String[] splitedParameters;
+	public String[] splitedParameters;
 	public final Method realMethod;
 	private final Executor executor;
 	public final TestWith annotation;

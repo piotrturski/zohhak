@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import net.piotrturski.mintaka.internal.DefaultCoercer;
+import net.piotrturski.mintaka.internal.coercing.DefaultCoercer;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})

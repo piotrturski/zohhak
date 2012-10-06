@@ -1,4 +1,4 @@
-package net.piotrturski.mintaka.internal;
+package net.piotrturski.mintaka.internal.coercing;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import net.piotrturski.mintaka.MintakaRunner;
 import net.piotrturski.mintaka.TestWith;
 import net.piotrturski.mintaka.helper.CoercionCandidates;
+import net.piotrturski.mintaka.internal.coercing.CoercingService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

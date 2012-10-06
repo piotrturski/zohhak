@@ -5,7 +5,7 @@ import static java.util.Arrays.asList;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.piotrturski.mintaka.internal.DefaultCoercer;
+import net.piotrturski.mintaka.internal.coercing.DefaultCoercer;
 
 public class Configuration {
 

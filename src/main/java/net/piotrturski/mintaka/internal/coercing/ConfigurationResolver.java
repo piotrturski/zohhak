@@ -1,6 +1,7 @@
-package net.piotrturski.mintaka.internal;
+package net.piotrturski.mintaka.internal.coercing;
 
 import net.piotrturski.mintaka.Configuration;
+import net.piotrturski.mintaka.internal.SingleTestMethod;
 
 public class ConfigurationResolver {
 
