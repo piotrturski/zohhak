@@ -1,10 +1,11 @@
-package net.piotrturski.mintaka.internal.coercing;
+package net.piotrturski.mintaka.internal;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import net.piotrturski.mintaka.internal.SingleTestMethod;
+import net.piotrturski.mintaka.internal.coercing.Cache;
+import net.piotrturski.mintaka.internal.coercing.Coercion;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.tapestry5.plastic.PlasticUtils;
