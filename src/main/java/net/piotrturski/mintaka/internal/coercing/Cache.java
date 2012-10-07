@@ -1,19 +1,15 @@
 package net.piotrturski.mintaka.internal.coercing;
 
-import java.util.Collection;
+import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Cache {
 
-	private Map<Class<?>, Coercion> coercions = new LinkedHashMap<Class<?>, Coercion>();
+	private Map<Method, List<Coercion>> coercionsForMethod = new HashMap<Method, List<Coercion>>();
+	
 	private Map<Class<?>, Object> coercerInstances = new HashMap<Class<?>, Object>();
-
-	public void clearMethodData() {
-		// TODO Auto-generated method stub
-
-	}
 
 	private Object instantiateCoercerClass(Class<?> coercerClass) {
 		try {
@@ -21,15 +17,6 @@ public class Cache {
 		} catch (Exception e) {
 			throw new IllegalArgumentException("cannot instantiate coercer class: " + coercerClass.getCanonicalName(), e);
 		}
-	}
-
-	public void addCoercion(Coercion coercion) {
-		coercions.put(coercion.getTargetType(), coercion);
-
-	}
-
-	public Collection<Coercion> getCoercions() {
-		return coercions.values();
 	}
 
 	public Object getCoercerInstance(Coercion coercion) {
@@ -40,6 +27,15 @@ public class Cache {
 			coercerInstances.put(coercerClass, coercerInstance);
 		}
 		return coercerInstance;
+	}
+
+	public void addCoercionsForTestMethod(Method realMethod, List<Coercion> foundCoercions) {
+		coercionsForMethod.put(realMethod, foundCoercions);
+		
+	}
+
+	public List<Coercion> getCoercionsForTestMethod(Method realMethod) {
+		return coercionsForMethod.get(realMethod);
 	}
 
 }

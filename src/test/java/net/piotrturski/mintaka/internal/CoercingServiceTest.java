@@ -5,10 +5,13 @@ import static junit.framework.Assert.assertTrue;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.Collections;
+import java.util.List;
 
 import net.piotrturski.mintaka.TestWith;
 import net.piotrturski.mintaka.helper.CoercionCandidates;
 import net.piotrturski.mintaka.internal.CoercingService;
+import net.piotrturski.mintaka.internal.coercing.Coercion;
 import net.piotrturski.mintaka.runners.MintakaRunner;
 
 import org.junit.Test;
@@ -18,16 +21,17 @@ import org.junit.runner.RunWith;
 public class CoercingServiceTest {
 
 	CoercingService coercingService = new CoercingService();
+	List<Coercion> noCoercions = Collections.emptyList();
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void notSupportedType() {
-		coercingService.coerceParameter(Thread.class, "");
+		coercingService.coerceParameter(Thread.class, "", noCoercions);
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void notClass() throws Exception {
 		Type nonClassType = getNonClassType(); 
-		coercingService.coerceParameter(nonClassType, "");
+		coercingService.coerceParameter(nonClassType, "", noCoercions);
 	}
 	
 	private Type getNonClassType() throws Exception {

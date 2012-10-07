@@ -2,6 +2,7 @@ package net.piotrturski.mintaka.internal;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.piotrturski.mintaka.internal.coercing.Cache;
@@ -25,43 +26,50 @@ public class CoercingService {
 	private static final Class<?>[] COERCION_PARAMETERS = new Class<?>[] { String.class };
 
 	public Object[] coerceParameters(SingleTestMethod method) {
-		initCoercions(method);
-		return coerceParameters(method.realMethod.getGenericParameterTypes(), method.splitedParameters);
+		initCoercions(method); //TODO only if not cached
+		List<Coercion> methodCoercions = prepareMethodCoercions(method);
+
+		
+		Type[] genericParameterTypes = method.realMethod.getGenericParameterTypes();
+		String[] parametersToParse = method.splitedParameters; 
+
+		int numberOfParams = parametersToParse.length;
+		Object[] parameters = new Object[numberOfParams];
+		for (int i = 0; i < numberOfParams; i++) {
+			parameters[i] = coerceParameter(genericParameterTypes[i], parametersToParse[i], methodCoercions);
+		}
+		return parameters;
 	}
 
 	private void initCoercions(SingleTestMethod singleTestMethod) {
-		cache.clearMethodData();
 		List<Class<?>> coercers = singleTestMethod.configuration.getCoercers();
+		List<Coercion> foundCoercions = findCoercions(coercers);
+		cache.addCoercionsForTestMethod(singleTestMethod.realMethod, foundCoercions);
+	}
+
+	List<Coercion> findCoercions(List<Class<?>> coercers) {
+		List<Coercion> foundCoercions = new ArrayList<Coercion>(); 
 		for (Class<?> clazz : coercers) {
 			Method[] methods = clazz.getMethods();
 			for (Method method : methods) {
-				addIfCoercingMethod(method);
+				if (isValidCoercionMethod(method)) {
+					foundCoercions.add(new Coercion(cache, method));
+				}
 			}
 		}
+		return foundCoercions;
 	}
-
-	private void addIfCoercingMethod(Method method) {
-		if (isValidCoercionMethod(method)) {
-			Coercion coercion = new Coercion(method);
-			cache.addCoercion(coercion);
-		}
-	}
-
+	
 	boolean isValidCoercionMethod(Method method) {
 		Class<?>[] parameters = method.getParameterTypes();
 		return ArrayUtils.isEquals(parameters, COERCION_PARAMETERS) && method.getReturnType() != Void.TYPE;
 	}
 
-	private Object[] coerceParameters(Type[] genericParameterTypes, String[] parametersToParse) {
-		int numberOfParams = parametersToParse.length;
-		Object[] parameters = new Object[numberOfParams];
-		for (int i = 0; i < numberOfParams; i++) {
-			parameters[i] = coerceParameter(genericParameterTypes[i], parametersToParse[i]);
-		}
-		return parameters;
+	List<Coercion> prepareMethodCoercions(SingleTestMethod singleTestMethod) {
+		return cache.getCoercionsForTestMethod(singleTestMethod.realMethod);
 	}
-
-	Object coerceParameter(Type type, String stringToParse) {
+	
+	Object coerceParameter(Type type, String stringToParse, List<Coercion> methodCoercions) {
 		try {
 			if ("null".equalsIgnoreCase(stringToParse)) {
 				return null;
@@ -70,7 +78,7 @@ public class CoercingService {
 				Class<?> targetType = PlasticUtils.toWrapperType((Class<?>) type);
 
 				Coercion foundCoercion = null;
-				for (Coercion coercion : cache.getCoercions()) {
+				for (Coercion coercion : methodCoercions) {
 					if (targetType.isAssignableFrom(coercion.getTargetType())) {
 						foundCoercion = coercion;
 						break;
@@ -78,8 +86,8 @@ public class CoercingService {
 				}
 
 				if (foundCoercion != null) {
-					Object coercerInstance = cache.getCoercerInstance(foundCoercion);
-					return foundCoercion.coercionMethod.invoke(coercerInstance, stringToParse);
+					return foundCoercion.coerce(stringToParse);
+					
 				}
 
 				if (targetType.isEnum()) {

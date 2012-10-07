@@ -4,8 +4,10 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import net.piotrturski.mintaka.helper.SampleType;
 import net.piotrturski.mintaka.programmatic.BadParameterProcessing;
 import net.piotrturski.mintaka.programmatic.BasicAnnotationsUsage;
+import net.piotrturski.mintaka.programmatic.MixedCoercers;
 import net.piotrturski.mintaka.runners.MintakaRunner;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
@@ -40,8 +42,14 @@ public class ProgrammaticRunTest {
 	public void wrongBoolFormat() {
 		Failure failure = coercionFailureFromSingleMethodExecution(BadParameterProcessing.class, "wrongBooleanFormat");
 		assertThat(failure.getException()).hasMessageContaining("boolean");
-		
 	}
+
+	@Test
+	public void coercerCache() {
+		Result result = runClassWithForcedRunner(MixedCoercers.class, null);
+		assertThat(result.getFailureCount()).isEqualTo(2);
+		assertThat(result.getRunCount()).isEqualTo(3);
+	}		
 	
 	static private Failure coercionFailureFromSingleMethodExecution(Class<?> classToTest, String methodToTest) {
 		Result result = runClassWithForcedRunner(classToTest, methodToTest);
@@ -69,8 +77,11 @@ public class ProgrammaticRunTest {
 			RunListener listener= result.createListener();
 			notifier.addListener(listener);
 			
-			Description methodDescription = Description.createTestDescription(clazz, methodName);
-			Request request = Request.runner(new MintakaRunner(clazz)).filterWith(methodDescription);
+			Request request = Request.runner(new MintakaRunner(clazz));
+			if (StringUtils.isNotBlank(methodName)) { 
+				Description methodDescription = Description.createTestDescription(clazz, methodName);
+				request = request.filterWith(methodDescription);
+			}
 			Runner runner = request.getRunner();
 			runner.run(notifier);
 			return result;
