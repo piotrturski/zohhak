@@ -10,7 +10,6 @@ import java.util.List;
 
 import net.piotrturski.mintaka.TestWith;
 import net.piotrturski.mintaka.helper.CoercionCandidates;
-import net.piotrturski.mintaka.internal.CoercingService;
 import net.piotrturski.mintaka.internal.coercing.Coercion;
 import net.piotrturski.mintaka.runners.MintakaRunner;
 

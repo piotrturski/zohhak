@@ -26,12 +26,10 @@ public class CoercingService {
 	private static final Class<?>[] COERCION_PARAMETERS = new Class<?>[] { String.class };
 
 	public Object[] coerceParameters(SingleTestMethod method) {
-		initCoercions(method); //TODO only if not cached
-		List<Coercion> methodCoercions = prepareMethodCoercions(method);
+		List<Coercion> methodCoercions = coercionsForMethod(method);
 
-		
 		Type[] genericParameterTypes = method.realMethod.getGenericParameterTypes();
-		String[] parametersToParse = method.splitedParameters; 
+		String[] parametersToParse = method.splitedParameters;
 
 		int numberOfParams = parametersToParse.length;
 		Object[] parameters = new Object[numberOfParams];
@@ -41,14 +39,21 @@ public class CoercingService {
 		return parameters;
 	}
 
-	private void initCoercions(SingleTestMethod singleTestMethod) {
-		List<Class<?>> coercers = singleTestMethod.configuration.getCoercers();
-		List<Coercion> foundCoercions = findCoercions(coercers);
-		cache.addCoercionsForTestMethod(singleTestMethod.realMethod, foundCoercions);
+	private List<Coercion> coercionsForMethod(SingleTestMethod method) {
+		List<Coercion> methodCoercions = cache.getCoercionsForTestMethod(method.realMethod);
+		if (methodCoercions == null) {
+
+			List<Class<?>> coercers = method.configuration.getCoercers();
+			methodCoercions = findCoercions(coercers);
+			cache.addCoercionsForTestMethod(method.realMethod, methodCoercions);
+
+		}
+
+		return methodCoercions;
 	}
 
-	List<Coercion> findCoercions(List<Class<?>> coercers) {
-		List<Coercion> foundCoercions = new ArrayList<Coercion>(); 
+	List<Coercion> findCoercions(List<Class<?>> coercers) { //TODO cache all coercions for class
+		List<Coercion> foundCoercions = new ArrayList<Coercion>();
 		for (Class<?> clazz : coercers) {
 			Method[] methods = clazz.getMethods();
 			for (Method method : methods) {
@@ -59,16 +64,12 @@ public class CoercingService {
 		}
 		return foundCoercions;
 	}
-	
+
 	boolean isValidCoercionMethod(Method method) {
 		Class<?>[] parameters = method.getParameterTypes();
 		return ArrayUtils.isEquals(parameters, COERCION_PARAMETERS) && method.getReturnType() != Void.TYPE;
 	}
 
-	List<Coercion> prepareMethodCoercions(SingleTestMethod singleTestMethod) {
-		return cache.getCoercionsForTestMethod(singleTestMethod.realMethod);
-	}
-	
 	Object coerceParameter(Type type, String stringToParse, List<Coercion> methodCoercions) {
 		try {
 			if ("null".equalsIgnoreCase(stringToParse)) {
@@ -87,7 +88,7 @@ public class CoercingService {
 
 				if (foundCoercion != null) {
 					return foundCoercion.coerce(stringToParse);
-					
+
 				}
 
 				if (targetType.isEnum()) {

@@ -9,6 +9,15 @@ public final class Executor {
 	CoercingService coercingService;
 	
 	public Object[] calculateParameters(SingleTestMethod singleTestMethod, String parametersLine) {
+		/* 
+		 * infrastructure.get(singleTestMethod())
+		 * if found then we runningBox else prepare runningBox
+		 * config, parsers, coercions
+		 * 
+		 *   runningBox.run(testMethod)
+		 * 
+		 */
+		
 		Configuration configuration = configurationResolver.calculateConfiguration(singleTestMethod);
 		singleTestMethod.configuration = configuration;
 		
