@@ -1,7 +1,7 @@
 package net.piotrturski.mintaka.internal.junit;
 
 import net.piotrturski.mintaka.internal.Executor;
-import net.piotrturski.mintaka.internal.SingleTestMethod;
+import net.piotrturski.mintaka.internal.model.SingleTestMethod;
 
 import org.junit.runners.model.FrameworkMethod;
 

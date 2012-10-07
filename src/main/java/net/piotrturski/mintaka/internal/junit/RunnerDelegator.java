@@ -6,7 +6,7 @@ import java.util.List;
 import net.piotrturski.mintaka.TestWith;
 import net.piotrturski.mintaka.internal.Executor;
 import net.piotrturski.mintaka.internal.IoCContainer;
-import net.piotrturski.mintaka.internal.SingleTestMethod;
+import net.piotrturski.mintaka.internal.model.SingleTestMethod;
 
 import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;

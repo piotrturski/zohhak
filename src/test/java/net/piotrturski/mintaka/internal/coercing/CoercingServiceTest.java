@@ -1,4 +1,4 @@
-package net.piotrturski.mintaka.internal;
+package net.piotrturski.mintaka.internal.coercing;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
