@@ -11,19 +11,13 @@ public class SingleTestMethod {
 	public final String parametersLine;
 	public String[] splitedParameters;
 	public final Method realMethod;
-	private final Executor executor;
 	public final TestWith annotation;
 	
-	public SingleTestMethod(Method realMethod, int lineIndex, Executor executor) {
+	public SingleTestMethod(Method realMethod, int lineIndex) {
 		this.realMethod = realMethod;
-		this.executor = executor;
 		annotation = realMethod.getAnnotation(TestWith.class);
 		parametersLine = annotation.value()[lineIndex];
 		
 	}
 
-	public Object[] calculateParameters() {
-		return executor.calculateParameters(this, parametersLine);
-	}
-	
 }
