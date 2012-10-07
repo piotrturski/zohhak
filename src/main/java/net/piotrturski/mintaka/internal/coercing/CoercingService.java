@@ -1,5 +1,8 @@
 package net.piotrturski.mintaka.internal.coercing;
 
+import static net.piotrturski.mintaka.internal.coercing.Result.FAILURE;
+import static net.piotrturski.mintaka.internal.coercing.Result.success;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -51,7 +54,7 @@ public class CoercingService {
 		return methodCoercions;
 	}
 
-	List<Coercion> findCoercions(List<Class<?>> coercers) { //TODO cache all coercions for class
+	List<Coercion> findCoercions(List<Class<?>> coercers) { // TODO cache all coercions for class
 		List<Coercion> foundCoercions = new ArrayList<Coercion>();
 		for (Class<?> clazz : coercers) {
 			Method[] methods = clazz.getMethods();
@@ -77,16 +80,9 @@ public class CoercingService {
 			if (type instanceof Class) {
 				Class<?> targetType = PlasticUtils.toWrapperType((Class<?>) type);
 
-				Coercion foundCoercion = null;
-				for (Coercion coercion : methodCoercions) {
-					if (targetType.isAssignableFrom(coercion.getTargetType())) {
-						foundCoercion = coercion;
-						break;
-					}
-				}
-
-				if (foundCoercion != null) {
-					return cache.invokeCoercion(foundCoercion, stringToParse);
+				Result execution = tryToUseCoercions(targetType, stringToParse, methodCoercions);
+				if (execution.succeeded()) {
+					return execution.getResult();
 				}
 
 				if (targetType.isEnum()) {
@@ -97,6 +93,28 @@ public class CoercingService {
 			throw new IllegalArgumentException(createCoercionExceptionMessage(stringToParse, type), e);
 		}
 		throw new IllegalArgumentException(createCoercionExceptionMessage(stringToParse, type));
+	}
+
+	private Result tryToUseCoercions(Class<?> targetType, String stringToParse, List<Coercion> methodCoercions) {
+		for (Coercion coercion : methodCoercions) {
+			Result execution = useCoercion(coercion, targetType, stringToParse);
+			if (execution.succeeded()) {
+				return execution;
+			}
+		}
+		return FAILURE;
+	}
+	
+	private Result useCoercion(Coercion coercion, Class<?> targetType, String stringToParse) {
+		try {
+			if (targetType.isAssignableFrom(coercion.getTargetType())) {
+				Object coercionResult = cache.invokeCoercion(coercion, stringToParse);
+				return success(coercionResult);
+			}
+		} catch (Exception e) {
+			//fall through
+		}
+		return FAILURE;
 	}
 
 	// unable to instantiate Enum from Class<?> without warnings

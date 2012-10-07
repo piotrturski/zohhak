@@ -19,7 +19,7 @@ public class Cache {
 		}
 	}
 
-	public Object getCoercerInstance(Coercion coercion) {
+	private Object getCoercerInstance(Coercion coercion) {
 		Class<?> coercerClass = coercion.getCoercerClass();
 		Object coercerInstance = coercerInstances.get(coercerClass);
 		if (coercerInstance == null) {
