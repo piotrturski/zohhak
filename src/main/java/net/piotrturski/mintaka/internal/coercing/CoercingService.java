@@ -57,7 +57,7 @@ public class CoercingService {
 			Method[] methods = clazz.getMethods();
 			for (Method method : methods) {
 				if (isValidCoercionMethod(method)) {
-					foundCoercions.add(new Coercion(cache, method));
+					foundCoercions.add(new Coercion(method));
 				}
 			}
 		}
@@ -86,8 +86,7 @@ public class CoercingService {
 				}
 
 				if (foundCoercion != null) {
-					return foundCoercion.coerce(stringToParse);
-
+					return cache.invokeCoercion(foundCoercion, stringToParse);
 				}
 
 				if (targetType.isEnum()) {

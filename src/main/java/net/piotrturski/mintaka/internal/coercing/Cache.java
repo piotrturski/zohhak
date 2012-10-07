@@ -37,5 +37,10 @@ public class Cache {
 	public List<Coercion> getCoercionsForTestMethod(Method realMethod) {
 		return coercionsForMethod.get(realMethod);
 	}
+	
+	public Object invokeCoercion(Coercion coercion, String stringToParse) throws Exception {
+		Object coercerInstance = getCoercerInstance(coercion);
+		return coercion.coercionMethod.invoke(coercerInstance, stringToParse);
+	}
 
 }
