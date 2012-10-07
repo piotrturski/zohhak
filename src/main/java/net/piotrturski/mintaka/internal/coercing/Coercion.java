@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import org.apache.tapestry5.plastic.PlasticUtils;
 
-public class Coercion {
+class Coercion {
 
 	public final Method coercionMethod; //FIXME
 	private final Class<?> targetType;

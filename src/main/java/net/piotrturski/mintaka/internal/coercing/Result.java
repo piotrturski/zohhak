@@ -1,6 +1,6 @@
 package net.piotrturski.mintaka.internal.coercing;
 
-class Result {
+final class Result {
 
 	private Object result;
 	private final boolean succeeded;
