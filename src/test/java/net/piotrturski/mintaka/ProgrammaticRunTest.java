@@ -45,6 +45,12 @@ public class ProgrammaticRunTest {
 	}
 
 	@Test
+	public void wrongEnumFormat() {
+		Failure failure = coercionFailureFromSingleMethodExecution(BadParameterProcessing.class, "wrongEnumFormat");
+		assertThat(failure.getException()).hasMessageContaining("SampleEnum");
+	}
+	
+	@Test
 	public void coercerCache() {
 		Result result = runClassWithForcedRunner(MixedCoercers.class, null);
 		assertThat(result.getFailureCount()).isEqualTo(2);
