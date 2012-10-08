@@ -8,16 +8,14 @@ import java.util.List;
 
 public class Configuration {
 
-	
 	private List<Class<?>> coercers = new ArrayList<Class<?>>(1);
 	
 	public Configuration() {
 		coercers.add(defaultCoercer());
 	}
 	
-	public void addCoercers(Class<?>[] additionalCoercers) {
+	final public void addCoercers(Class<?>[] additionalCoercers) {
 		coercers.addAll(asList(additionalCoercers));
-		
 	}
 	
 	protected Class<?> defaultCoercer() {

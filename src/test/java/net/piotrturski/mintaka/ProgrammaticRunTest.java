@@ -4,6 +4,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import net.piotrturski.mintaka.helper.SampleType;
 import net.piotrturski.mintaka.programmatic.BadParameterProcessing;
 import net.piotrturski.mintaka.programmatic.BasicAnnotationsUsage;
+import net.piotrturski.mintaka.programmatic.ClassLevelConfiguration;
 import net.piotrturski.mintaka.programmatic.MixedCoercers;
 import net.piotrturski.mintaka.runners.MintakaRunner;
 
@@ -56,6 +57,13 @@ public class ProgrammaticRunTest {
 		assertThat(result.getFailureCount()).isEqualTo(2);
 		assertThat(result.getRunCount()).isEqualTo(3);
 	}		
+	
+	@Test
+	public void classLevelConfiguration() {
+		Result result = runClassWithForcedRunner(ClassLevelConfiguration.class, "samleType");
+		assertThat(result.getFailureCount()).isEqualTo(0);
+		assertThat(result.getRunCount()).isEqualTo(1);
+	}
 	
 	static private Failure coercionFailureFromSingleMethodExecution(Class<?> classToTest, String methodToTest) {
 		Result result = runClassWithForcedRunner(classToTest, methodToTest);
