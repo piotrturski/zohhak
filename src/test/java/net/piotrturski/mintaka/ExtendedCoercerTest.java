@@ -37,8 +37,20 @@ public class ExtendedCoercerTest {
 		assertThat(sampleType.value).isEqualTo("a");
 	}
 	
+	@TestWith(value="a", coercer=InnerCoercer.class)
+	public void innerCoercerTest(SampleType sampleType) {
+		assertThat(sampleType.value).isEqualTo("a");
+	}
+	
 	@Coercion
 	public SampleType2 toSampleType2(String input) {
 		return new SampleType2(input);
+	}
+	
+	public static class InnerCoercer {
+		
+		public SampleType toSampleType(String input) {
+			return new SampleType(input);
+		}		
 	}
 }

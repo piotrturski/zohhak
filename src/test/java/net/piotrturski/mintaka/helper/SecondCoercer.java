@@ -5,9 +5,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class SecondCoercer {
 
 	public SampleType toSampleType(String input) {
-		SampleType sampleType = new SampleType();
-		sampleType.value = input;
-		return sampleType;
+		return new SampleType(input);
 	}
 	
 	public int toIntFromHex(String hexInt) {
