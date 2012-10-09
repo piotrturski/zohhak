@@ -47,11 +47,24 @@ public class CoercingService {
 
 			List<Class<?>> coercers = method.configuration.getCoercers();
 			methodCoercions = findCoercions(coercers);
-			cache.addCoercionsForTestMethod(method.realMethod, methodCoercions);
-
+			List<Coercion> inTestCoercions = findCoercionsInTestClass(method.realMethod.getDeclaringClass());
+			methodCoercions.addAll(inTestCoercions);
+			
+			cache.setCoercionsForTestMethod(method.realMethod, methodCoercions);
 		}
 
 		return methodCoercions;
+	}
+
+	private List<Coercion> findCoercionsInTestClass(Class<?> testClass) { //TODO cache all coercions for class
+		List<Coercion> foundCoercions = new ArrayList<Coercion>();
+		Method[] methods = testClass.getMethods();
+		for (Method method : methods) {
+			if (method.getAnnotation(net.piotrturski.mintaka.Coercion.class) != null && isValidCoercionMethod(method)) {
+				foundCoercions.add(new Coercion(method));
+			}
+		}
+		return foundCoercions;
 	}
 
 	List<Coercion> findCoercions(List<Class<?>> coercers) { // TODO cache all coercions for class

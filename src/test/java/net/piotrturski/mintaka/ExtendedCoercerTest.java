@@ -1,6 +1,7 @@
 package net.piotrturski.mintaka;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import net.piotrturski.mintaka.helper.SampleType2;
 import net.piotrturski.mintaka.helper.SecondCoercer;
 import net.piotrturski.mintaka.helper.SampleType;
 import net.piotrturski.mintaka.runners.MintakaRunner;
@@ -31,4 +32,13 @@ public class ExtendedCoercerTest {
 		assertThat(param).isEqualTo(13);
 	}
 	
+	@TestWith("a")
+	public void annotatedAssertionTest(SampleType2 sampleType) {
+		assertThat(sampleType.value).isEqualTo("a");
+	}
+	
+	@Coercion
+	public SampleType2 toSampleType2(String input) {
+		return new SampleType2(input);
+	}
 }

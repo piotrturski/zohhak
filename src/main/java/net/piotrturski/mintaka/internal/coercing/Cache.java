@@ -29,7 +29,7 @@ public class Cache {
 		return coercerInstance;
 	}
 
-	public void addCoercionsForTestMethod(Method realMethod, List<Coercion> foundCoercions) {
+	public void setCoercionsForTestMethod(Method realMethod, List<Coercion> foundCoercions) {
 		coercionsForMethod.put(realMethod, foundCoercions);
 		
 	}
