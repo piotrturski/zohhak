@@ -46,7 +46,7 @@ public class CoercingService {
 		if (methodCoercions == null) {
 
 			List<Class<?>> coercers = method.configuration.getCoercers();
-			methodCoercions = findCoercions(coercers);
+			methodCoercions = findCoercionsInCoercers(coercers);
 			List<Coercion> inTestCoercions = findCoercionsInTestClass(method.realMethod.getDeclaringClass());
 			methodCoercions.addAll(inTestCoercions);
 			
@@ -67,7 +67,7 @@ public class CoercingService {
 		return foundCoercions;
 	}
 
-	List<Coercion> findCoercions(List<Class<?>> coercers) { // TODO cache all coercions for class
+	List<Coercion> findCoercionsInCoercers(List<Class<?>> coercers) { // TODO cache all coercions for class
 		List<Coercion> foundCoercions = new ArrayList<Coercion>();
 		for (Class<?> clazz : coercers) {
 			Method[] methods = clazz.getMethods();
@@ -109,7 +109,7 @@ public class CoercingService {
 	}
 
 	private Result tryToUseCoercions(Class<?> targetType, String stringToParse, List<Coercion> methodCoercions) {
-		for (Coercion coercion : methodCoercions) {
+		for (Coercion coercion : methodCoercions) { //TODO maybe index coercions by target type? will it be useful with future extended coercing?
 			Result execution = useCoercion(coercion, targetType, stringToParse);
 			if (execution.succeeded()) {
 				return execution;

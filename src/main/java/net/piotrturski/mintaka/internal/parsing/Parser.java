@@ -1,4 +1,4 @@
-package net.piotrturski.mintaka.internal;
+package net.piotrturski.mintaka.internal.parsing;
 
 import net.piotrturski.mintaka.internal.model.SingleTestMethod;
 

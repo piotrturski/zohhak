@@ -52,6 +52,24 @@ public class ProgrammaticRunTest {
 	}
 	
 	@Test
+	public void tooManyParameters() {
+		Result result = runClassWithForcedRunner(BadParameterProcessing.class, "tooManyParameters");
+		assertThat(result.getFailureCount()).isEqualTo(1);
+		assertThat(result.getRunCount()).isEqualTo(1);
+		assertThat(result.getFailures().get(0).getException()).
+										hasMessageContaining("1 parameter(s) declared but provided 2");
+	}
+	
+	@Test
+	public void tooFewParameters() {
+		Result result = runClassWithForcedRunner(BadParameterProcessing.class, "tooFewParameters");
+		assertThat(result.getFailureCount()).isEqualTo(1);
+		assertThat(result.getRunCount()).isEqualTo(1);
+		assertThat(result.getFailures().get(0).getException()).
+										hasMessageContaining("2 parameter(s) declared but provided 1");
+	}
+	
+	@Test
 	public void coercerCache() {
 		Result result = runClassWithForcedRunner(MixedCoercers.class, null);
 		assertThat(result.getFailureCount()).isEqualTo(2);
