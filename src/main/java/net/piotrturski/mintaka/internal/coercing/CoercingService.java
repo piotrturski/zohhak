@@ -25,10 +25,10 @@ import org.apache.tapestry5.plastic.PlasticUtils;
 public class CoercingService {
 
 	public Cache cache;
-	private static final Class<?>[] COERCION_PARAMETERS = new Class<?>[] { String.class };
+	private static final Class<?>[] COERCION_PARAMETERS_SIGNATURE = new Class<?>[] { String.class };
 
 	public Object[] coerceParameters(SingleTestMethod method) {
-		List<Coercion> methodCoercions = coercionsForMethod(method);
+		List<Coercion> methodCoercions = findCoercionsForMethod(method);
 
 		Type[] genericParameterTypes = method.realMethod.getGenericParameterTypes();
 		String[] parametersToParse = method.splitedParameters;
@@ -41,7 +41,7 @@ public class CoercingService {
 		return parameters;
 	}
 
-	private List<Coercion> coercionsForMethod(SingleTestMethod method) {
+	private List<Coercion> findCoercionsForMethod(SingleTestMethod method) {
 		List<Coercion> methodCoercions = cache.getCoercionsForTestMethod(method.realMethod);
 		if (methodCoercions == null) {
 
@@ -82,7 +82,7 @@ public class CoercingService {
 
 	boolean isValidCoercionMethod(Method method) {
 		Class<?>[] parameters = method.getParameterTypes();
-		return ArrayUtils.isEquals(parameters, COERCION_PARAMETERS) && method.getReturnType() != Void.TYPE;
+		return ArrayUtils.isEquals(parameters, COERCION_PARAMETERS_SIGNATURE) && method.getReturnType() != Void.TYPE;
 	}
 
 	Object coerceParameter(Type type, String stringToParse, List<Coercion> methodCoercions) {

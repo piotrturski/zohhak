@@ -8,8 +8,21 @@ import java.util.Map;
 public class Cache {
 
 	private Map<Method, List<Coercion>> coercionsForMethod = new HashMap<Method, List<Coercion>>();
-	
 	private Map<Class<?>, Object> coercerInstances = new HashMap<Class<?>, Object>();
+
+	public void setCoercionsForTestMethod(Method realMethod, List<Coercion> foundCoercions) {
+		coercionsForMethod.put(realMethod, foundCoercions);
+	}
+	
+	public List<Coercion> getCoercionsForTestMethod(Method realMethod) {
+		return coercionsForMethod.get(realMethod);
+	}
+	
+	public Object invokeCoercion(Coercion coercion, String stringToParse) {
+		Object coercerInstance = getCoercerInstance(coercion);
+		return coercion.invoke(coercerInstance, stringToParse);
+		
+	}
 
 	private Object instantiateCoercerClass(Class<?> coercerClass) {
 		try {
@@ -28,19 +41,5 @@ public class Cache {
 		}
 		return coercerInstance;
 	}
-
-	public void setCoercionsForTestMethod(Method realMethod, List<Coercion> foundCoercions) {
-		coercionsForMethod.put(realMethod, foundCoercions);
-		
-	}
-
-	public List<Coercion> getCoercionsForTestMethod(Method realMethod) {
-		return coercionsForMethod.get(realMethod);
-	}
 	
-	public Object invokeCoercion(Coercion coercion, String stringToParse) throws Exception {
-		Object coercerInstance = getCoercerInstance(coercion);
-		return coercion.coercionMethod.invoke(coercerInstance, stringToParse);
-	}
-
 }

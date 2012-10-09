@@ -14,7 +14,7 @@ public class Configuration {
 		coercers.add(defaultCoercer());
 	}
 	
-	final public void addCoercers(Class<?>[] additionalCoercers) {
+	public final void addCoercers(Class<?>[] additionalCoercers) {
 		coercers.addAll(asList(additionalCoercers));
 	}
 	
