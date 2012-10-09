@@ -26,4 +26,9 @@ public class ExtendedCoercerTest {
 		assertThat(param).isEqualTo(255);		
 	}
 	
+	@TestWith(value="b1101", coercer=SecondCoercer.class)
+	public void assertionErrorHandling(int param) {
+		assertThat(param).isEqualTo(13);
+	}
+	
 }

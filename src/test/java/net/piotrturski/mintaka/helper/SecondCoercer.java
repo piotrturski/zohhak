@@ -16,4 +16,10 @@ public class SecondCoercer {
 		return Integer.parseInt(plainHex, 16);
 	}
 	
+	public int toIntFromBinary(String binaryInt) {
+		assertThat(binaryInt).startsWith("b");
+		String plainBinary = binaryInt.substring(1);
+		return Integer.parseInt(plainBinary, 2);
+	}
+	
 }
