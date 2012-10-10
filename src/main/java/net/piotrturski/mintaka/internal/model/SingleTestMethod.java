@@ -2,12 +2,11 @@ package net.piotrturski.mintaka.internal.model;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.Iterator;
 
 import net.piotrturski.mintaka.Configuration;
 import net.piotrturski.mintaka.TestWith;
 
-public class SingleTestMethod implements Iterable<ParametersPair> {
+public class SingleTestMethod {
 
 	public Configuration configuration;
 	public final String parametersLine;
@@ -39,16 +38,4 @@ public class SingleTestMethod implements Iterable<ParametersPair> {
 		return genericParameterTypes.length;
 	}
 	
-	@Override
-	public Iterator<ParametersPair> iterator() {
-		return new DoubleArrayIterator<ParametersPair, Type, String>(genericParameterTypes, splitedParameters) {
-
-			@Override
-			protected ParametersPair fabricate(Type targetType, String stringToParse) {
-				return new ParametersPair(targetType, stringToParse);
-			}
-
-		};
-	}
-
 }
