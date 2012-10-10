@@ -21,6 +21,7 @@ public class CoercingServiceTest {
 
 	CoercingService coercingService = new CoercingService();
 	List<Coercion> noCoercions = Collections.emptyList();
+	CoercionHandler coercionFinder = new CoercionHandler();
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void notSupportedType() {
@@ -47,13 +48,13 @@ public class CoercingServiceTest {
 	})
 	public void invalidCoercionMethod(String name) {
 		Method method = getMethod(name);
-		assertFalse(coercingService.isValidCoercionMethod(method));
+		assertFalse(coercionFinder.isValidCoercionMethod(method));
 	}
 	
 	@Test
 	public void validCoercionMehod() {
 		Method method = getMethod("validCoercion");
-		assertTrue(coercingService.isValidCoercionMethod(method));
+		assertTrue(coercionFinder.isValidCoercionMethod(method));
 	}
 	
 	private Method getMethod(String name) {

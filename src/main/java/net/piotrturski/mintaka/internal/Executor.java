@@ -25,7 +25,7 @@ public final class Executor {
 		singleTestMethod.configuration = configuration;
 		
 		String[] splitedParameters = parsingService.split(singleTestMethod);
-		singleTestMethod.splitedParameters = splitedParameters;
+		singleTestMethod.setSplitedParameters(splitedParameters);
 		return coercingService.coerceParameters(singleTestMethod);
 	}
 	
