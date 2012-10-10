@@ -22,13 +22,13 @@ public class CoercingService {
 
 	private CoercionHandler coercionHandler = new CoercionHandler();
 
-	public Object[] coerceParameters(SingleTestMethod method) {
+	public Object[] coerceParameters(SingleTestMethod method, String[] splitedParameters) {
 		List<Coercion> methodCoercions = coercionHandler.findCoercionsForMethod(method);
 		int numberOfParams = method.getArity();
 
 		Object[] parameters = new Object[numberOfParams];
 		for (int i = 0; i < numberOfParams; i++) {
-			String inputString = method.getInputString(i);
+			String inputString = splitedParameters[i];
 			Type parameterType = method.getParameterType(i);
 			parameters[i] = coerceParameter(parameterType, inputString, methodCoercions);
 		}

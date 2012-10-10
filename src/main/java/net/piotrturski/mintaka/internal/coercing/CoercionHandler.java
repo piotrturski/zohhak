@@ -13,10 +13,8 @@ class CoercionHandler {
 	private static final Class<?>[] COERCION_PARAMETERS_SIGNATURE = new Class<?>[] { String.class };
 
 	List<Coercion> findCoercionsForMethod(SingleTestMethod method) {
-		List<Coercion> methodCoercions = new ArrayList<Coercion>();
-
 		List<Class<?>> coercers = method.configuration.getCoercers();
-		methodCoercions = findCoercionsInCoercers(coercers); // TODO cache all coercions for class
+		List<Coercion> methodCoercions = findCoercionsInCoercers(coercers); // TODO cache all coercions for class
 		List<Coercion> inTestCoercions = findCoercionsInTestClass(method.realMethod.getDeclaringClass());
 		// TODO cache all coercions for class
 		methodCoercions.addAll(inTestCoercions);

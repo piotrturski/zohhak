@@ -10,7 +10,6 @@ public class SingleTestMethod {
 
 	public Configuration configuration;
 	public final String parametersLine;
-	private String[] splitedParameters;
 	public final Method realMethod;
 	public final TestWith annotation;
 	private final Type[] genericParameterTypes;
@@ -22,16 +21,8 @@ public class SingleTestMethod {
 		genericParameterTypes = realMethod.getGenericParameterTypes();
 	}
 
-	public void setSplitedParameters(String[] splitedParameters) {
-		this.splitedParameters = splitedParameters;
-	}
-
 	public Type getParameterType(int nr) {
 		return genericParameterTypes[nr];
-	}
-	
-	public String getInputString(int nr) {
-		return splitedParameters[nr];
 	}
 	
 	public int getArity() {
