@@ -2,6 +2,7 @@ package net.piotrturski.mintaka.internal;
 
 import net.piotrturski.mintaka.Configuration;
 import net.piotrturski.mintaka.Configure;
+import net.piotrturski.mintaka.TestWith;
 import net.piotrturski.mintaka.internal.model.SingleTestMethod;
 
 public class ConfigurationResolver {
@@ -14,9 +15,11 @@ public class ConfigurationResolver {
 			configuration.addCoercers(configure.coercer());
 		}
 		
-		Class<?>[] additionalCoercers = singleTestMethod.annotation.coercer();
-		
+		TestWith testAnnotation = singleTestMethod.annotation;
+		Class<?>[] additionalCoercers = testAnnotation.coercer();
 		configuration.addCoercers(additionalCoercers);
+		
+		configuration.separator = testAnnotation.separator();
 		
 		return configuration;
 	}

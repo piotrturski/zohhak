@@ -9,6 +9,7 @@ import java.util.List;
 public class Configuration {
 
 	private List<Class<?>> coercers = new ArrayList<Class<?>>(1);
+	public String separator;
 	
 	public Configuration() {
 		coercers.add(defaultCoercer());

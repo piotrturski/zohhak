@@ -22,17 +22,23 @@ public class SplittingTest {
 		assertThat(j).isEqualTo(SampleEnum.LAST_VALUE);
 	}
 	
-	@TestWith("7 | 19")
+	@TestWith(value="7 | 19", separator="\\|")
 	public void otherSeparator(int i, int j) {
 		assertThat(i).isEqualTo(7);
 		assertThat(j).isEqualTo(19);
 	}
 	
-	@TestWith("7 | 19, 23")
+	@TestWith(value="7 | 19, 23", separator="[\\|,]")
 	public void mixedSeparators(int i, int j, int k) {
 		assertThat(i).isEqualTo(7);
 		assertThat(j).isEqualTo(19);
 		assertThat(k).isEqualTo(23);
+	}
+	
+	@TestWith(value=" 7 = 7 > 5 => true", separator="=>")
+	public void multiCharSeparator(String string, boolean bool) {
+		assertThat(string).isEqualTo("7 = 7 > 5");
+		assertThat(bool).isTrue();
 	}
 	
 	@TestWith({

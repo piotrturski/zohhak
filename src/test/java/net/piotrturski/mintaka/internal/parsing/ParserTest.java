@@ -11,29 +11,31 @@ import org.junit.runner.RunWith;
 @RunWith(MintakaRunner.class)
 public class ParserTest {
 
+	private static final String QUOTE = "'";
+	private static final String COMMA = ",";
 	Parser parser = new Parser(); 
 	
 	@Test
 	public void testSplitOneElement() {
-		String[] splited = parser.split(" a ");
+		String[] splited = parser.split(" a ", COMMA, QUOTE);
 		assertThat(splited).containsSequence("a").hasSize(1);
 	}
 	
 	@Test
 	public void testSplitMoreElements() {
-		String[] splited = parser.split(" a , b ");
+		String[] splited = parser.split(" a , b ", COMMA, QUOTE);
 		assertThat(splited).containsSequence("a", "b").hasSize(2);
 	}
 	
 	@Test
 	public void testOneQuoted() {
-		String[] splited = parser.split(" ' a ' ");
+		String[] splited = parser.split(" ' a ' ", COMMA, QUOTE);
 		assertThat(splited).containsSequence(" a ").hasSize(1);
 	}
 	
 	@Test
 	public void testTwoQuoted() {
-		String[] splited = parser.split(" ' a ', ' b' ");
+		String[] splited = parser.split(" ' a ', ' b' ", COMMA, QUOTE);
 		assertThat(splited).containsSequence(" a ", " b").hasSize(2);
 	}
 	

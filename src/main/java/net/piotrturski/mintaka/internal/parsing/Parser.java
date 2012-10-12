@@ -6,17 +6,18 @@ import net.piotrturski.mintaka.internal.model.SingleTestMethod;
 
 public class Parser {
 
+	private static final String WHITE_CHARS = "\\s*";
 	private static final int NEGATIVE = -1;
 
 	public String[] split(SingleTestMethod method) {
-		return split(method.parametersLine);
+		return split(method.parametersLine, method.configuration.separator, "'");
 	}
 
-	String[] split(String parametersLine) {
-		String splittingRegexp = "\\s*[,|]\\s*";
+	String[] split(String parametersLine, String separator, String quotingMarker) {
+		String splittingRegexp = WHITE_CHARS + separator + WHITE_CHARS;
 		String[] splitted = parametersLine.trim().split(splittingRegexp, NEGATIVE);
 		for (int i = 0; i < splitted.length; i++) {
-			splitted[i] = removeEdges(splitted[i], "'");
+			splitted[i] = removeEdges(splitted[i], quotingMarker);
 		}
 		return splitted;
 	}
