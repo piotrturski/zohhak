@@ -1,7 +1,6 @@
 package net.piotrturski.mintaka;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-
 import net.piotrturski.mintaka.helper.SampleEnum;
 import net.piotrturski.mintaka.runners.MintakaRunner;
 
@@ -34,6 +33,16 @@ public class SplittingTest {
 		assertThat(i).isEqualTo(7);
 		assertThat(j).isEqualTo(19);
 		assertThat(k).isEqualTo(23);
+	}
+	
+	@TestWith({
+		" , ",
+		" ,",
+		", ",
+		","
+	})
+	public void emptyStrings(String empty1, String empty2) {
+		assertThat(empty1).isEqualTo(empty2).isEmpty();
 	}
 	
 	@TestWith("1")

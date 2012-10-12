@@ -15,8 +15,6 @@ public class ParsingService {
 			
 		} catch (RuntimeException e) {
 			throw exception(e);
-		} catch (AssertionError e) {
-			throw exception(e);
 		}
 		
 		int numberOfDeclaredParameters = method.getArity();
