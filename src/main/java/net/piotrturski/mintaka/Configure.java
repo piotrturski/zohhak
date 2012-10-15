@@ -13,4 +13,9 @@ public @interface Configure {
 	
 	Class<?>[] coercer() default DefaultCoercer.class;
 	
+	boolean inheritCoercers() default true;
+	
+	String separator() default ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER;
+	
+	String quotationMark() default ConfigurationDefinition.DEFAULT_QUOTATION_MARKER;
 }

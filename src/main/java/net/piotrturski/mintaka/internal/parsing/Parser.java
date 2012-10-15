@@ -10,7 +10,7 @@ public class Parser {
 	private static final int NEGATIVE = -1;
 
 	public String[] split(SingleTestMethod method) {
-		return split(method.parametersLine, method.configuration.separator, "'");
+		return split(method.parametersLine, method.configuration.getSeparator(), "'");
 	}
 
 	String[] split(String parametersLine, String separator, String quotingMarker) {

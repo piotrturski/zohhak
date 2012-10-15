@@ -9,17 +9,6 @@ import org.junit.runner.RunWith;
 @RunWith(MintakaRunner.class)
 public class ParsingTest {
 
-	@TestWith(" a ")
-	public void trimTestSingle(String input) {
-		assertThat(input).isEqualTo("a");
-	}
-
-	@TestWith(" a , b ")
-	public void trimTestMulti(String a, String b) {
-		assertThat(a).isEqualTo("a");
-		assertThat(b).isEqualTo("b");
-	}
-
 	@TestWith(" '' , a , ''b '  ")
 	public void quotedAndNoQuoted(String empty, String a, String quoteB) {
 		assertThat(empty).isEqualTo("");

@@ -51,6 +51,17 @@ public class SplittingTest {
 		assertThat(empty1).isEqualTo(empty2).isEmpty();
 	}
 	
+	@TestWith(" a ")
+	public void trimTestSingle(String input) {
+		assertThat(input).isEqualTo("a");
+	}
+
+	@TestWith(" a , b ")
+	public void trimTestMulti(String a, String b) {
+		assertThat(a).isEqualTo("a");
+		assertThat(b).isEqualTo("b");
+	}
+
 	@TestWith("1")
 	@Ignore
 	public void varargs1(int... ints) {

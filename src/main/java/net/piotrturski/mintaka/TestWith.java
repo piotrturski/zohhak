@@ -16,14 +16,16 @@ public @interface TestWith {
 	Class<?>[] coercer() default DefaultCoercer.class;
 
 	/**
-	 * Optionally specify separator used to split parameters. It's a part of regexp.
+	 * Optionally specify separator used to split parameters. It's a part of regexp so remember about escaping and
+	 * special characters. If omitted, <code>","</code> (comma) is assumed. 
+	 * 
 	 * <pre>
 	 * separator = ";"      -> ;
 	 * separator = "\\|"    -> |
 	 * separator = "[,;]"   -> , or ;
 	 * separator = "=>"     -> =>
-	 * </pre> 
+	 * </pre>
 	 */
-	String separator() default ",";
+	String separator() default ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER;
 
 }
