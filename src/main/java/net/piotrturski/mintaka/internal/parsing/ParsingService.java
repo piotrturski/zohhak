@@ -14,7 +14,7 @@ public class ParsingService {
 			splitedParameters = parser.split(method);
 			
 		} catch (RuntimeException e) {
-			throw exception(e);
+			throw new IllegalArgumentException("Cannot parse parameters", e);
 		}
 		
 		int numberOfDeclaredParameters = method.getArity();
@@ -22,10 +22,6 @@ public class ParsingService {
 			throw new IllegalArgumentException(numberOfDeclaredParameters+" parameter(s) declared but provided "+splitedParameters.length);
 		}
 		return splitedParameters;
-	}
-
-	private IllegalArgumentException exception(Throwable t) {
-		return new IllegalArgumentException("Cannot parse parameters", t);
 	}
 	
 }
