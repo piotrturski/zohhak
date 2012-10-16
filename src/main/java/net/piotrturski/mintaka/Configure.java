@@ -17,5 +17,5 @@ public @interface Configure {
 	
 	String separator() default ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER;
 	
-	String quotationMark() default ConfigurationDefinition.DEFAULT_QUOTATION_MARKER;
+	String stringBoundary() default ConfigurationDefinition.DEFAULT_STRING_BOUNDARY_MARKER;
 }

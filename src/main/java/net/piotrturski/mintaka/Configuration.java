@@ -10,6 +10,7 @@ public class Configuration {
 
 	private List<Class<?>> coercers = new ArrayList<Class<?>>(2);
 	private String separator = ConfigurationDefinition.DEFAULT_SEPARATOR;
+	private String stringBoundary = ConfigurationDefinition.DEFAULT_STRING_BOUNDARY;
 	
 	public Configuration() {
 		coercers.add(defaultCoercer());
@@ -37,5 +38,14 @@ public class Configuration {
 		}
 	}
 	
+	public void overrideStringBoundary(String stringBoundary) {
+		if (!ConfigurationDefinition.DEFAULT_STRING_BOUNDARY_MARKER.equals(stringBoundary)) {
+			this.stringBoundary = stringBoundary;
+		}
+	}
+	
+	public String getStringBoundary() {
+		return stringBoundary;
+	}
 
 }

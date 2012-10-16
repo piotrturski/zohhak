@@ -14,6 +14,7 @@ public class ConfigurationResolver {
 		if (classConfiguration != null) {//TODO move to signleTestMethod
 			configuration.addCoercers(classConfiguration.coercer());
 			configuration.overrideSeparator(classConfiguration.separator());
+			configuration.overrideStringBoundary(classConfiguration.stringBoundary());
 		}
 		
 		TestWith testAnnotation = singleTestMethod.annotation;
@@ -21,6 +22,7 @@ public class ConfigurationResolver {
 		configuration.addCoercers(additionalCoercers);
 		
 		configuration.overrideSeparator(testAnnotation.separator());
+		configuration.overrideStringBoundary(testAnnotation.stringBoundary());
 		
 		return configuration;
 	}
