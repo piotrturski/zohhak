@@ -3,7 +3,6 @@ package net.piotrturski.mintaka.internal.model;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
-import net.piotrturski.mintaka.ConfigurationBuilder;
 import net.piotrturski.mintaka.TestWith;
 
 public class SingleTestMethod {

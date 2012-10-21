@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.piotrturski.mintaka.Configuration;
-import net.piotrturski.mintaka.ConfigurationBuilder;
 import net.piotrturski.mintaka.Configure;
 import net.piotrturski.mintaka.TestWith;
+import net.piotrturski.mintaka.internal.model.ConfigurationBuilder;
 import net.piotrturski.mintaka.internal.model.SingleTestMethod;
 
 public class ConfigurationResolver {

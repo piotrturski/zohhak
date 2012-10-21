@@ -5,7 +5,7 @@ import static net.piotrturski.mintaka.internal.coercing.Result.FAILURE;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import net.piotrturski.mintaka.internal.Logger;
+import net.piotrturski.mintaka.internal.model.Logger;
 import net.piotrturski.mintaka.internal.model.SingleTestMethod;
 
 import org.apache.tapestry5.plastic.PlasticUtils;

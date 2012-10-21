@@ -1,10 +1,12 @@
-package net.piotrturski.mintaka;
+package net.piotrturski.mintaka.internal.model;
 
 import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import net.piotrturski.mintaka.ConfigurationDefinition;
+import net.piotrturski.mintaka.DefaultCoercer;
 import net.piotrturski.mintaka.internal.ConfigLine;
 
 
