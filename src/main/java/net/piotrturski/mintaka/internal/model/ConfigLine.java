@@ -1,4 +1,4 @@
-package net.piotrturski.mintaka.internal;
+package net.piotrturski.mintaka.internal.model;
 
 import net.piotrturski.mintaka.Configuration;
 import net.piotrturski.mintaka.Configure;
