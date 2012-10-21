@@ -15,10 +15,6 @@ public class ConfigurationBuilder {
 	private String separator = ConfigurationDefinition.DEFAULT_SEPARATOR;
 	private String stringBoundary = ConfigurationDefinition.DEFAULT_STRING_BOUNDARY;
 	
-	public ConfigurationBuilder() {
-//		coercers.add(defaultCoercer());
-	}
-	
 	public final void addCoercers(Class<?>... additionalCoercers) {
 		coercers.addAll(asList(additionalCoercers));
 	}
@@ -49,10 +45,6 @@ public class ConfigurationBuilder {
 	
 	public String getStringBoundary() {
 		return stringBoundary;
-	}
-
-	public void removeCoercers() {
-		coercers.clear();
 	}
 
 	public void addConfigLine(ConfigLine configLine) {

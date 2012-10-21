@@ -5,34 +5,11 @@ import java.util.List;
 
 import net.piotrturski.mintaka.Configuration;
 import net.piotrturski.mintaka.Configure;
-import net.piotrturski.mintaka.TestWith;
 import net.piotrturski.mintaka.internal.model.ConfigLine;
 import net.piotrturski.mintaka.internal.model.ConfigurationBuilder;
 import net.piotrturski.mintaka.internal.model.SingleTestMethod;
 
 public class ConfigurationResolver {
-
-	
-	public ConfigurationBuilder calculateConfiguration2(SingleTestMethod singleTestMethod) {
-		ConfigurationBuilder builder = defaultConfiguration();
-		
-		Configure classConfiguration = singleTestMethod.realMethod.getDeclaringClass().getAnnotation(Configure.class);
-		addConfigure(builder, classConfiguration);
-		
-		TestWith testAnnotation = singleTestMethod.annotation;
-		Class<?>[] additionalCoercers = testAnnotation.coercer();
-		
-		if (!testAnnotation.inheritCoercers()) {
-			builder.removeCoercers();
-		}
-		
-		builder.addCoercers(additionalCoercers);
-		
-		builder.overrideSeparator(testAnnotation.separator());
-		builder.overrideStringBoundary(testAnnotation.stringBoundary());
-		
-		return builder;
-	}
 
 	//TODO test it. refafactor singletestMethod for easier mocking. check if result does not contain repeated classes 
 	public ConfigurationBuilder calculateConfiguration(SingleTestMethod singleTestMethod) {
@@ -72,28 +49,6 @@ public class ConfigurationResolver {
 		}
 	}
 	
-	private void addConfigure(ConfigurationBuilder builder, Configure configure) {
-		if (configure != null) {//TODO move to signleTestMethod
-			addConfiguration(builder, configure.configuration());
-			builder.addCoercers(configure.coercer());
-			builder.overrideSeparator(configure.separator());
-			builder.overrideStringBoundary(configure.stringBoundary());
-		}
-	}
-
-	private void addConfiguration(ConfigurationBuilder builder, Class<? extends Configuration> configuration) {
-		try {
-			Configuration instance = configuration.newInstance(); //TODO cache it
-			if (!instance.inheritCoercers()) {
-				builder.getCoercers().clear();
-			}
-			builder.addCoercers(instance.coercer());
-		} catch (Exception e) {
-			throw new IllegalArgumentException(e);
-		}
-		
-	}
-
 	private ConfigurationBuilder defaultConfiguration() {
 		ConfigurationBuilder configuration = new ConfigurationBuilder();
 		configuration.addCoercers(configuration.defaultCoercer());
