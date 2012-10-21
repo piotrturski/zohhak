@@ -18,4 +18,6 @@ public @interface Configure {
 	String separator() default ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER;
 	
 	String stringBoundary() default ConfigurationDefinition.DEFAULT_STRING_BOUNDARY_MARKER;
+	
+	Class<? extends Configuration> configuration() default InheritedConfiguration.class;
 }

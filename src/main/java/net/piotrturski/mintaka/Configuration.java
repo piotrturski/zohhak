@@ -1,51 +1,28 @@
 package net.piotrturski.mintaka;
 
-import static java.util.Arrays.asList;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class Configuration {
 
-	private List<Class<?>> coercers = new ArrayList<Class<?>>(2);
-	private String separator = ConfigurationDefinition.DEFAULT_SEPARATOR;
-	private String stringBoundary = ConfigurationDefinition.DEFAULT_STRING_BOUNDARY;
-	
-	public Configuration() {
-		coercers.add(defaultCoercer());
-	}
-	
-	public final void addCoercers(Class<?>[] additionalCoercers) {
-		coercers.addAll(asList(additionalCoercers));
-	}
-	
-	protected Class<?> defaultCoercer() {
-		return DefaultCoercer.class;
-	}
+	private static final Class<?>[] EMPTY_COERCERS = new Class<?>[] {};
 
-	public List<Class<?>> getCoercers() {
+	public boolean inheritCoercers() {
+		return true;
+	};
+	
+	public Class<?>[] coercer() {
+		return EMPTY_COERCERS;
+	}
+	
+	public String separator() {
+		return ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER;
+	}
+	
+	public String stringBoundary() {
+		return ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER;
+	}
+	
+	protected final Class<?>[] asArray(Class<?>... coercers) {
 		return coercers;
 	}
-
-	public String getSeparator() {
-		return separator;
-	}
-
-	public void overrideSeparator(String separator) {
-		if (!ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER.equals(separator)) {
-			this.separator = separator;
-		}
-	}
 	
-	public void overrideStringBoundary(String stringBoundary) {
-		if (!ConfigurationDefinition.DEFAULT_STRING_BOUNDARY_MARKER.equals(stringBoundary)) {
-			this.stringBoundary = stringBoundary;
-		}
-	}
-	
-	public String getStringBoundary() {
-		return stringBoundary;
-	}
-
 }

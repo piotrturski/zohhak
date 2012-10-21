@@ -5,6 +5,7 @@ import static net.piotrturski.mintaka.internal.coercing.Result.FAILURE;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import net.piotrturski.mintaka.internal.Logger;
 import net.piotrturski.mintaka.internal.model.SingleTestMethod;
 
 import org.apache.tapestry5.plastic.PlasticUtils;
@@ -21,8 +22,10 @@ import org.apache.tapestry5.plastic.PlasticUtils;
 public class CoercingService {
 
 	private CoercionHandler coercionHandler = new CoercionHandler();
+	private Logger log = new Logger();
 
 	public Object[] coerceParameters(SingleTestMethod method, String[] splitedParameters) {
+		log.log("coercing method "+method);
 		List<Coercion> methodCoercions = coercionHandler.findCoercionsForMethod(method);
 		int numberOfParams = method.getArity();
 
@@ -36,6 +39,7 @@ public class CoercingService {
 	}
 
 	Object coerceParameter(Type type, String stringToParse, List<Coercion> methodCoercions) {
+		log.log("coercing \""+stringToParse+"\" to "+type);
 		try {
 			if ("null".equalsIgnoreCase(stringToParse)) {
 				return null;
@@ -83,7 +87,7 @@ public class CoercingService {
 	}
 
 	private String coercingExceptionMessage(String stringToParse, Type targetType) {
-		return String.format("cannot interpret string %s as a %s", stringToParse, targetType);
+		return String.format("cannot interpret string \"%s\" as a %s", stringToParse, targetType);
 	}
 
 }

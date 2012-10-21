@@ -30,9 +30,13 @@ class Coercion {
 		}
 	}
 
+	private Class<?> getSourceType() {
+		return coercionMethod.getParameterTypes()[0];
+	}
+	
 	@Override
 	public String toString() {
-		return coercionMethod.toGenericString();
+		return getSourceType().getSimpleName() +" -> " + getTargetType().getSimpleName() + " ("+ coercionMethod.getName()+")";
 	}
 	
 }
