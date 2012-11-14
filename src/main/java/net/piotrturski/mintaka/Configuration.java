@@ -1,28 +1,13 @@
 package net.piotrturski.mintaka;
 
+public interface Configuration {
 
-public class Configuration {
-
-	private static final Class<?>[] EMPTY_COERCERS = new Class<?>[] {};
-
-	public boolean inheritCoercers() {
-		return true;
-	};
+	boolean inheritCoercers();
 	
-	public Class<?>[] coercer() {
-		return EMPTY_COERCERS;
-	}
+	Class<?>[] coercer();
 	
-	public String separator() {
-		return ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER;
-	}
+	String separator();
 	
-	public String stringBoundary() {
-		return ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER;
-	}
-	
-	protected final Class<?>[] asArray(Class<?>... coercers) {
-		return coercers;
-	}
+	String stringBoundary();
 	
 }

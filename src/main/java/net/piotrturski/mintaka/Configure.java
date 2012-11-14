@@ -15,9 +15,9 @@ public @interface Configure {
 	
 	boolean inheritCoercers() default true;
 	
-	String separator() default ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER;
+	String separator() default ConfigurationDefinition.INHERIT;
 	
-	String stringBoundary() default ConfigurationDefinition.DEFAULT_STRING_BOUNDARY_MARKER;
+	String stringBoundary() default ConfigurationDefinition.INHERIT;
 	
-	Class<? extends Configuration> configuration() default InheritedConfiguration.class;
+	Class<? extends Configuration> configuration() default Inherit.class;
 }

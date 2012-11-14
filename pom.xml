@@ -145,6 +145,18 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<enableRulesSummary>false</enableRulesSummary>
+					<configLocation>imports.xml</configLocation>
+					<maxAllowedViolations>0</maxAllowedViolations>
+					<consoleOutput>true</consoleOutput>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
@@ -159,8 +171,8 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit-dep</artifactId>
-			<version>4.10</version>
-			<scope>compile</scope>
+			<version>[4.5,)</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>

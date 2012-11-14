@@ -1,6 +1,6 @@
 package net.piotrturski.mintaka.learning;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 import static org.apache.tapestry5.plastic.PlasticUtils.toWrapperType;
 
 import org.junit.Test;

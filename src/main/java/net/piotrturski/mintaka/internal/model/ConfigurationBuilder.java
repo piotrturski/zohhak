@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.piotrturski.mintaka.ConfigurationDefinition;
-import net.piotrturski.mintaka.DefaultCoercer;
 
 
 public class ConfigurationBuilder {
@@ -15,14 +14,15 @@ public class ConfigurationBuilder {
 	private String separator = ConfigurationDefinition.DEFAULT_SEPARATOR;
 	private String stringBoundary = ConfigurationDefinition.DEFAULT_STRING_BOUNDARY;
 	
-	public final void addCoercers(Class<?>... additionalCoercers) {
-		coercers.addAll(asList(additionalCoercers));
+	public void addConfigLine(ConfigLine configLine) {
+		if (!configLine.isInheritCoercers()) {
+			coercers.clear();
+		}
+		addCoercers(configLine.getCoercers());
+		overrideSeparator(configLine.getSeparator());
+		overrideStringBoundary(configLine.getStringBoundary());
 	}
 	
-	public Class<?> defaultCoercer() {
-		return DefaultCoercer.class;
-	}
-
 	public List<Class<?>> getCoercers() {
 		return coercers;
 	}
@@ -31,30 +31,24 @@ public class ConfigurationBuilder {
 		return separator;
 	}
 
-	public void overrideSeparator(String separator) {
-		if (!ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER.equals(separator)) {
+	public String getStringBoundary() {
+		return stringBoundary;
+	}
+	
+	private void overrideSeparator(String separator) {
+		if (!ConfigurationDefinition.INHERIT.equals(separator)) {
 			this.separator = separator;
 		}
 	}
 	
-	public void overrideStringBoundary(String stringBoundary) {
-		if (!ConfigurationDefinition.DEFAULT_STRING_BOUNDARY_MARKER.equals(stringBoundary)) {
+	private void overrideStringBoundary(String stringBoundary) {
+		if (!ConfigurationDefinition.INHERIT.equals(stringBoundary)) {
 			this.stringBoundary = stringBoundary;
 		}
 	}
 	
-	public String getStringBoundary() {
-		return stringBoundary;
-	}
-
-	public void addConfigLine(ConfigLine configLine) {
-		if (!configLine.isInheritCoercers()) {
-			coercers.clear();
-		}
-		addCoercers(configLine.getCoercers());
-		overrideSeparator(configLine.getSeparator());
-		overrideStringBoundary(configLine.getStringBoundary());
-		
+	private final void addCoercers(Class<?>... additionalCoercers) {
+		coercers.addAll(asList(additionalCoercers));
 	}
 
 }

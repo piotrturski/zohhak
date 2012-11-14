@@ -14,6 +14,11 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 
+/**
+ * Compatible with JUnit 4.5 - 4.10
+ * 
+ *
+ */
 public class MintakaRunner extends BlockJUnit4ClassRunner {
 
 	protected List<FrameworkMethod> cachedMethods;

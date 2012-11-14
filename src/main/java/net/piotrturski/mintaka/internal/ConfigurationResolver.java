@@ -5,13 +5,16 @@ import java.util.List;
 
 import net.piotrturski.mintaka.Configuration;
 import net.piotrturski.mintaka.Configure;
+import net.piotrturski.mintaka.DefaultConfiguration;
 import net.piotrturski.mintaka.internal.model.ConfigLine;
 import net.piotrturski.mintaka.internal.model.ConfigurationBuilder;
 import net.piotrturski.mintaka.internal.model.SingleTestMethod;
 
 public class ConfigurationResolver {
 
-	//TODO test it. refafactor singletestMethod for easier mocking. check if result does not contain repeated classes 
+	private final ConfigLine defaultConfigLine = new ConfigLine(new DefaultConfiguration());
+	
+	//TODO test it. refactor singletestMethod for easier mocking. check if result does not contain repeated classes 
 	public ConfigurationBuilder calculateConfiguration(SingleTestMethod singleTestMethod) {
 		List<ConfigLine> configLines = addConfigLines(singleTestMethod);
 		return mergeConfig(configLines);
@@ -19,6 +22,7 @@ public class ConfigurationResolver {
 	
 	private List<ConfigLine> addConfigLines(SingleTestMethod singleTestMethod) {
 		List<ConfigLine> configs = new ArrayList<ConfigLine>();
+		
 		Configure configure = singleTestMethod.realMethod.getDeclaringClass().getAnnotation(Configure.class);
 		
 		if (configure != null) {
@@ -29,11 +33,15 @@ public class ConfigurationResolver {
 		addConfigLine(singleTestMethod.annotation.configuration(), configs); //config field from method
 		configs.add(new ConfigLine(singleTestMethod.annotation)); //rest fields from method
 		
+		//TODO @Configure annotation from method
+		
 		return configs;
 	}
 	
-	private ConfigurationBuilder mergeConfig(List<ConfigLine> configLines) {
-		ConfigurationBuilder builder = defaultConfiguration();
+	ConfigurationBuilder mergeConfig(List<ConfigLine> configLines) {
+		ConfigurationBuilder builder = new ConfigurationBuilder();
+		builder.addConfigLine(defaultConfigLine);
+		
 		for (ConfigLine configLine : configLines) {
 			builder.addConfigLine(configLine);
 		}
@@ -47,12 +55,6 @@ public class ConfigurationResolver {
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e);
 		}
-	}
-	
-	private ConfigurationBuilder defaultConfiguration() {
-		ConfigurationBuilder configuration = new ConfigurationBuilder();
-		configuration.addCoercers(configuration.defaultCoercer());
-		return configuration;
 	}
 	
 }

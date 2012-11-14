@@ -26,7 +26,7 @@ public @interface TestWith {
 	 * 
 	 * Separator \u0000 has special meaning and is not allowed
 	 */
-	String separator() default ConfigurationDefinition.DEFAULT_SEPARATOR_MARKER;
+	String separator() default ConfigurationDefinition.INHERIT;
 
 	/**
 	 * Special string to mark end string boundary. Will be removed during parsing but any surrounded characters will be preserved.
@@ -42,9 +42,9 @@ public @interface TestWith {
 	 * </pre>
 	 * 
 	 */
-	String stringBoundary() default ConfigurationDefinition.DEFAULT_STRING_BOUNDARY_MARKER;
+	String stringBoundary() default ConfigurationDefinition.INHERIT;
 
-	Class<? extends Configuration> configuration() default InheritedConfiguration.class;
+	Class<? extends Configuration> configuration() default Inherit.class;
 
 	boolean inheritCoercers() default true;
 

@@ -19,25 +19,30 @@ public class RunnerDelegator {
 	
 	protected List<FrameworkMethod> getParametrizedLeafMethods(TestClass testClass) {
 		List<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
-		List<FrameworkMethod> parametrizedMethods = testClass.getAnnotatedMethods(TestWith.class);
+		List<FrameworkMethod> parametrizedMethods = getAnnotatedMethods(testClass);
 		for (FrameworkMethod parametrizedMethod : parametrizedMethods) {
 			addInvocationsOfSingleParameterizedMethod(result, parametrizedMethod);
 		}
 		return result;
 	}
 
+	static private List<FrameworkMethod> getAnnotatedMethods(TestClass testClass) {
+		return testClass.getAnnotatedMethods(TestWith.class); //TODO possible indirect invocation
+	}
+
 	private void addInvocationsOfSingleParameterizedMethod(List<FrameworkMethod> result, FrameworkMethod parametrizedMethod) {
 		TestWith annotation = parametrizedMethod.getAnnotation(TestWith.class);
-		for (int i = 0; i < annotation.value().length; i++) {
+		int numberOfInvocations = annotation.value().length; //TODO possible indirect annotation
+		for (int i = 0; i < numberOfInvocations; i++) {
 			SingleTestMethod singleTestMethod = new SingleTestMethod(parametrizedMethod.getMethod(), i);
 			ParametrizedFrameworkMethod parametrizedFrameworkMethod = new ParametrizedFrameworkMethod(singleTestMethod, executor);
 			result.add(parametrizedFrameworkMethod);
 		}
 	}
 
-	public List<FrameworkMethod> computeAllTestMethods(TestClass testClass2, List<FrameworkMethod> list) {
+	public List<FrameworkMethod> computeAllTestMethods(TestClass testClass, List<FrameworkMethod> list) {
 		ArrayList<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
-		List<FrameworkMethod> annotatedMethods = getParametrizedLeafMethods(testClass2);
+		List<FrameworkMethod> annotatedMethods = getParametrizedLeafMethods(testClass);
 		result.addAll(annotatedMethods);
 		result.addAll(list);
 		return result;
@@ -66,7 +71,7 @@ public class RunnerDelegator {
 	public static List<FrameworkMethod> getClassChildrenToDescribe(TestClass testClass, List<FrameworkMethod> standardTestMethods) {
 		List<FrameworkMethod> result = new ArrayList<FrameworkMethod>();
 		result.addAll(standardTestMethods);
-		List<FrameworkMethod> annotatedMethods = testClass.getAnnotatedMethods(TestWith.class);
+		List<FrameworkMethod> annotatedMethods = getAnnotatedMethods(testClass);
 		result.addAll(annotatedMethods);
 		return result;
 	}
