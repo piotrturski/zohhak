@@ -31,8 +31,8 @@ public class RunnerDelegator {
 	}
 
 	private void addInvocationsOfSingleParameterizedMethod(List<FrameworkMethod> result, FrameworkMethod parametrizedMethod) {
-		TestWith annotation = parametrizedMethod.getAnnotation(TestWith.class);
-		int numberOfInvocations = annotation.value().length; //TODO possible indirect annotation
+		String[] parameters = getParameters(parametrizedMethod);
+		int numberOfInvocations = parameters.length;
 		for (int i = 0; i < numberOfInvocations; i++) {
 			SingleTestMethod singleTestMethod = new SingleTestMethod(parametrizedMethod.getMethod(), i);
 			ParametrizedFrameworkMethod parametrizedFrameworkMethod = new ParametrizedFrameworkMethod(singleTestMethod, executor);
@@ -60,12 +60,16 @@ public class RunnerDelegator {
 	public static Description describeParametrizedMethodWithChildren(FrameworkMethod method, TestClass testClass) {
 		// Description parent = Description.createTestDescription(testClass, method.getName());
 		Description parent = RunnerDelegator.describeParentParametrizedMethod(method);
-		String[] parameters = method.getAnnotation(TestWith.class).value();
+		String[] parameters = getParameters(method);
 		for (String parametersLine : parameters) {
 			Description childDescription = RunnerDelegator.prepareDescription(testClass.getJavaClass(), method.getName(), parametersLine);
 			parent.addChild(childDescription);
 		}
 		return parent;
+	}
+
+	private static String[] getParameters(FrameworkMethod method) {
+		return method.getAnnotation(TestWith.class).value();
 	}
 
 	public static List<FrameworkMethod> getClassChildrenToDescribe(TestClass testClass, List<FrameworkMethod> standardTestMethods) {
