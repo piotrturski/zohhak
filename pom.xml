@@ -4,13 +4,20 @@
 	<groupId>org.zohhak</groupId>
 	<artifactId>zohhak</artifactId>
 	<name>Zohhak</name>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-beta1-SNAPSHOT</version>
 
 	<scm>
-		<connection>scm:git:file:///home/jojo/git/mintaka</connection>
-		<developerConnection>scm:git:file:///home/jojo/git/mintaka
-		</developerConnection>
+		<connection>scm:git:http://code.google.com/p/zohhak</connection>
+		<developerConnection>scm:git:https://code.google.com/p/zohhak/</developerConnection>
+		<url>http://code.google.com/p/zohhak/source/browse/</url>
 	</scm>
+
+	<licenses>
+		<license>
+			<name>LGPL 3.0 license</name>
+			<url>http://www.opensource.org/licenses/lgpl-3.0.html</url>
+		</license>
+	</licenses>
 
 	<build>
 		<plugins>
@@ -19,8 +26,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.5</source>
+					<target>1.5</target>
 
 					<compilerArgument>-Xlint:all</compilerArgument>
 
@@ -127,7 +134,7 @@
 							<source>${tattletale-source-directory}</source>
 							<destination>${tattletale-destination-directory}</destination>
 							<profiles>
-								<profile>java6</profile>
+								<profile>java5</profile>
 							</profiles>
 							<!-- <reports> -->
 							<!-- <report>circulardependency</report> -->
