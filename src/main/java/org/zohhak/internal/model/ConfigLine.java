@@ -1,8 +1,8 @@
 package org.zohhak.internal.model;
 
-import org.zohhak.Configuration;
-import org.zohhak.Configure;
-import org.zohhak.TestWith;
+import org.zohhak.api.Configuration;
+import org.zohhak.api.Configure;
+import org.zohhak.api.TestWith;
 
 /**
  * one line of configuration. from @Configure, @TestWith and @Configuration?

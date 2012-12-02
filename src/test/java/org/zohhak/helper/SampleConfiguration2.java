@@ -1,6 +1,6 @@
 package org.zohhak.helper;
 
-import org.zohhak.DefaultConfiguration;
+import org.zohhak.api.DefaultConfiguration;
 
 public class SampleConfiguration2 extends DefaultConfiguration {
 

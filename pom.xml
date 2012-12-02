@@ -1,23 +1,40 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 	<groupId>org.zohhak</groupId>
 	<artifactId>zohhak</artifactId>
-	<name>Zohhak</name>
+	<packaging>jar</packaging>
 	<version>1.0.0-beta1-SNAPSHOT</version>
 
+	<name>Zohhak</name>
+	<description>Zohhak aims to make parameterized junit tests easy</description>
+	<url>http://code.google.com/p/zohhak/</url>
+
 	<scm>
-		<connection>scm:git:http://code.google.com/p/zohhak</connection>
+		<connection>scm:git:http://code.google.com/p/zohhak/</connection>
 		<developerConnection>scm:git:https://code.google.com/p/zohhak/</developerConnection>
-		<url>http://code.google.com/p/zohhak/source/browse/</url>
+		<url>http://code.google.com/p/zohhak/source/browse</url>
 	</scm>
 
 	<licenses>
 		<license>
-			<name>LGPL 3.0 license</name>
-			<url>http://www.opensource.org/licenses/lgpl-3.0.html</url>
+			<name>LGPL 3.0</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
 		</license>
 	</licenses>
+
+	<developers>
+		<developer>
+			<name>Piotr Turski</name>
+			<email>piotr.turski@gmail.com</email>
+		</developer>
+	</developers>
 
 	<build>
 		<plugins>
@@ -202,7 +219,7 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>1.9.5-rc1</version>
+			<version>1.9.5</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

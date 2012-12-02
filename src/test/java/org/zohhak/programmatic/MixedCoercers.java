@@ -1,6 +1,6 @@
 package org.zohhak.programmatic;
 
-import org.zohhak.TestWith;
+import org.zohhak.api.TestWith;
 import org.zohhak.helper.SampleType;
 import org.zohhak.helper.SecondCoercer;
 

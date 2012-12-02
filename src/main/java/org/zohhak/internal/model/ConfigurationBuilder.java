@@ -5,7 +5,7 @@ import static java.util.Arrays.asList;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.zohhak.ConfigurationDefinition;
+import org.zohhak.api.ConfigurationDefinition;
 
 
 

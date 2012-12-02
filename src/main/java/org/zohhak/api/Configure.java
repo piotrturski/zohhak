@@ -1,4 +1,4 @@
-package org.zohhak;
+package org.zohhak.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -3,7 +3,7 @@ package org.zohhak.internal.model;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
-import org.zohhak.TestWith;
+import org.zohhak.api.TestWith;
 
 
 public class SingleTestMethod {

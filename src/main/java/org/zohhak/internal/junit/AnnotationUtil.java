@@ -3,8 +3,8 @@ package org.zohhak.internal.junit;
 import java.lang.annotation.Annotation;
 
 import org.junit.runners.model.FrameworkMethod;
-import org.zohhak.Configure;
-import org.zohhak.TestWith;
+import org.zohhak.api.Configure;
+import org.zohhak.api.TestWith;
 
 
 public class AnnotationUtil {

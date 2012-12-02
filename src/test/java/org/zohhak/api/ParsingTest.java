@@ -1,13 +1,13 @@
-package org.zohhak;
+package org.zohhak.api;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 
 import org.junit.runner.RunWith;
-import org.zohhak.TestWith;
-import org.zohhak.runners.MintakaRunner;
+import org.zohhak.api.TestWith;
+import org.zohhak.api.runners.ZohhakRunner;
 
-@RunWith(MintakaRunner.class)
+@RunWith(ZohhakRunner.class)
 public class ParsingTest {
 
 	@TestWith(value=" \t ")

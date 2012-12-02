@@ -3,9 +3,9 @@ package org.zohhak.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.zohhak.Configuration;
-import org.zohhak.Configure;
-import org.zohhak.DefaultConfiguration;
+import org.zohhak.api.Configuration;
+import org.zohhak.api.Configure;
+import org.zohhak.api.DefaultConfiguration;
 import org.zohhak.internal.model.ConfigLine;
 import org.zohhak.internal.model.ConfigurationBuilder;
 import org.zohhak.internal.model.SingleTestMethod;

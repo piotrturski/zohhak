@@ -1,14 +1,14 @@
-package org.zohhak;
+package org.zohhak.api;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.offset;
 
 import org.junit.runner.RunWith;
-import org.zohhak.TestWith;
+import org.zohhak.api.TestWith;
+import org.zohhak.api.runners.ZohhakRunner;
 import org.zohhak.helper.SampleEnum;
-import org.zohhak.runners.MintakaRunner;
 
-@RunWith(MintakaRunner.class)
+@RunWith(ZohhakRunner.class)
 public class CoercingTest {
 	
 	@TestWith("ala")
@@ -44,6 +44,11 @@ public class CoercingTest {
 	@TestWith("6")
 	public void coerceObject(Object param) {
 		assertThat(param).isInstanceOf(String.class).isEqualTo("6");
+	}
+	
+	@TestWith("6")
+	public void coerceAssignableNumber(Number param) {
+		assertThat(param.intValue()).isEqualTo(6);
 	}
 	
 	@TestWith("ala")

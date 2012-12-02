@@ -1,4 +1,4 @@
-package org.zohhak;
+package org.zohhak.api;
 
 public interface ConfigurationDefinition {
 

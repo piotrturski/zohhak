@@ -10,10 +10,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.zohhak.ProgrammaticRunTest;
-import org.zohhak.TestWith;
+import org.zohhak.api.ProgrammaticRunTest;
+import org.zohhak.api.TestWith;
+import org.zohhak.api.runners.ZohhakRunner;
 import org.zohhak.ide.EclipseIntegration;
-import org.zohhak.runners.MintakaRunner;
 
 /**
  * This test is not supposed to be run on its own (under IDE or maven). 
@@ -23,7 +23,7 @@ import org.zohhak.runners.MintakaRunner;
  * if integration with JUnit (annotation discovery, method invocation, reporting etc.) is working properly.
  *
  */
-@RunWith(MintakaRunner.class)
+@RunWith(ZohhakRunner.class)
 public class BasicAnnotationsUsage {
 
 	@Before public void initParams() {}

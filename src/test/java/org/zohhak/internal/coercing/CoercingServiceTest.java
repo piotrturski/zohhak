@@ -11,14 +11,14 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.zohhak.TestWith;
+import org.zohhak.api.TestWith;
+import org.zohhak.api.runners.ZohhakRunner;
 import org.zohhak.helper.CoercionCandidates;
 import org.zohhak.internal.coercing.CoercingService;
 import org.zohhak.internal.coercing.Coercion;
 import org.zohhak.internal.coercing.CoercionHandler;
-import org.zohhak.runners.MintakaRunner;
 
-@RunWith(MintakaRunner.class)
+@RunWith(ZohhakRunner.class)
 public class CoercingServiceTest {
 
 	CoercingService coercingService = new CoercingService();

@@ -1,16 +1,16 @@
-package org.zohhak;
+package org.zohhak.api;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.junit.runner.RunWith;
-import org.zohhak.Coercion;
-import org.zohhak.TestWith;
+import org.zohhak.api.Coercion;
+import org.zohhak.api.TestWith;
+import org.zohhak.api.runners.ZohhakRunner;
 import org.zohhak.helper.SampleType;
 import org.zohhak.helper.SampleType2;
 import org.zohhak.helper.SecondCoercer;
-import org.zohhak.runners.MintakaRunner;
 
-@RunWith(MintakaRunner.class)
+@RunWith(ZohhakRunner.class)
 public class ExtendedCoercerTest {
 
 	@TestWith(value="a", coercer=SecondCoercer.class)

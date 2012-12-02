@@ -1,6 +1,6 @@
 package org.zohhak.helper;
 
-import org.zohhak.Configuration;
+import org.zohhak.api.Configuration;
 
 public class ConstantConfiguration implements Configuration {
 

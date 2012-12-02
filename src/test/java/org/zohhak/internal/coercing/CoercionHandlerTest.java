@@ -6,7 +6,7 @@ import java.util.List;
 
 
 import org.junit.Test;
-import org.zohhak.Coercion;
+import org.zohhak.api.Coercion;
 import org.zohhak.internal.coercing.CoercionHandler;
 
 public class CoercionHandlerTest {

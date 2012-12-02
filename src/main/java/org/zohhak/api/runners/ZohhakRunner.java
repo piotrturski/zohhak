@@ -1,4 +1,4 @@
-package org.zohhak.runners;
+package org.zohhak.api.runners;
 
 import static org.zohhak.internal.junit.RunnerDelegator.*;
 
@@ -19,11 +19,11 @@ import org.zohhak.internal.junit.RunnerDelegator;
  * 
  *
  */
-public class MintakaRunner extends BlockJUnit4ClassRunner {
+public class ZohhakRunner extends BlockJUnit4ClassRunner {
 
 	protected List<FrameworkMethod> cachedMethods;
 	
-	public MintakaRunner(Class<?> klass) throws InitializationError {
+	public ZohhakRunner(Class<?> klass) throws InitializationError {
 		super(klass);
 	}
 

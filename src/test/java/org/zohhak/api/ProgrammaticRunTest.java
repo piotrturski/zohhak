@@ -1,4 +1,4 @@
-package org.zohhak;
+package org.zohhak.api;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -13,13 +13,13 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
+import org.zohhak.api.runners.ZohhakRunner;
 import org.zohhak.helper.SampleType;
 import org.zohhak.programmatic.BadParameterProcessing;
 import org.zohhak.programmatic.BasicAnnotationsUsage;
 import org.zohhak.programmatic.ClassLevelConfiguration;
 import org.zohhak.programmatic.ClassLevelSplitter;
 import org.zohhak.programmatic.MixedCoercers;
-import org.zohhak.runners.MintakaRunner;
 
 
 public class ProgrammaticRunTest {
@@ -119,7 +119,7 @@ public class ProgrammaticRunTest {
 			RunListener listener= result.createListener();
 			notifier.addListener(listener);
 			
-			Request request = Request.runner(new MintakaRunner(clazz));
+			Request request = Request.runner(new ZohhakRunner(clazz));
 			if (StringUtils.isNotBlank(methodName)) { 
 				Description methodDescription = Description.createTestDescription(clazz, methodName);
 				request = request.filterWith(methodDescription);

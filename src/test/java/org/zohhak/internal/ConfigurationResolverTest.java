@@ -3,13 +3,13 @@ package org.zohhak.internal;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.junit.runner.RunWith;
-import org.zohhak.Configure;
-import org.zohhak.DefaultConfiguration;
-import org.zohhak.TestWith;
+import org.zohhak.api.Configure;
+import org.zohhak.api.DefaultConfiguration;
+import org.zohhak.api.TestWith;
+import org.zohhak.api.runners.ZohhakRunner;
 import org.zohhak.helper.ConstantConfiguration.ConstantCoercer;
-import org.zohhak.runners.MintakaRunner;
 
-@RunWith(MintakaRunner.class)
+@RunWith(ZohhakRunner.class)
 @Configure(coercer={}, separator="1")
 public class ConfigurationResolverTest {
 

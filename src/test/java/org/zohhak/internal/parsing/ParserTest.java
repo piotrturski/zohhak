@@ -5,11 +5,11 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.zohhak.TestWith;
+import org.zohhak.api.TestWith;
+import org.zohhak.api.runners.ZohhakRunner;
 import org.zohhak.internal.parsing.Parser;
-import org.zohhak.runners.MintakaRunner;
 
-@RunWith(MintakaRunner.class)
+@RunWith(ZohhakRunner.class)
 public class ParserTest {
 
 	private static final String QUOTE = "'";

@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.TestClass;
-import org.zohhak.TestWith;
+import org.zohhak.api.TestWith;
 import org.zohhak.internal.Executor;
 import org.zohhak.internal.IoCContainer;
 import org.zohhak.internal.model.SingleTestMethod;

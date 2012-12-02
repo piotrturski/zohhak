@@ -10,9 +10,9 @@ import org.junit.runner.Runner;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
+import org.zohhak.api.runners.ZohhakRunner;
 import org.zohhak.programmatic.BasicAnnotationsUsage;
 import org.zohhak.programmatic.StandardTest;
-import org.zohhak.runners.MintakaRunner;
 
 public class EclipseIntegration {
 
@@ -44,7 +44,7 @@ public class EclipseIntegration {
 	
 	@Test
 	public void checkDescription() throws InitializationError {
-		Runner runner = new MintakaRunner(BasicAnnotationsUsage.class);
+		Runner runner = new ZohhakRunner(BasicAnnotationsUsage.class);
 		Description description = runner.getDescription();
 		
 		assertThat(description.getChildren()).hasSize(5);

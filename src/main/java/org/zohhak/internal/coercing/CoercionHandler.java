@@ -26,7 +26,7 @@ class CoercionHandler {
 		List<Coercion> foundCoercions = new ArrayList<Coercion>();
 		Method[] methods = testClass.getMethods();
 		for (Method method : methods) {
-			if (method.getAnnotation(org.zohhak.Coercion.class) != null && isValidCoercionMethod(method)) {
+			if (method.getAnnotation(org.zohhak.api.Coercion.class) != null && isValidCoercionMethod(method)) {
 				foundCoercions.add(new Coercion(method));
 			}
 		}
