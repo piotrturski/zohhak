@@ -195,7 +195,8 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit-dep</artifactId>
-			<version>[4.5, 4.10]</version>
+			<version>4.10</version>
+			<!-- specific version instead of range because of 'null version' problem -->
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
