@@ -9,7 +9,7 @@
 	<groupId>com.googlecode.zohhak</groupId>
 	<artifactId>zohhak</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0-beta1</version>
+	<version>1.0.0-beta2-SNAPSHOT</version>
 
 	<name>Zohhak</name>
 	<description>Zohhak aims to make parameterized junit tests easy</description>
