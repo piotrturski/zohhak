@@ -42,7 +42,7 @@ public class CoercingService {
 	Object coerceParameter(Type type, String stringToParse, List<Coercion> methodCoercions) {
 		log.log("coercing \""+stringToParse+"\" to "+type);
 		try {
-			if ("null".equalsIgnoreCase(stringToParse)) {
+			if (stringToParse == null) {
 				return null;
 			}
 			if (type instanceof Class) {

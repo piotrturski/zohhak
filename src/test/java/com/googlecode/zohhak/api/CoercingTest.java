@@ -34,6 +34,11 @@ public class CoercingTest {
 		assertThat(sampleType).isNull();
 	}
 	
+	@TestWith(" 'null' ")
+	public void coerceNotNull(String notNull) {
+		assertThat(notNull).isEqualTo("null");
+	}
+	
 	@TestWith("7")
 	public void coerceLong(Long param) {
 		assertThat(param).isEqualTo(7);		

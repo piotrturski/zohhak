@@ -18,11 +18,16 @@ public class Parser {
 		String splittingRegexp = WHITE_CHARS + separator + WHITE_CHARS;
 		String[] splitted = parametersLine.trim().split(splittingRegexp, NEGATIVE);
 		for (int i = 0; i < splitted.length; i++) {
-			splitted[i] = removeEdges(splitted[i], quotingMarker);
+			splitted[i] = transformParameter(splitted[i], quotingMarker);
 		}
 		return splitted;
 	}
 
+	String transformParameter(String trimmedInput, String quotingMarker) {
+		boolean isNullExpected = "null".equalsIgnoreCase(trimmedInput);
+		return isNullExpected ? null : removeEdges(trimmedInput, quotingMarker);
+	}
+	
 	String removeEdges(String input, String toRemove) {
 		String frontRemoved = StringUtils.removeStart(input, toRemove);
 		return StringUtils.removeEnd(frontRemoved, toRemove);
