@@ -2,6 +2,7 @@ package com.googlecode.zohhak.api.runners;
 
 import static com.googlecode.zohhak.internal.junit.RunnerDelegator.*;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 
@@ -44,6 +45,16 @@ public class ZohhakRunner extends BlockJUnit4ClassRunner {
 		super.filter(OrParentFilter.decorate(filter));
 	}
 
+	/**
+	 * ParrentRunner.getRunnerAnnotations() was introduced in junit 4.10
+	 * for earlier versions, this method must be manually defined
+	 * 
+	 * @since 1.0.1
+	 */
+	protected Annotation[] getRunnerAnnotations() {
+		return getTestClass().getAnnotations();
+	}
+	
 	@Override
 	public Description getDescription() {
 		Description description = Description.createSuiteDescription(getTestClass().getName(), getRunnerAnnotations());
