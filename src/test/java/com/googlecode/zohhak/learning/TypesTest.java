@@ -1,7 +1,7 @@
 package com.googlecode.zohhak.learning;
 
+import static org.apache.commons.lang3.ClassUtils.primitiveToWrapper;
 import static org.junit.Assert.*;
-import static org.apache.tapestry5.plastic.PlasticUtils.toWrapperType;
 
 import org.junit.Test;
 
@@ -22,11 +22,11 @@ public class TypesTest {
 	}
 	
 	@Test
-	public void plasticUtilsLearningTest() {
-		assertEquals(Integer.class, toWrapperType(int.class));
-		assertEquals(Integer.class, toWrapperType(Integer.class));
+	public void classUtilsLearningTest() {
+		assertEquals(Integer.class, primitiveToWrapper(int.class));
+		assertEquals(Integer.class, primitiveToWrapper(Integer.class));
 		
-		assertEquals(Runnable.class, toWrapperType(Runnable.class));
+		assertEquals(Runnable.class, primitiveToWrapper(Runnable.class));
 	}
 	
 }

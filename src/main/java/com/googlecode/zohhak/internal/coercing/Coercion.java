@@ -2,7 +2,7 @@ package com.googlecode.zohhak.internal.coercing;
 
 import java.lang.reflect.Method;
 
-import org.apache.tapestry5.plastic.PlasticUtils;
+import org.apache.commons.lang3.ClassUtils;
 
 class Coercion {
 
@@ -11,7 +11,7 @@ class Coercion {
 
 	public Coercion(Method coercionMethod) {
 		this.coercionMethod = coercionMethod;
-		targetType = PlasticUtils.toWrapperType(coercionMethod.getReturnType());
+		targetType = ClassUtils.primitiveToWrapper(coercionMethod.getReturnType());
 	}
 
 	public Class<?> getTargetType() {

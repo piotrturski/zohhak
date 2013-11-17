@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 
-import org.apache.tapestry5.plastic.PlasticUtils;
+import org.apache.commons.lang3.ClassUtils;
 
 import com.googlecode.zohhak.internal.model.Logger;
 import com.googlecode.zohhak.internal.model.SingleTestMethod;
@@ -46,7 +46,7 @@ public class CoercingService {
 				return null;
 			}
 			if (type instanceof Class) {
-				Class<?> targetType = PlasticUtils.toWrapperType((Class<?>) type);
+				Class<?> targetType = ClassUtils.primitiveToWrapper((Class<?>) type);
 
 				Result execution = tryToUseCoercions(targetType, stringToParse, methodCoercions);
 				if (execution.succeeded()) {
