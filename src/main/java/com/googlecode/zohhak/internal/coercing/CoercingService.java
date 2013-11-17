@@ -5,10 +5,8 @@ import static com.googlecode.zohhak.internal.coercing.Result.FAILURE;
 import java.lang.reflect.Type;
 import java.util.List;
 
-
 import org.apache.commons.lang3.ClassUtils;
 
-import com.googlecode.zohhak.internal.model.Logger;
 import com.googlecode.zohhak.internal.model.SingleTestMethod;
 
 /* start with string. add everything that starts from string. 
@@ -23,10 +21,8 @@ import com.googlecode.zohhak.internal.model.SingleTestMethod;
 public class CoercingService {
 
 	private CoercionHandler coercionHandler = new CoercionHandler();
-	private Logger log = new Logger();
 
 	public Object[] coerceParameters(SingleTestMethod method, String[] splitedParameters) {
-		log.log("coercing method "+method);
 		List<Coercion> methodCoercions = coercionHandler.findCoercionsForMethod(method);
 		int numberOfParams = method.getArity();
 
@@ -40,7 +36,6 @@ public class CoercingService {
 	}
 
 	Object coerceParameter(Type type, String stringToParse, List<Coercion> methodCoercions) {
-		log.log("coercing \""+stringToParse+"\" to "+type);
 		try {
 			if (stringToParse == null) {
 				return null;
