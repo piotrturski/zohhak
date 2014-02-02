@@ -1,6 +1,6 @@
 package com.googlecode.zohhak.programmatic;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.googlecode.zohhak.api.Configure;
 import com.googlecode.zohhak.api.TestWith;
