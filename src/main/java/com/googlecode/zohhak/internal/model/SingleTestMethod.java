@@ -18,7 +18,7 @@ public class SingleTestMethod {
 		this.realMethod = realMethod;
 		annotation = realMethod.getAnnotation(TestWith.class);
 		parametersLine = annotation.value()[lineIndex];
-		genericParameterTypes = realMethod.getGenericParameterTypes();
+		genericParameterTypes = realMethod.getParameterTypes();
 	}
 
 	public Type getParameterType(int nr) {

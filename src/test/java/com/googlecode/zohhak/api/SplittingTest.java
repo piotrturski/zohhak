@@ -64,10 +64,4 @@ public class SplittingTest {
 		assertThat(b).isEqualTo("b");
 	}
 
-	@TestWith("1")
-	@Ignore
-	public void varargs1(int... ints) {
-		assertThat(ints).startsWith(1).hasSize(1);
-	}
-	
 }

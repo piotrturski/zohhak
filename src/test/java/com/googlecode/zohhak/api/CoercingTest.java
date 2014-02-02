@@ -50,8 +50,7 @@ public class CoercingTest {
 	}
 	
 	@TestWith("6")
-	public void coerceObject(Object param) {
-		assertThat(param).isInstanceOf(String.class).isEqualTo("6");
+	public void should_accept_object_type(Object param) {
 	}
 	
 	@TestWith("6")

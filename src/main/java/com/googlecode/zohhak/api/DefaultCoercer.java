@@ -15,6 +15,7 @@ public class DefaultCoercer {
 	}
 	
 	public char toChar(String input) {
+		if (input.length() != 1) throw new IllegalArgumentException(input); 
 		return input.charAt(0);
 	}
 	
