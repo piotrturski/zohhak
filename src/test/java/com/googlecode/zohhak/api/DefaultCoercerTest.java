@@ -11,7 +11,7 @@ import com.googlecode.zohhak.helper.SampleEnum;
 import com.googlecode.zohhak.helper.SampleType;
 
 @RunWith(ZohhakRunner.class)
-public class CoercingTest {
+public class DefaultCoercerTest {
 	
 	@TestWith("ala")
 	public void coerceString(String param) {

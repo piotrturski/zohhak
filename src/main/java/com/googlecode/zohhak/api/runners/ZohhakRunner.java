@@ -47,7 +47,7 @@ public class ZohhakRunner extends BlockJUnit4ClassRunner {
 
 	/**
 	 * ParrentRunner.getRunnerAnnotations() was introduced in junit 4.10
-	 * for earlier versions, this method must be manually defined
+	 * for earlier versions this method must be manually defined
 	 * 
 	 * @since 1.0.1
 	 */
