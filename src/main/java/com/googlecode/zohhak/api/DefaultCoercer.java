@@ -1,5 +1,8 @@
 package com.googlecode.zohhak.api;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 public class DefaultCoercer {
 
 	public String toString(String input) {
@@ -42,5 +45,13 @@ public class DefaultCoercer {
 			return parsed;
 		}
 		throw new IllegalArgumentException(input);
+	}
+	
+	public BigInteger toBigInteger(String input) {
+		return new BigInteger(input);
+	}
+	
+	public BigDecimal toBigDecimal(String input) {
+		return new BigDecimal(input);
 	}
 }

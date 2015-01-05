@@ -3,6 +3,9 @@ package com.googlecode.zohhak.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.offset;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import org.junit.runner.RunWith;
 
 import com.googlecode.zohhak.api.TestWith;
@@ -83,6 +86,16 @@ public class DefaultCoercerTest {
 		assertThat(d).isEqualTo(2.3, offset(0.0001));
 		assertThat(l).isEqualTo(7);
 		assertThat(bool).isTrue();
+	}
+	
+	@TestWith("9999999999999999999999999999999999999")
+	public void should_coerce_to_bigInteger(BigInteger bigInteger) {
+		assertThat(bigInteger).isEqualTo(new BigInteger("9999999999999999999999999999999999999"));
+	}
+	
+	@TestWith("999999999999999999.9999999999999999999")
+	public void should_coerce_to_bigDecimal(BigDecimal bigDecimal) {
+		assertThat(bigDecimal).isEqualTo(new BigDecimal("999999999999999999.9999999999999999999"));
 	}
 	
 }
