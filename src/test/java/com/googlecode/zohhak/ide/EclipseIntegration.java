@@ -1,5 +1,6 @@
 package com.googlecode.zohhak.ide;
 
+import static com.googlecode.zohhak.testutils.JUnitLauncher.runJUnitRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
@@ -7,8 +8,6 @@ import org.junit.runner.Description;
 import org.junit.runner.Request;
 import org.junit.runner.Result;
 import org.junit.runner.Runner;
-import org.junit.runner.notification.RunListener;
-import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
@@ -18,9 +17,8 @@ import com.googlecode.zohhak.programmatic.StandardTest;
 public class EclipseIntegration {
 
 	@Test
-	public void classRequestFromSource() {
-		Request request = Request.classes(BasicAnnotationsUsage.class);
-		Result result = executeRequest(request);
+	public void classRequestFromSourceAndRerunFromTestResultWindow() {
+		Result result = executeEclipseRequest(BasicAnnotationsUsage.class);
 		
 		assertThat(result.getFailureCount()).isEqualTo(1);
 		assertThat(result.getIgnoreCount()).isEqualTo(3);
@@ -29,7 +27,7 @@ public class EclipseIntegration {
 	
 	@Test
 	public void methodRequestFromSource() {
-		Result result = executeRequest(BasicAnnotationsUsage.class, "methodWithParam");
+		Result result = executeEclipseRequest(BasicAnnotationsUsage.class, "methodWithParam");
 		
 		assertThat(result.getFailures()).isEmpty();
 		assertThat(result.getRunCount()).isEqualTo(2);
@@ -37,10 +35,24 @@ public class EclipseIntegration {
 
 	@Test
 	public void methodRerunFromTestResultWindow() {
-		Result result = executeRequest(BasicAnnotationsUsage.class, "methodWithParam [2]");
+		Result result = executeEclipseRequest(BasicAnnotationsUsage.class, "methodWithParam [2]");
 		
 		assertThat(result.getFailures()).isEmpty();
 		assertThat(result.getRunCount()).isEqualTo(1);
+	}
+	
+	@Test
+	public void should_fail_when_nonexisting_parameter_requested() {
+		Result result = executeEclipseRequest(BasicAnnotationsUsage.class, "methodWithParam [nonexisting]");
+		
+		assertThatOnlyMethodNotFound(result);
+	}
+	
+	@Test
+	public void should_fail_when_nonexisting_method_requested() {
+		Result result = executeEclipseRequest(BasicAnnotationsUsage.class, "nonExistingMethod [2]");
+		
+		assertThatOnlyMethodNotFound(result);
 	}
 	
 	@Test
@@ -53,7 +65,7 @@ public class EclipseIntegration {
 	
 	@Test
 	public void learningBlockRunnerWithMethod() {
-		Result result = executeRequest(StandardTest.class, "method1");
+		Result result = executeEclipseRequest(StandardTest.class, "method1");
 		
 		assertThat(result.getFailures()).isEmpty();
 		assertThat(result.getRunCount()).isEqualTo(1);
@@ -61,37 +73,43 @@ public class EclipseIntegration {
 
 	@Test
 	public void learningBlockRunnerWithClass() {
-		Request request = Request.classes(StandardTest.class);
-		Result result = executeRequest(request);
+		Result result = executeEclipseRequest(StandardTest.class);
 		
 		assertThat(result.getFailures()).isEmpty();
 		assertThat(result.getRunCount()).isEqualTo(2);
 	}
 	
-	public static Result executeClass(Class<?> clazz) {
-		Request request = Request.classes(clazz);
-		return executeRequest(request);
+	private static Result executeEclipseRequest(Class<?> clazz) {
+		Request request = eclipseClassRequest(clazz);
+		return runJUnitRequest(request);
 	}
 	
-	private Result executeRequest(final Class<?> clazz, String methodName) {
-		return executeRequest(createRequest(clazz, methodName));
+	private static Result executeEclipseRequest(Class<?> clazz, String methodName) {
+		Request request = eclipseMethodRequest(clazz, methodName);
+		return runJUnitRequest(request);
 	}
-	
-	private static Result executeRequest(Request request) {
-		RunNotifier notifier = new RunNotifier();
 
-		Result result= new Result();
-		RunListener listener= result.createListener();
-		notifier.addListener(listener);
-		
-		Runner runner = request.getRunner();
-		runner.run(notifier);
-		return result;
+	/**
+	 *  the way eclipse creates request 
+	 */
+	private static Request eclipseClassRequest(Class<?> clazz) {
+		return Request.classes(clazz);
 	}
 	
-	static public Request createRequest(final Class<?> clazz, String methodName) {
-		Description method= Description.createTestDescription(clazz, methodName);
+	/**
+	 *  the way eclipse creates request 
+	 */
+	private static Request eclipseMethodRequest(Class<?> clazz, String methodName) {
+		Description method = Description.createTestDescription(clazz, methodName);
 		return Request.classWithoutSuiteMethod(clazz).filterWith(method);
 	}
 	
+	
+	private void assertThatOnlyMethodNotFound(Result result) {
+		assertThat(result.getRunCount()).isEqualTo(1);
+		assertThat(result.getFailureCount()).isEqualTo(1);
+		assertThat(result.getFailures().get(0).getTestHeader())
+									.containsIgnoringCase("initializationError");
+		assertThat(result.getFailures().get(0).getMessage()).containsIgnoringCase("no tests found");
+	}
 }

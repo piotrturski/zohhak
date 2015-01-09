@@ -10,6 +10,9 @@ import org.junit.runner.RunWith;
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
 import com.googlecode.zohhak.helper.CustomTest;
 
+/**
+ * 'custom annotation' functionality is not yet implemented 
+ */
 //@RunWith(ZohhakRunner.class)
 public class CustomAnnotationTest {
 

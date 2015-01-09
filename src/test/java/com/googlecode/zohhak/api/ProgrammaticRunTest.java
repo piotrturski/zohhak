@@ -1,33 +1,27 @@
 package com.googlecode.zohhak.api;
 
+import static com.googlecode.zohhak.testutils.JUnitLauncher.runWithZohhak;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
-import org.junit.runner.Request;
 import org.junit.runner.Result;
-import org.junit.runner.Runner;
 import org.junit.runner.notification.Failure;
-import org.junit.runner.notification.RunListener;
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.model.InitializationError;
 
-import com.googlecode.zohhak.api.runners.ZohhakRunner;
 import com.googlecode.zohhak.helper.SampleType;
 import com.googlecode.zohhak.programmatic.BadParameterProcessing;
 import com.googlecode.zohhak.programmatic.BasicAnnotationsUsage;
 import com.googlecode.zohhak.programmatic.ClassLevelConfiguration;
 import com.googlecode.zohhak.programmatic.ClassLevelSplitter;
 import com.googlecode.zohhak.programmatic.MixedCoercers;
+import com.googlecode.zohhak.testutils.JUnitLauncher;
 
 
 public class ProgrammaticRunTest {
 
 	@Test
 	public void runJunit() {
-		Result runResult = JUnitCore.runClasses(BasicAnnotationsUsage.class);
+		Result runResult = runWithZohhak(BasicAnnotationsUsage.class);
 		assertThat(runResult.getFailureCount()).isEqualTo(1);
 		assertThat(runResult.getIgnoreCount()).isEqualTo(3);
 		assertThat(runResult.getRunCount()).isEqualTo(4);
@@ -46,6 +40,12 @@ public class ProgrammaticRunTest {
 		Failure failure = coercionFailureFromSingleMethodExecution(BadParameterProcessing.class, "wrongBooleanFormat");
 		assertThat(failure.getException()).hasMessageContaining("boolean");
 	}
+	
+	@Test
+	public void should_fail_when_wrong_char_format() {
+		Failure failure = coercionFailureFromSingleMethodExecution(BadParameterProcessing.class, "wrongCharFormat");
+		assertThat(failure.getException()).hasMessageContaining("char");
+	}
 
 	@Test
 	public void wrongEnumFormat() {
@@ -55,7 +55,7 @@ public class ProgrammaticRunTest {
 	
 	@Test
 	public void tooManyParameters() {
-		Result result = runClassWithForcedRunner(BadParameterProcessing.class, "tooManyParameters");
+		Result result = runWithZohhak(BadParameterProcessing.class, "tooManyParameters");
 		assertThat(result.getFailureCount()).isEqualTo(1);
 		assertThat(result.getRunCount()).isEqualTo(1);
 		assertThat(result.getFailures().get(0).getException()).
@@ -64,7 +64,7 @@ public class ProgrammaticRunTest {
 	
 	@Test
 	public void tooFewParameters() {
-		Result result = runClassWithForcedRunner(BadParameterProcessing.class, "tooFewParameters");
+		Result result = runWithZohhak(BadParameterProcessing.class, "tooFewParameters");
 		assertThat(result.getFailureCount()).isEqualTo(1);
 		assertThat(result.getRunCount()).isEqualTo(1);
 		assertThat(result.getFailures().get(0).getException()).
@@ -73,21 +73,21 @@ public class ProgrammaticRunTest {
 	
 	@Test
 	public void coercerCache() {
-		Result result = runClassWithForcedRunner(MixedCoercers.class, null);
+		Result result = runWithZohhak(MixedCoercers.class);
 		assertThat(result.getFailureCount()).isEqualTo(2);
 		assertThat(result.getRunCount()).isEqualTo(3);
 	}		
 	
 	@Test
 	public void classLevelConfiguration() {
-		Result result = runClassWithForcedRunner(ClassLevelConfiguration.class, "samleType");
+		Result result = JUnitLauncher.runWithZohhak(ClassLevelConfiguration.class, "samleType");
 		assertThat(result.getFailureCount()).isEqualTo(0);
 		assertThat(result.getRunCount()).isEqualTo(1);
 	}
 	
 	@Test
 	public void classLevelSplitter() {
-		Result result = runClassWithForcedRunner(ClassLevelSplitter.class, null);
+		Result result = runWithZohhak(ClassLevelSplitter.class);
 		assertThat(result.getFailureCount()).isEqualTo(1);
 		assertThat(result.getRunCount()).isEqualTo(3);
 		
@@ -95,7 +95,7 @@ public class ProgrammaticRunTest {
 	}
 	
 	static private Failure coercionFailureFromSingleMethodExecution(Class<?> classToTest, String methodToTest) {
-		Result result = runClassWithForcedRunner(classToTest, methodToTest);
+		Result result = runWithZohhak(classToTest, methodToTest);
 		
 		assertThat(result.getRunCount()).isEqualTo(1);
 		assertThat(result.getFailures()).hasSize(1);
@@ -109,29 +109,6 @@ public class ProgrammaticRunTest {
 							.hasMessageContaining("annot interpret string")
 							.isInstanceOf(IllegalArgumentException.class);
 		return failure;
-	}
-	
-	
-	static public Result runClassWithForcedRunner(Class<?> clazz, String methodName) {
-		try {
-			RunNotifier notifier = new RunNotifier();
-			
-			Result result= new Result();
-			RunListener listener= result.createListener();
-			notifier.addListener(listener);
-			
-			Request request = Request.runner(new ZohhakRunner(clazz));
-			if (StringUtils.isNotBlank(methodName)) { 
-				Description methodDescription = Description.createTestDescription(clazz, methodName);
-				request = request.filterWith(methodDescription);
-			}
-			Runner runner = request.getRunner();
-			runner.run(notifier);
-			return result;
-			
-		} catch (InitializationError e) {
-			throw new RuntimeException(e);
-		}
 	}
 	
 }

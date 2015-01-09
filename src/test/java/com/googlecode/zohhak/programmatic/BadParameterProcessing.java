@@ -14,6 +14,9 @@ public class BadParameterProcessing {
 	@TestWith("not a boolean")
 	public void wrongBooleanFormat(boolean b){}
 	
+	@TestWith("not a char")
+	public void wrongCharFormat(char c) {}
+	
 	@TestWith("not a valid enum")
 	public void wrongEnumFormat(SampleEnum b){}
 	

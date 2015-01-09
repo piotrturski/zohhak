@@ -55,7 +55,7 @@ public class ConfigurationResolver {
 			Configuration instance = configuration.newInstance(); //TODO cache it
 			configs.add(new ConfigLine(instance));
 		} catch (Exception e) {
-			throw new IllegalArgumentException(e);
+			throw new IllegalArgumentException("Cannot instantiate configuration class: "+configuration.getName(), e);
 		}
 	}
 	
