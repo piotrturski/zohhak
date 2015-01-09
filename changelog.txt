@@ -1,0 +1,15 @@
+1.1.0
+  - out-of-the-box coercions for BigInteger and BigDecimal
+  
+1.0.2
+  - generics in parameters are allowed (but ignored)
+  - removed dependency on plastic
+  
+1.0.1
+  - fixed #1: compatibility with junit < 4.10
+
+1.0.0-beta2
+  - coercing 'null' to a string instead of to null
+  
+1.0.0-beta1
+  - initial version
