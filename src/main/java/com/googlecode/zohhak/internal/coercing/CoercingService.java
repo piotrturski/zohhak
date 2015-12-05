@@ -36,8 +36,10 @@ public class CoercingService {
 		int numberOfParams = method.getArity();
 //        int numberOfParams = splitedParameters.length;
 
-		Object[] parameters = new Object[numberOfParams];
-		for (int i = 0; i < numberOfParams; i++) {
+        if (splitedParameters.length > numberOfParams)
+            throw new IllegalArgumentException(numberOfParams+" parameter(s) declared but provided "+splitedParameters.length);
+        Object[] parameters = new Object[numberOfParams];
+        for (int i = 0; i < numberOfParams; i++) {
             try
             {
                 String inputString = splitedParameters[i];
@@ -47,7 +49,7 @@ public class CoercingService {
             catch (ArrayIndexOutOfBoundsException e)
             {
                 if (!isInReservedAnnotations(method.realMethod.getParameters()[i])){
-                    throw new ArrayIndexOutOfBoundsException(i);
+                    throw new IllegalArgumentException(numberOfParams+" parameter(s) declared but provided "+splitedParameters.length);
                 }
                 Type parameterType = method.getParameterType(i);
                 try
