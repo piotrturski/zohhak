@@ -61,7 +61,7 @@ public class ProgrammaticRunTest {
 		assertThat(result.getFailures().get(0).getException()).
 										hasMessageContaining("1 parameter(s) declared but provided 2");
 	}
-	
+
 	@Test
 	public void tooFewParameters() {
 		Result result = runWithZohhak(BadParameterProcessing.class, "tooFewParameters");

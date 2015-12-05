@@ -1,33 +1,40 @@
-# Zohhak - JUnit parameterized made simple
+# Zohhak for Jmockit annotations
 
-[![Build Status](http://img.shields.io/travis/piotrturski/zohhak/master.svg)](https://travis-ci.org/piotrturski/zohhak)
-[![Coverage Status](https://img.shields.io/coveralls/piotrturski/zohhak/master.svg)](https://coveralls.io/r/piotrturski/zohhak?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.googlecode.zohhak/zohhak/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.googlecode.zohhak/zohhak/)
-
-#### Clean & DRY parameterized tests
-Zohhak lets you write flexible parameterized JUnit tests without boilerplate. No need for data providers or custom constructors. Each test has its own set of parameters and you can use any types you want:
+[read main zohhak documentation](https://github.com/piotrturski/zohhak)
+#### add @Capturing  without declare in @TestWith
+by Defauly Zohhak don't allow you to use more parameters that defined in @TestWith annotation. you can do this in `zohhak for Jmockit` package like this without `throw` an `ArrayIndexOutOfBoundsException` Exception:
 ```java
 @TestWith({
-    "clerk,      45'000 USD, GOLD",
-    "supervisor, 60'000 GBP, PLATINUM"
+        "1, 1",
+        "2, 2",
+        "7, 7",
+        "8, 8"
 })
-public void canAcceptDebit(Employee employee, Money money, ClientType clientType) {
-    assertTrue(   employee.canAcceptDebit(money, clientType)   );
+public void test_is_euqal(int input, int expected,@Capturing final Something x){
+    Assert.assertEquals(expected, input);
 }
 ```
-No plugin needed. Just run and you'll see:<br />
 
-![http://wiki.zohhak.googlecode.com/git/img/eclipse_run.gif](http://wiki.zohhak.googlecode.com/git/img/eclipse_run.gif)
-#### Start using Zohhak
-Get Java 5+, JUnit 4.5+ and read 3 minute [Quick Start](Quick-Start.md) or [Full Guide](Full-Guide.md)
-```xml
-<dependency>
-    <groupId>com.googlecode.zohhak</groupId>
-    <artifactId>zohhak</artifactId>
-    <version>1.1.0</version>
-    <scope>test</scope>
-</dependency>
+#### add more annotation to the package
+go to `internal/coercing/CoercingService.java` and change ` reservedAnnotations` variable for more annotations:  
+#### default value:
+```java
+private String[] reservedAnnotations = {
+        "com.googlecode.zohhak.api.ignoreZohhak",
+        "mockit.Capturing",
+        "mockit.Mocked",
+};
 ```
-Or download jar from [maven central repo](http://search.maven.org/#search|gav|1|g%3A%22com.googlecode.zohhak%22%20AND%20a%3A%22zohhak%22) and add the dependency: org.apache.commons:commons-lang3:3.1
-#### Credits
-Zohhak was inspired by [JUnitParams](https://github.com/Pragmatists/junitparams), [Tapestry 5](http://tapestry.apache.org) and [Spring](http://spring.io). Thanks guys!
+
+#### use `@ignoreZohhak` also use for don't throwing Exception
+you can use `ignoreZohhak` whenever you want to use more variable than default:
+```java
+@TestWith({
+        "1, 1",
+        "2, 2",
+})
+public void test_is_euqal(int input, int expected,@ignoreZohhak final Person p){
+    System.out.println(p.getName());
+    Assert.assertEquals(Integer.valueOf(expected), Integer.valueOf(input));
+}
+```

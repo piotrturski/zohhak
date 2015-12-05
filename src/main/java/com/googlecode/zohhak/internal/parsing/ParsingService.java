@@ -18,9 +18,9 @@ public class ParsingService {
 		}
 		
 		int numberOfDeclaredParameters = method.getArity();
-		if (splitedParameters.length != numberOfDeclaredParameters) {
-			throw new IllegalArgumentException(numberOfDeclaredParameters+" parameter(s) declared but provided "+splitedParameters.length);
-		}
+//		if (splitedParameters.length != numberOfDeclaredParameters) {
+//			throw new IllegalArgumentException(numberOfDeclaredParameters+" parameter(s) declared but provided "+splitedParameters.length);
+//		}
 		return splitedParameters;
 	}
 	
