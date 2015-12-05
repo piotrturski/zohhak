@@ -19,11 +19,11 @@ public void test_is_euqal(int input, int expected,@Capturing final Something x){
 go to `internal/coercing/CoercingService.java` and change ` reservedAnnotations` variable for more annotations:  
 #### default value:
 ```java
-    private String[] reservedAnnotations = {
-            "com.googlecode.zohhak.api.ignoreZohhak",
-            "mockit.Capturing",
-            "mockit.Mocked",
-    };
+private String[] reservedAnnotations = {
+        "com.googlecode.zohhak.api.ignoreZohhak",
+        "mockit.Capturing",
+        "mockit.Mocked",
+};
 ```
 
 #### use `@ignoreZohhak` also use for don't throwing Exception
