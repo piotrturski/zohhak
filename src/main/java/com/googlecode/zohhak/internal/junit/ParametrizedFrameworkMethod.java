@@ -1,9 +1,10 @@
 package com.googlecode.zohhak.internal.junit;
 
 
+import org.junit.runners.model.FrameworkMethod;
+
 import com.googlecode.zohhak.internal.Executor;
 import com.googlecode.zohhak.internal.model.SingleTestMethod;
-import org.junit.runners.model.FrameworkMethod;
 
 public class ParametrizedFrameworkMethod extends FrameworkMethod {
 

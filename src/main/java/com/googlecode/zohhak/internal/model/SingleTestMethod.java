@@ -1,9 +1,9 @@
 package com.googlecode.zohhak.internal.model;
 
-import com.googlecode.zohhak.api.TestWith;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+
+import com.googlecode.zohhak.api.TestWith;
 
 
 public class SingleTestMethod {

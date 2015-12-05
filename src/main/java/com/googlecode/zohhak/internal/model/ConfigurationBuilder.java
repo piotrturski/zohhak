@@ -1,11 +1,12 @@
 package com.googlecode.zohhak.internal.model;
 
-import com.googlecode.zohhak.api.ConfigurationDefinition;
+import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Arrays.asList;
+import com.googlecode.zohhak.api.ConfigurationDefinition;
+
 
 
 public class ConfigurationBuilder {
