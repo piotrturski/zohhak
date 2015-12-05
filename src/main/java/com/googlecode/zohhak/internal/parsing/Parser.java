@@ -1,8 +1,7 @@
 package com.googlecode.zohhak.internal.parsing;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.googlecode.zohhak.internal.model.SingleTestMethod;
+import org.apache.commons.lang3.StringUtils;
 
 
 public class Parser {

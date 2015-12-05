@@ -21,3 +21,6 @@ public @interface Configure {
 	
 	Class<? extends Configuration> configuration() default Inherit.class;
 }
+
+
+

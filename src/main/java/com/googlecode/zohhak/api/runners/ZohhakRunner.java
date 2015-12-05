@@ -1,11 +1,7 @@
 package com.googlecode.zohhak.api.runners;
 
-import static com.googlecode.zohhak.internal.junit.RunnerDelegator.*;
-
-import java.lang.annotation.Annotation;
-import java.util.List;
-
-
+import com.googlecode.zohhak.internal.junit.OrParentFilter;
+import com.googlecode.zohhak.internal.junit.RunnerDelegator;
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
 import org.junit.runner.manipulation.NoTestsRemainException;
@@ -13,8 +9,10 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 
-import com.googlecode.zohhak.internal.junit.OrParentFilter;
-import com.googlecode.zohhak.internal.junit.RunnerDelegator;
+import java.lang.annotation.Annotation;
+import java.util.List;
+
+import static com.googlecode.zohhak.internal.junit.RunnerDelegator.*;
 
 /**
  * Compatible with JUnit 4.5 - 4.10

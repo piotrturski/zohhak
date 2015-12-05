@@ -1,15 +1,14 @@
 package com.googlecode.zohhak.internal;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import com.googlecode.zohhak.api.Configuration;
 import com.googlecode.zohhak.api.Configure;
 import com.googlecode.zohhak.api.DefaultConfiguration;
 import com.googlecode.zohhak.internal.model.ConfigLine;
 import com.googlecode.zohhak.internal.model.ConfigurationBuilder;
 import com.googlecode.zohhak.internal.model.SingleTestMethod;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ConfigurationResolver {

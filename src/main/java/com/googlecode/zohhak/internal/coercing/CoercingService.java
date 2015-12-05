@@ -1,13 +1,15 @@
 package com.googlecode.zohhak.internal.coercing;
 
-import static com.googlecode.zohhak.internal.coercing.Result.FAILURE;
-
-import java.lang.reflect.Type;
-import java.util.List;
-
+import com.googlecode.zohhak.internal.model.SingleTestMethod;
 import org.apache.commons.lang3.ClassUtils;
 
-import com.googlecode.zohhak.internal.model.SingleTestMethod;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.googlecode.zohhak.internal.coercing.Result.FAILURE;
 
 /* start with string. add everything that starts from string. 
  * while true (not converted)
@@ -21,25 +23,56 @@ import com.googlecode.zohhak.internal.model.SingleTestMethod;
 public class CoercingService {
 
 	private CoercionHandler coercionHandler = new CoercionHandler();
+    private String[] reservedAnnotations = {
+            "com.googlecode.zohhak.api.ignoreZohhak",
+            "mockit.Capturing",
+            "mockit.Mocked",
+    };
+
+    private List reservedAnnotationsList = Arrays.asList(reservedAnnotations);
 
 	public Object[] coerceParameters(SingleTestMethod method, String[] splitedParameters) {
 		List<Coercion> methodCoercions = coercionHandler.findCoercionsForMethod(method);
 		int numberOfParams = method.getArity();
+//        int numberOfParams = splitedParameters.length;
 
 		Object[] parameters = new Object[numberOfParams];
 		for (int i = 0; i < numberOfParams; i++) {
-			String inputString = splitedParameters[i];
-			Type parameterType = method.getParameterType(i);
-			parameters[i] = coerceParameter(parameterType, inputString, methodCoercions);
+            try
+            {
+                String inputString = splitedParameters[i];
+                Type parameterType = method.getParameterType(i);
+                parameters[i] = coerceParameter(parameterType, inputString, methodCoercions);
+            }
+            catch (ArrayIndexOutOfBoundsException e)
+            {
+                if (!isInReservedAnnotations(method.realMethod.getParameters()[i])){
+                    throw new ArrayIndexOutOfBoundsException(i);
+                }
+                Type parameterType = method.getParameterType(i);
+                try
+                {
+                    parameters[i] = Class.forName(parameterType.getTypeName()).newInstance();
+                }
+                catch (ClassNotFoundException | InstantiationException | IllegalAccessException f)
+                {
+                    System.out.println(f);
+                }
+            }
 		}
 		return parameters;
 	}
 
+    private Boolean isInReservedAnnotations(Parameter param){
+        for (Annotation paramAnnotation: param.getAnnotations()){
+            if(reservedAnnotationsList.contains(paramAnnotation.annotationType().getName()))
+                return true;
+        }
+        return false;
+    }
+
 	Object coerceParameter(Type type, String stringToParse, List<Coercion> methodCoercions) {
 		try {
-			if (stringToParse == null) {
-				return null;
-			}
 			if (type instanceof Class) {
 				Class<?> targetType = ClassUtils.primitiveToWrapper((Class<?>) type);
 
@@ -52,6 +85,9 @@ public class CoercingService {
 					return instantiateEnum(stringToParse, targetType);
 				}
 			}
+            if (stringToParse == null) {
+                return null;
+            }
 		} catch (RuntimeException e) {
 			throw new IllegalArgumentException(coercingExceptionMessage(stringToParse, type), e);
 		}

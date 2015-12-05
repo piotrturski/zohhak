@@ -1,13 +1,11 @@
 package com.googlecode.zohhak.internal.coercing;
 
+import com.googlecode.zohhak.internal.model.SingleTestMethod;
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-
-import org.apache.commons.lang3.ArrayUtils;
-
-import com.googlecode.zohhak.internal.model.SingleTestMethod;
 
 class CoercionHandler {
 
