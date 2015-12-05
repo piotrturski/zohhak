@@ -53,23 +53,23 @@ public class ProgrammaticRunTest {
 		assertThat(failure.getException()).hasMessageContaining("SampleEnum");
 	}
 	
-	@Test
-	public void tooManyParameters() {
-		Result result = runWithZohhak(BadParameterProcessing.class, "tooManyParameters");
-		assertThat(result.getFailureCount()).isEqualTo(1);
-		assertThat(result.getRunCount()).isEqualTo(1);
-		assertThat(result.getFailures().get(0).getException()).
-										hasMessageContaining("1 parameter(s) declared but provided 2");
-	}
-	
-	@Test
-	public void tooFewParameters() {
-		Result result = runWithZohhak(BadParameterProcessing.class, "tooFewParameters");
-		assertThat(result.getFailureCount()).isEqualTo(1);
-		assertThat(result.getRunCount()).isEqualTo(1);
-		assertThat(result.getFailures().get(0).getException()).
-										hasMessageContaining("2 parameter(s) declared but provided 1");
-	}
+//	@Test
+//	public void tooManyParameters() {
+//		Result result = runWithZohhak(BadParameterProcessing.class, "tooManyParameters");
+//		assertThat(result.getFailureCount()).isEqualTo(1);
+//		assertThat(result.getRunCount()).isEqualTo(1);
+//		assertThat(result.getFailures().get(0).getException()).
+//										hasMessageContaining("1 parameter(s) declared but provided 2");
+//	}
+//
+//	@Test
+//	public void tooFewParameters() {
+//		Result result = runWithZohhak(BadParameterProcessing.class, "tooFewParameters");
+//		assertThat(result.getFailureCount()).isEqualTo(1);
+//		assertThat(result.getRunCount()).isEqualTo(1);
+//		assertThat(result.getFailures().get(0).getException()).
+//										hasMessageContaining("2 parameter(s) declared but provided 1");
+//	}
 	
 	@Test
 	public void coercerCache() {
