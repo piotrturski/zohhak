@@ -1,5 +1,6 @@
 package com.googlecode.zohhak.internal.junit;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,8 @@ public class RunnerDelegator {
 
 	public static Description describeSingleInvocationOfParametrizedMethod(FrameworkMethod method, TestClass testClass) {
 		ParametrizedFrameworkMethod parametrizedMethod = (ParametrizedFrameworkMethod) method;
-		return RunnerDelegator.prepareDescription(testClass.getJavaClass(), method.getName(), parametrizedMethod.getParametersLine());
+		return RunnerDelegator.prepareDescription(testClass.getJavaClass(), method.getName(), parametrizedMethod.getParametersLine(),
+														parametrizedMethod.getAnnotations());
 	}
 
 	public static Description describeParametrizedMethodWithChildren(FrameworkMethod method, TestClass testClass) {
@@ -86,9 +88,9 @@ public class RunnerDelegator {
 		return Description.createSuiteDescription(method.getName());
 	}
 
-	static Description prepareDescription(Class<?> testClass, String methodName, String parametersLine) {
+	static Description prepareDescription(Class<?> testClass, String methodName, String parametersLine, Annotation... annotations) {
 		//TODO test what if parameter contains '('
-		return Description.createTestDescription(testClass, methodName + " [" + parametersLine + "]");
+		return Description.createTestDescription(testClass, methodName + " [" + parametersLine + "]", annotations);
 	}
 
 }
