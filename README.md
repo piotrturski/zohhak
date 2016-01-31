@@ -24,7 +24,7 @@ Get Java 5+, JUnit 4.5+ and read 3 minute [Quick Start](Quick-Start.md) or [Full
 <dependency>
     <groupId>com.googlecode.zohhak</groupId>
     <artifactId>zohhak</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <scope>test</scope>
 </dependency>
 ```
