@@ -17,12 +17,12 @@ public @interface TestWith {
 	 * Optionally specify separator used to split parameters. It's a part of regexp so remember about escaping and special characters. If
 	 * omitted, <code>","</code> (comma) is assumed.
 	 * 
-	 * <pre>
+	 * <pre> {@code
 	 * separator = ";"      -> ;
 	 * separator = "\\|"    -> |
 	 * separator = "[,;]"   -> , or ;
 	 * separator = "=>"     -> =>
-	 * </pre>
+	 * }</pre>
 	 * 
 	 * Separator \u0000 has special meaning and is not allowed
 	 */
