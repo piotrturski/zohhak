@@ -5,18 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import com.googlecode.zohhak.api.backend.ConfigurationBuilder;
 import org.apache.commons.lang3.ArrayUtils;
-
-import com.googlecode.zohhak.internal.model.SingleTestMethod;
 
 class CoercionHandler {
 
 	private static final Class<?>[] COERCION_PARAMETERS_SIGNATURE = new Class<?>[] { String.class };
 
-	List<Coercion> findCoercionsForMethod(SingleTestMethod method) {
-		List<Class<?>> coercers = method.configuration.getCoercers();
+	List<Coercion> findCoercionsForMethod(ConfigurationBuilder configuration, Method realMethod) {
+		List<Class<?>> coercers = configuration.getCoercers();
 		List<Coercion> methodCoercions = findCoercionsInCoercers(coercers); // TODO cache all coercions for class
-		List<Coercion> inTestCoercions = findCoercionsInTestClass(method.realMethod.getDeclaringClass());
+		List<Coercion> inTestCoercions = findCoercionsInTestClass(realMethod.getDeclaringClass());
 		// TODO cache all coercions for class
 		methodCoercions.addAll(inTestCoercions);
 

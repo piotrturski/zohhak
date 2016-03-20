@@ -1,17 +1,20 @@
 package com.googlecode.zohhak.internal;
 
+import com.googlecode.zohhak.api.backend.ConfigurationBuilder;
+import com.googlecode.zohhak.api.backend.ConfigurationResolver;
+import com.googlecode.zohhak.api.backend.ParameterCalculator;
 import com.googlecode.zohhak.internal.coercing.CoercingService;
-import com.googlecode.zohhak.internal.model.ConfigurationBuilder;
-import com.googlecode.zohhak.internal.model.SingleTestMethod;
 import com.googlecode.zohhak.internal.parsing.ParsingService;
 
-public final class Executor {
+import java.lang.reflect.Method;
+
+public final class Executor implements ParameterCalculator {
 
 	ConfigurationResolver configurationResolver;
 	CoercingService coercingService;
 	ParsingService parsingService;
-	
-	public Object[] calculateParameters(SingleTestMethod singleTestMethod, String parametersLine) {
+
+	public Object[] calculateParameters(String parametersLine, Method testMethod) {
 		/* 
 		 * infrastructure.get(singleTestMethod())
 		 * if found then we runningBox else prepare runningBox
@@ -20,12 +23,10 @@ public final class Executor {
 		 *   runningBox.run(testMethod)
 		 * 
 		 */
-		
-		ConfigurationBuilder configuration = configurationResolver.calculateConfiguration(singleTestMethod);
-		singleTestMethod.configuration = configuration;
-		
-		String[] splitedParameters = parsingService.split(singleTestMethod);
-		return coercingService.coerceParameters(singleTestMethod, splitedParameters);
+
+		ConfigurationBuilder configuration = configurationResolver.calculateConfiguration(testMethod);
+		String[] splitedParameters = parsingService.split(parametersLine, configuration, testMethod);
+		return coercingService.coerceParameters(splitedParameters, configuration, testMethod);
 	}
-	
+
 }

@@ -1,15 +1,13 @@
 package com.googlecode.zohhak.internal.coercing;
 
-import static com.googlecode.zohhak.internal.coercing.Result.FAILURE;
+import com.googlecode.zohhak.api.backend.ParameterCoercer;
+import com.googlecode.zohhak.api.backend.ParameterCoercerFactory;
+import com.googlecode.zohhak.api.backend.ConfigurationBuilder;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.List;
 
-import org.apache.commons.lang3.ClassUtils;
-
-import com.googlecode.zohhak.internal.model.SingleTestMethod;
-
-/* start with string. add everything that starts from string. 
+/* start with string. add everything that starts from string.
  * while true (not converted)
  * 		check if we have matching tuple (if we reached tartgetType). generics?!
  * 			if yes - try to use it without exception and result
@@ -20,70 +18,24 @@ import com.googlecode.zohhak.internal.model.SingleTestMethod;
 
 public class CoercingService {
 
-	private CoercionHandler coercionHandler = new CoercionHandler();
+	private final ParameterCoercerFactory parameterCoercerFactory;
 
-	public Object[] coerceParameters(SingleTestMethod method, String[] splitedParameters) {
-		List<Coercion> methodCoercions = coercionHandler.findCoercionsForMethod(method);
-		int numberOfParams = method.getArity();
+	public CoercingService(ParameterCoercerFactory parameterCoercerFactory) {
+		this.parameterCoercerFactory = parameterCoercerFactory;
+	}
+
+	public Object[] coerceParameters(String[] splitedParameters, ConfigurationBuilder configuration, Method testMethod) {
+		int numberOfParams = testMethod.getGenericParameterTypes().length;
+
+		DefaultParameterCoercer defaultParameterCoercer = new DefaultParameterCoercer(configuration, testMethod);
+		ParameterCoercer parameterCoercer = parameterCoercerFactory.parameterCoercer(defaultParameterCoercer);
 
 		Object[] parameters = new Object[numberOfParams];
 		for (int i = 0; i < numberOfParams; i++) {
 			String inputString = splitedParameters[i];
-			Type parameterType = method.getParameterType(i);
-			parameters[i] = coerceParameter(parameterType, inputString, methodCoercions);
+			Type parameterType = testMethod.getGenericParameterTypes()[i];
+			parameters[i] = parameterCoercer.coerceParameter(parameterType, inputString);
 		}
 		return parameters;
 	}
-
-	Object coerceParameter(Type type, String stringToParse, List<Coercion> methodCoercions) {
-		try {
-			if (stringToParse == null) {
-				return null;
-			}
-			if (type instanceof Class) {
-				Class<?> targetType = ClassUtils.primitiveToWrapper((Class<?>) type);
-
-				Result execution = tryToUseCoercions(targetType, stringToParse, methodCoercions);
-				if (execution.succeeded()) {
-					return execution.getResult();
-				}
-
-				if (targetType.isEnum()) {
-					return instantiateEnum(stringToParse, targetType);
-				}
-			}
-		} catch (RuntimeException e) {
-			throw new IllegalArgumentException(coercingExceptionMessage(stringToParse, type), e);
-		}
-		throw new IllegalArgumentException(coercingExceptionMessage(stringToParse, type));
-	}
-
-	private Result tryToUseCoercions(Class<?> targetType, String stringToParse, List<Coercion> methodCoercions) {
-		// TODO maybe index coercions by target type? will it be useful with future extended coercing?
-		for (Coercion coercion : methodCoercions) {
-			Result execution = tryToUseCoercion(coercion, targetType, stringToParse);
-			if (execution.succeeded()) {
-				return execution;
-			}
-		}
-		return FAILURE;
-	}
-
-	private Result tryToUseCoercion(Coercion coercion, Class<?> targetType, String stringToParse) {
-		if (targetType.isAssignableFrom(coercion.getTargetType())) {
-			return coercionHandler.invokeCoercion(coercion, stringToParse);
-		}
-		return FAILURE;
-	}
-
-	// unable to instantiate Enum from Class<?> without warnings
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private Object instantiateEnum(String stringToParse, Class<?> targetType) {
-		return Enum.valueOf((Class) targetType, stringToParse);
-	}
-
-	private String coercingExceptionMessage(String stringToParse, Type targetType) {
-		return String.format("cannot interpret string \"%s\" as a %s", stringToParse, targetType);
-	}
-
 }

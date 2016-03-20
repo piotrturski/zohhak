@@ -1,8 +1,7 @@
 package com.googlecode.zohhak.internal.parsing;
 
+import com.googlecode.zohhak.api.backend.ConfigurationBuilder;
 import org.apache.commons.lang3.StringUtils;
-
-import com.googlecode.zohhak.internal.model.SingleTestMethod;
 
 
 public class Parser {
@@ -10,8 +9,8 @@ public class Parser {
 	private static final String WHITE_CHARS = "\\s*";
 	private static final int NEGATIVE = -1;
 
-	public String[] split(SingleTestMethod method) {
-		return split(method.parametersLine, method.configuration.getSeparator(), method.configuration.getStringBoundary());
+	public String[] split(String parametersLine, ConfigurationBuilder configuration) {
+		return split(parametersLine, configuration.getParameterSeparator(), configuration.getStringBoundary());
 	}
 
 	String[] split(String parametersLine, String separator, String quotingMarker) {
