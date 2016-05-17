@@ -86,14 +86,16 @@ public void noBoundary(String input) {
 For more details check [@TestWith](https://github.com/piotrturski/zohhak/blob/master/src/main/java/com/googlecode/zohhak/api/TestWith.java) javadoc and [ParsingTest.java](https://github.com/piotrturski/zohhak/blob/master/src/test/java/com/googlecode/zohhak/api/ParsingTest.java)
 
 #### null
-"null" (case insensitive) is converted to null of any type. currently there is no possibility to change pattern recognized as null;
+"null" (case insensitive) is converted to null of any type. Currently there is no possibility to change pattern recognized as null;
 ```java
 @TestWith({"null, NULL",
            "Null, nuLL"})
 public void nullTest(WhateverType firstNull, AnotherType secondNull) {
     assertThat(firstNull).isEqualTo(secondNull).isNull();
 }
-
+```
+To pass the string "null":
+```java
 @TestWith(" 'null' ")
 public void notNullTest(String notNull) {
     assertThat(notNull).isEqualTo("null");
