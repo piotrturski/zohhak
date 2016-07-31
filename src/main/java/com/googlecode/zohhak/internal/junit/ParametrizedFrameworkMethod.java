@@ -19,7 +19,7 @@ public class ParametrizedFrameworkMethod extends FrameworkMethod {
 
 	@Override
 	public Object invokeExplosively(Object target, Object... params) throws Throwable {
-		Object[] parameters = executor.calculateParameters(singleTestMethod, singleTestMethod.parametersLine);
+		Object[] parameters = executor.calculateParameters(singleTestMethod.parametersLine, singleTestMethod.realMethod);
 		return super.invokeExplosively(target, parameters);
 	}
 

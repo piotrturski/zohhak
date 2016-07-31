@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import com.googlecode.zohhak.internal.ConfigLineConfigurationResolver;
+import com.googlecode.zohhak.internal.coercing.DefaultParameterCoercerFactory;
 import org.junit.runner.Description;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.TestClass;
@@ -16,7 +18,7 @@ import com.googlecode.zohhak.internal.model.SingleTestMethod;
 
 public class RunnerDelegator {
 
-	IoCContainer ioCContainer = new IoCContainer();
+	IoCContainer ioCContainer = new IoCContainer(new DefaultParameterCoercerFactory(), new ConfigLineConfigurationResolver());
 	Executor executor = ioCContainer.getExecutor();
 	
 	protected List<FrameworkMethod> getParametrizedLeafMethods(TestClass testClass) {

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.zohhak.api.ConfigurationDefinition;
+import com.googlecode.zohhak.api.backend.ConfigurationBuilder;
 
 
-
-public class ConfigurationBuilder {
+public class ConfigLineConfigurationBuilder implements ConfigurationBuilder {
 
 	private List<Class<?>> coercers = new ArrayList<Class<?>>(2);
 	private String separator = ConfigurationDefinition.DEFAULT_SEPARATOR;
@@ -23,12 +23,12 @@ public class ConfigurationBuilder {
 		overrideSeparator(configLine.getSeparator());
 		overrideStringBoundary(configLine.getStringBoundary());
 	}
-	
+
 	public List<Class<?>> getCoercers() {
 		return coercers;
 	}
 
-	public String getSeparator() {
+	public String getParameterSeparator() {
 		return separator;
 	}
 
