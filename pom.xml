@@ -10,7 +10,7 @@
 	<groupId>io.github.theangrydev</groupId>
 	<artifactId>zohhak</artifactId>
 	<packaging>jar</packaging>
-	<version>2.0.0</version>
+	<version>2.0.1-SNAPSHOT</version>
 
 	<name>Zohhak</name>
 	<description>Fork of http://piotrturski.github.io/zohhak that exposes the backend API</description>
