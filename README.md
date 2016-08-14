@@ -17,7 +17,7 @@ public void canAcceptDebit(Employee employee, Money money, ClientType clientType
 ```
 No plugin needed. Just run and you'll see:<br />
 
-![http://wiki.zohhak.googlecode.com/git/img/eclipse_run.gif](http://wiki.zohhak.googlecode.com/git/img/eclipse_run.gif)
+![eclipse run](../gh-pages/img/eclipse-run.gif)
 #### Start using Zohhak
 Get Java 5+, JUnit 4.5+ and read 3 minute [Quick Start](Quick-Start.md) or [Full Guide](Full-Guide.md)
 ```xml
