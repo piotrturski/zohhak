@@ -4,6 +4,12 @@ jdk:
   - oraclejdk7
   - openjdk7
   - openjdk6
-  
+
 after_success:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package org.sonarsource.scanner.maven:sonar-maven-plugin:3.4.0.905:sonar coveralls:report -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=piotrturski-github
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package org.sonarsource.scanner.maven:sonar-maven-plugin:3.4.0.905:sonar coveralls:report
+
+addons:
+  sonarcloud:
+    organization: piotrturski-github
+    token:
+      secure: UjhTh1Wo+6WTsUaP38QsJZzFC2k5kaSq/ySb0oC9HuFHpaDlXvRHBrcvAwMiTnJux1qcggd39kC/m0etcuSk0BBRk0zpEbEnm3SSSlBr2CLlCnsIGx7tUYGC6GjNGFeJlIB5sXnvqaKkjUrNb8a12xTWlOvzTv36tT253Q9bhME=
